@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import InputField from "@/app/components/ui/InputField";
 import Button from "@/app/components/ui/Button";
-import Image from "next/image";
+import AuthLoginDescription from "./AuthLoginDescription";
+import AuthLogo from "./AuthLogo";
 
 export default function UpdatePasswordPage() {
   const router = useRouter();
@@ -52,17 +53,11 @@ export default function UpdatePasswordPage() {
 
   return (
     <div className="bg-background shadow-sm p-4 lg:p-8 rounded-lg w-full max-w-[525px] border border-gray-200">
-      <div className="flex justify-center mb-8 mt-2">
-        <Image src="/assets/logo.png" alt="Logo" width={187} height={48} />
-      </div>
-      <div className="mb-6">
-        <h1 className="mb-1 text-[18px] font-bold text-primaryText">
-          Update Password
-        </h1>
-        <p className="text-[15px] text-primaryParagraph">
-          Enter your new password to reset your account
-        </p>
-      </div>
+      <AuthLogo />
+      <AuthLoginDescription
+        header="Forgot Password"
+        description="Update your password below"
+      />
       {error && (
         <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded text-red-700 text-[14px]">
           {error}
@@ -101,7 +96,7 @@ export default function UpdatePasswordPage() {
           )}
         </div>
       </div>
-      <div className="mt-6">
+      <div className="mt-8">
         <Button
           fullWidth
           variant="primary"

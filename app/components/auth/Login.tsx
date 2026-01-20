@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import InputField from "@/app/components/ui/InputField";
 import Button from "@/app/components/ui/Button";
 import Image from "next/image";
+import AuthLogo from "./AuthLogo";
+import AuthLoginDescription from "./AuthLoginDescription";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -47,29 +49,31 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="bg-background shadow-sm p-4 lg:p-8 rounded-lg w-full max-w-[525px] border border-gray-200">
-      <div className="flex justify-center mb-8 mt-2">
-        <Image
-          src="/assets/logo.png"
-          alt="Login Image"
-          width={187}
-          height={48}
-        />
-      </div>
-      <div className="mb-6">
-        <h1 className="mb-1 text-[18px] font-bold text-primaryText">Login</h1>
-        <p className="text-[15px] text-primaryParagraph">
-          Login to access your travelwise account
-        </p>
-      </div>
+    <div className="bg-background shadow-sm p-4 lg:p-8 rounded-lg w-full max-w-[550px] border border-gray-200">
+      <AuthLogo />
+      <AuthLoginDescription
+        header="Welcome back"
+        description="Login to your account below"
+      />
       {error && (
         <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded text-red-700 text-[14px]">
           {error}
         </div>
       )}
+      <div>
+        <Button fullWidth variant="outline" size="md" className="mb-8">
+          <Image
+            src="/assets/google.png"
+            alt="Login Image"
+            width={20}
+            height={20}
+          />
+          Continue with Google
+        </Button>
+      </div>
       <div className="w-full space-y-4">
         <InputField
-          title="Email"
+          title="Email Address"
           type="email"
           placeholder="Enter your email"
           initialValue={email}
@@ -91,7 +95,7 @@ export default function LoginPage() {
         />
       </div>
       <p
-        className="text-right text-[15px] font-medium text-red-600 cursor-pointer mt-2 hover:underline"
+        className="text-right text-[15px] font-medium text-gray-500 cursor-pointer mt-2 hover:underline"
         onClick={() => router.push("/forgot-password")}
       >
         Forgot Password?
@@ -107,24 +111,6 @@ export default function LoginPage() {
           {isLoading ? "Logging in..." : "Login"}
         </Button>
       </div>
-      <div>
-        <div className="my-6 flex items-center">
-          <hr className="grow border-t border-stroke" />
-          <span className="mx-4 text-gray-500">or</span>
-          <hr className="grow border-t border-stroke" />
-        </div>
-      </div>
-      <div>
-        <Button fullWidth variant="secondary" size="md" className="mt-4">
-          <Image
-            src="/assets/google.png"
-            alt="Login Image"
-            width={20}
-            height={20}
-          />
-          Continue with Google
-        </Button>
-      </div>
       <div className="mt-6 text-center">
         <p className="text-[15px]">
           Don&apos;t have an account?{" "}
@@ -132,7 +118,7 @@ export default function LoginPage() {
             onClick={() => router.push("/register")}
             className="font-semibold text-primary cursor-pointer hover:underline"
           >
-            Sign Up
+            Sign Up for free
           </span>
         </p>
       </div>

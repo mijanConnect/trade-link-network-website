@@ -4,12 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import InputField from "@/app/components/ui/InputField";
 import Button from "@/app/components/ui/Button";
-import Image from "next/image";
+import AuthLogo from "./AuthLogo";
+import AuthLoginDescription from "./AuthLoginDescription";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -18,7 +18,7 @@ export default function RegisterPage() {
   //   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const handleSignUp = async () => {
-    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+    if (!name || !email || !password || !confirmPassword) {
       setError("Please fill in all fields");
       return;
     }
@@ -49,7 +49,7 @@ export default function RegisterPage() {
 
     try {
       // Handle registration logic here
-      console.log("Registering user:", { firstName, lastName, email });
+      console.log("Registering user:", { name, email });
       // After registration, navigate to verify-otp page
       router.push("/verify-otp");
     } catch (error) {
@@ -61,44 +61,28 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="bg-background shadow-sm p-4 lg:p-8 rounded-lg w-full max-w-[650px] border border-gray-200">
-      <div className="flex justify-center mb-8 mt-2">
-        <Image src="/assets/logo.png" alt="Logo" width={187} height={48} />
-      </div>
-      <div className="mb-6">
-        <h1 className="mb-1 text-[18px] font-bold text-primaryText">Sign Up</h1>
-        <p className="text-[15px] text-primaryParagraph">
-          Create an account to get started
-        </p>
-      </div>
+    <div className="bg-background shadow-sm p-4 lg:p-8 rounded-lg w-full max-w-[550px] border border-gray-200">
+      <AuthLogo />
+      <AuthLoginDescription
+        header="Sign up as a homeowner"
+        description="Enter your details below to create your account"
+      />
       {error && (
         <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded text-red-700 text-[14px]">
           {error}
         </div>
       )}
       <div className="w-full space-y-4">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <InputField
-            title="First Name"
-            type="text"
-            placeholder="Enter first name"
-            initialValue={firstName}
-            onChange={(value) => {
-              setFirstName(value);
-              setError("");
-            }}
-          />
-          <InputField
-            title="Last Name"
-            type="text"
-            placeholder="Enter last name"
-            initialValue={lastName}
-            onChange={(value) => {
-              setLastName(value);
-              setError("");
-            }}
-          />
-        </div>
+        <InputField
+          title="Name"
+          type="text"
+          placeholder="Enter your name"
+          initialValue={name}
+          onChange={(value) => {
+            setName(value);
+            setError("");
+          }}
+        />
 
         <InputField
           title="Email"
@@ -111,46 +95,28 @@ export default function RegisterPage() {
           }}
         />
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <InputField
-            title="Password"
-            type="password"
-            placeholder="Enter your password"
-            initialValue={password}
-            onChange={(value) => {
-              setPassword(value);
-              setError("");
-            }}
-          />
-
-          <InputField
-            title="Confirm Password"
-            type="password"
-            placeholder="Confirm your password"
-            initialValue={confirmPassword}
-            onChange={(value) => {
-              setConfirmPassword(value);
-              setError("");
-            }}
-          />
-        </div>
-      </div>
-
-      {/* <div className="mt-4 flex items-start">
-        <input
-          type="checkbox"
-          id="terms"
-          checked={agreedToTerms}
-          onChange={(e) => setAgreedToTerms(e.target.checked)}
-          className="mt-1 mr-2 cursor-pointer"
+        <InputField
+          title="Password"
+          type="password"
+          placeholder="Enter your password"
+          initialValue={password}
+          onChange={(value) => {
+            setPassword(value);
+            setError("");
+          }}
         />
-        <label htmlFor="terms" className="text-[14px] text-primaryParagraph">
-          I agree to the{" "}
-          <span className="text-primary font-semibold cursor-pointer hover:underline">
-            terms and conditions
-          </span>
-        </label>
-      </div> */}
+
+        <InputField
+          title="Confirm Password"
+          type="password"
+          placeholder="Confirm your password"
+          initialValue={confirmPassword}
+          onChange={(value) => {
+            setConfirmPassword(value);
+            setError("");
+          }}
+        />
+      </div>
 
       <div className="mt-6">
         <Button
@@ -161,26 +127,6 @@ export default function RegisterPage() {
           disabled={isLoading}
         >
           {isLoading ? "Creating Account..." : "Sign Up"}
-        </Button>
-      </div>
-
-      <div>
-        <div className="my-6 flex items-center">
-          <hr className="grow border-t border-stroke" />
-          <span className="mx-4 text-gray-500">or</span>
-          <hr className="grow border-t border-stroke" />
-        </div>
-      </div>
-
-      <div>
-        <Button fullWidth variant="secondary" size="md" className="mt-4">
-          <Image
-            src="/assets/google.png"
-            alt="Google Logo"
-            width={20}
-            height={20}
-          />
-          Continue with Google
         </Button>
       </div>
 

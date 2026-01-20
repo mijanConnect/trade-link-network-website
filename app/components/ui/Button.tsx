@@ -22,7 +22,7 @@ export default function Button({
     "font-[16px] rounded-[6px] transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer disabled:cursor-not-allowed";
 
   const variantStyles = {
-    primary: "bg-primary text-white hover:bg-green-600 disabled:bg-primary/50",
+    primary: "bg-primary text-white hover:bg-primary/90 disabled:bg-primary/50",
     secondary:
       "bg-gray-200 text-gray-900 hover:bg-gray-300 disabled:bg-gray-200/50",
     outline:

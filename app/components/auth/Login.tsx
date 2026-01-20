@@ -61,7 +61,7 @@ export default function LoginPage() {
         </div>
       )}
       <div>
-        <Button fullWidth variant="outline" size="md" className="mb-8">
+        <Button fullWidth variant="outline" size="md" className="mb-8 border-gray-200!">
           <Image
             src="/assets/google.png"
             alt="Login Image"

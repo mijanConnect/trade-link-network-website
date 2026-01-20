@@ -97,11 +97,11 @@ export default function NavRes() {
     <>
       <style>{navbarStyles}</style>
       <header
-        className={`sticky top-0 z-20 bg-white rounded-b-2xl shadow-[0_3px_5px_rgba(0,0,0,0.10)] px-4 transition-transform duration-300 ${
+        className={`sticky top-0 z-20 bg-white shadow-[0_3px_5px_rgba(0,0,0,0.05)] px-4 transition-transform duration-300 ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="container mx-auto flex items-center justify-between py-4">
+        <div className="container mx-auto flex items-center justify-between py-3">
           <div>
             <Link href="/">
               <Image

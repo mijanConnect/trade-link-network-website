@@ -3,7 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import LeadDetailPanel from "@/app/components/trade-person/LeadDetailPanel";
-import { leadsMock, type Lead } from "@/lib/trade-person/mock";
+import { leadsMock } from "@/lib/trade-person/mock";
 import { Briefcase, MapPin } from "lucide-react";
 import Link from "next/link";
 
@@ -12,7 +12,7 @@ type JobCard = {
   type: "in-progress" | "completed" | "pending";
   title: string;
   dateLabel: string;
-  lead: Lead;
+  leadId: string;
 };
 
 const jobCardsMock: JobCard[] = [
@@ -21,57 +21,62 @@ const jobCardsMock: JobCard[] = [
     type: "in-progress",
     title: "Job Request Accepted",
     dateLabel: "17 Jan, 2020 - 08:45 pm",
-    lead: leadsMock[2]!,
+    leadId: "lead_3",
   },
   {
     id: "job_2",
     type: "in-progress",
     title: "Job Request Accepted",
     dateLabel: "18 Jan, 2020 - 09:30 am",
-    lead: leadsMock[3]!,
+    leadId: "lead_4",
   },
   {
     id: "job_3",
     type: "completed",
     title: "Successfully Completed",
     dateLabel: "17 Jan, 2026 - 08:45 pm",
-    lead: leadsMock[3]!,
+    leadId: "lead_4",
   },
   {
     id: "job_4",
     type: "completed",
     title: "Successfully Completed",
     dateLabel: "15 Jan, 2026 - 02:20 pm",
-    lead: leadsMock[4]!,
+    leadId: "lead_5",
   },
   {
     id: "job_5",
     type: "pending",
     title: "Response Sent",
     dateLabel: "20 Jan, 2026 - 10:15 am",
-    lead: leadsMock[0]!,
+    leadId: "lead_1",
   },
   {
     id: "job_6",
     type: "pending",
     title: "Response Sent",
     dateLabel: "19 Jan, 2026 - 03:45 pm",
-    lead: leadsMock[1]!,
+    leadId: "lead_2",
   },
   {
     id: "job_7",
     type: "pending",
     title: "Response Sent",
     dateLabel: "18 Jan, 2026 - 11:30 am",
-    lead: leadsMock[5]!,
+    leadId: "lead_6",
   },
 ];
 
-export default function MyResponsesTabPage() {
+export default function MyResponsesJobPage() {
   const params = useParams();
   const router = useRouter();
   const tab = (params.tab as string) || "hired";
-  const jobId = params.jobId as string | undefined;
+  const jobId = params.jobId as string;
+
+  const selectedJob = jobCardsMock.find((j) => j.id === jobId);
+  const selectedLead = selectedJob
+    ? leadsMock.find((l) => l.id === selectedJob.leadId)
+    : null;
 
   const inProgressJobs = jobCardsMock.filter((j) => j.type === "in-progress");
   const completedJobs = jobCardsMock.filter((j) => j.type === "completed");
@@ -80,27 +85,13 @@ export default function MyResponsesTabPage() {
   const isPending = tab === "pending";
   const isHired = tab === "hired";
 
-  const currentJobs = isHired ? [...inProgressJobs, ...completedJobs] : pendingJobs;
-  const defaultJobId = currentJobs[0]?.id;
-
-  // Redirect invalid tabs to hired
   useEffect(() => {
-    if (!isPending && !isHired) {
+    if (!selectedJob || (!isPending && !isHired)) {
       router.replace("/trade-person/my-responses/hired");
     }
-  }, [isPending, isHired, router]);
+  }, [selectedJob, isPending, isHired, router]);
 
-  // Redirect to default job if no job selected
-  useEffect(() => {
-    if (!jobId && defaultJobId && (isPending || isHired)) {
-      router.replace(`/trade-person/my-responses/${tab}/${defaultJobId}`);
-    }
-  }, [jobId, defaultJobId, tab, router, isPending, isHired]);
-
-  const selectedJob = jobId ? jobCardsMock.find((j) => j.id === jobId) : null;
-  const selectedLead = selectedJob ? selectedJob.lead : null;
-
-  if (!isPending && !isHired) {
+  if (!selectedJob || !selectedLead) {
     return null;
   }
 
@@ -157,10 +148,97 @@ export default function MyResponsesTabPage() {
                     Job In Progress
                   </h3>
                   <div className="space-y-3">
-                    {inProgressJobs.map((job) => (
+                    {inProgressJobs.map((job) => {
+                      const lead = leadsMock.find((l) => l.id === job.leadId);
+                      if (!lead) return null;
+                      return (
+                        <Link
+                          key={job.id}
+                          href={`/trade-person/my-responses/hired/${job.id}`}
+                        >
+                          <button
+                            type="button"
+                            className={`w-full rounded-lg border p-4 text-left transition ${
+                              job.id === jobId
+                                ? "border-primary bg-primary/5"
+                                : "border-slate-200 bg-white hover:bg-slate-50"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="text-[12px] text-slate-600">{job.title}</span>
+                              <span className="text-[11px] text-slate-500">{job.dateLabel}</span>
+                            </div>
+                            <div className="mt-2 text-[14px] font-semibold text-primaryText">
+                              You've Been Hired!
+                            </div>
+                            <p className="mt-1 text-[12px] text-slate-600">
+                              Congratulations! A customer has hired you for their request. Please check
+                              the job details and prepare to proceed.
+                            </p>
+                          </button>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {completedJobs.length > 0 && (
+                <div>
+                  <h3 className="mb-2 text-[14px] font-semibold text-primaryText">
+                    Completed job
+                  </h3>
+                  <div className="space-y-3">
+                    {completedJobs.map((job) => {
+                      const lead = leadsMock.find((l) => l.id === job.leadId);
+                      if (!lead) return null;
+                      return (
+                        <Link
+                          key={job.id}
+                          href={`/trade-person/my-responses/hired/${job.id}`}
+                        >
+                          <button
+                            type="button"
+                            className={`w-full rounded-lg border p-4 text-left transition ${
+                              job.id === jobId
+                                ? "border-primary bg-primary/5"
+                                : "border-slate-200 bg-white hover:bg-slate-50"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="text-[12px] font-medium text-emerald-700">
+                                {job.title}
+                              </span>
+                              <span className="text-[11px] text-slate-500">{job.dateLabel}</span>
+                            </div>
+                            <div className="mt-2 text-[14px] font-semibold text-primaryText">
+                              You&apos;ve Been Hired!!
+                            </div>
+                            <p className="mt-1 text-[12px] text-slate-600">
+                              Congratulations! A customer has hired you for their request. Please check
+                              the job details and prepare to proceed.
+                            </p>
+                          </button>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+          {isPending && (
+            <>
+              {pendingJobs.length > 0 ? (
+                <div className="space-y-3">
+                  {pendingJobs.map((job) => {
+                    const lead = leadsMock.find((l) => l.id === job.leadId);
+                    if (!lead) return null;
+                    return (
                       <Link
                         key={job.id}
-                        href={`/trade-person/my-responses/hired/${job.id}`}
+                        href={`/trade-person/my-responses/pending/${job.id}`}
                       >
                         <button
                           type="button"
@@ -175,90 +253,15 @@ export default function MyResponsesTabPage() {
                             <span className="text-[11px] text-slate-500">{job.dateLabel}</span>
                           </div>
                           <div className="mt-2 text-[14px] font-semibold text-primaryText">
-                            You&apos;ve Been Hired!
+                            Waiting for Response
                           </div>
                           <p className="mt-1 text-[12px] text-slate-600">
-                            Congratulations! A customer has hired you for their request. Please check
-                            the job details and prepare to proceed.
+                            Your response has been sent. Waiting for customer to review and respond.
                           </p>
                         </button>
                       </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {completedJobs.length > 0 && (
-                <div>
-                  <h3 className="mb-2 text-[14px] font-semibold text-primaryText">
-                    Completed job
-                  </h3>
-                  <div className="space-y-3">
-                    {completedJobs.map((job) => (
-                      <Link
-                        key={job.id}
-                        href={`/trade-person/my-responses/hired/${job.id}`}
-                      >
-                        <button
-                          type="button"
-                          className={`w-full rounded-lg border p-4 text-left transition ${
-                            job.id === jobId
-                              ? "border-primary bg-primary/5"
-                              : "border-slate-200 bg-white hover:bg-slate-50"
-                          }`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <span className="text-[12px] font-medium text-emerald-700">
-                              {job.title}
-                            </span>
-                            <span className="text-[11px] text-slate-500">{job.dateLabel}</span>
-                          </div>
-                          <div className="mt-2 text-[14px] font-semibold text-primaryText">
-                            You&apos;ve Been Hired!!
-                          </div>
-                          <p className="mt-1 text-[12px] text-slate-600">
-                            Congratulations! A customer has hired you for their request. Please check
-                            the job details and prepare to proceed.
-                          </p>
-                        </button>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </>
-          )}
-
-          {isPending && (
-            <>
-              {pendingJobs.length > 0 ? (
-                <div className="space-y-3">
-                  {pendingJobs.map((job) => (
-                    <Link
-                      key={job.id}
-                      href={`/trade-person/my-responses/pending/${job.id}`}
-                    >
-                      <button
-                        type="button"
-                        className={`w-full rounded-lg border p-4 text-left transition ${
-                          job.id === jobId
-                            ? "border-primary bg-primary/5"
-                            : "border-slate-200 bg-white hover:bg-slate-50"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-[12px] text-slate-600">{job.title}</span>
-                          <span className="text-[11px] text-slate-500">{job.dateLabel}</span>
-                        </div>
-                        <div className="mt-2 text-[14px] font-semibold text-primaryText">
-                          Waiting for Response
-                        </div>
-                        <p className="mt-1 text-[12px] text-slate-600">
-                          Your response has been sent. Waiting for customer to review and respond.
-                        </p>
-                      </button>
-                    </Link>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="text-center text-slate-500">No pending jobs</div>
@@ -270,13 +273,7 @@ export default function MyResponsesTabPage() {
 
       {/* Right Panel - Lead Details */}
       <div className="flex-1 overflow-y-auto">
-        {selectedLead ? (
-          <LeadDetailPanel lead={selectedLead} />
-        ) : (
-          <div className="flex h-[600px] items-center justify-center rounded-lg border border-slate-200 bg-white">
-            <p className="text-slate-500">Select a job to view details</p>
-          </div>
-        )}
+        <LeadDetailPanel lead={selectedLead} />
       </div>
     </div>
   );

@@ -8,16 +8,8 @@ import { Briefcase, MapPin } from "lucide-react";
 
 export default function LeadsPage() {
   const [selectedLeadId, setSelectedLeadId] = useState<string | null>(leadsMock[0]?.id ?? null);
-  const [activeTab, setActiveTab] = useState<"pending" | "hired">("pending");
 
   const selectedLead = leadsMock.find((l) => l.id === selectedLeadId) ?? null;
-
-  const filteredLeads = leadsMock.filter((lead) => {
-    if (activeTab === "pending") {
-      return lead.status === "locked" || lead.status === "unlocked";
-    }
-    return lead.status === "hired" || lead.status === "completed";
-  });
 
   return (
     <div className="flex h-[calc(100vh-120px)] gap-4">
@@ -36,39 +28,13 @@ export default function LeadsPage() {
               <span>Avondale, Harare</span>
             </div>
           </div>
-
-          {/* Tabs */}
-          <div className="mt-4 flex gap-2">
-            <button
-              type="button"
-              onClick={() => setActiveTab("pending")}
-              className={`flex-1 rounded-md px-4 py-2 text-[13px] font-semibold transition ${
-                activeTab === "pending"
-                  ? "bg-white text-primary"
-                  : "bg-white/20 text-white hover:bg-white/30"
-              }`}
-            >
-              Pending
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("hired")}
-              className={`flex-1 rounded-md px-4 py-2 text-[13px] font-semibold transition ${
-                activeTab === "hired"
-                  ? "bg-white text-primary"
-                  : "bg-white/20 text-white hover:bg-white/30"
-              }`}
-            >
-              Hired
-            </button>
-          </div>
         </div>
 
         {/* Leads List */}
         <div className="flex-1 overflow-y-auto px-4 py-4">
           <div className="mb-3 flex items-center justify-between">
             <span className="text-[13px] text-slate-600">
-              Showing all {filteredLeads.length} Leads
+              Showing all {leadsMock.length} Leads
             </span>
             <button
               type="button"
@@ -79,7 +45,7 @@ export default function LeadsPage() {
           </div>
 
           <div className="space-y-3">
-            {filteredLeads.map((lead) => (
+            {leadsMock.map((lead) => (
               <LeadCard
                 key={lead.id}
                 lead={lead}

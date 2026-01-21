@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Button from "./ui/Button";
 
 const navbarStyles = `
@@ -48,6 +48,7 @@ export default function NavRes() {
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -92,6 +93,8 @@ export default function NavRes() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+
+  
 
   return (
     <>
@@ -144,7 +147,7 @@ export default function NavRes() {
                   Login
                 </Link>
               </div>
-              <Button variant="primary" size="md" className="font-semibold">
+              <Button onClick={() => router.push("/trade-person/leads")} variant="primary" size="md" className="font-semibold">
                 Join as a Tradeperson
               </Button>
             </div>

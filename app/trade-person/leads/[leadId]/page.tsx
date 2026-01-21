@@ -28,7 +28,7 @@ export default function LeadDetailPage() {
   return (
     <div className="flex h-[calc(100vh-120px)] gap-4">
       {/* Left Sidebar */}
-      <aside className="flex w-[380px] flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
+      <aside className="flex w-1/3 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
         {/* Summary Header */}
         <div className="bg-primary px-5 py-6 text-white">
           <h1 className="text-[24px] font-bold">1,050 matching leads</h1>
@@ -60,20 +60,21 @@ export default function LeadDetailPage() {
 
           <div className="space-y-3">
             {leadsMock.map((lead) => (
-              <Link key={lead.id} href={`/trade-person/leads/${lead.id}`}>
+              // href={`/trade-person/leads/${lead.id}`}
+              <div key={lead.id} >
                 <LeadCard
                   lead={lead}
                   selected={lead.id === leadId}
-                  onClick={() => {}}
+                  onClick={() => {router.push(`/trade-person/leads/${lead.id}`)}}
                 />
-              </Link>
+              </div>
             ))}
           </div>
         </div>
       </aside>
 
       {/* Right Panel - Lead Details */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 w-2/3 overflow-y-auto">
         <LeadDetailPanel lead={selectedLead} />
       </div>
     </div>

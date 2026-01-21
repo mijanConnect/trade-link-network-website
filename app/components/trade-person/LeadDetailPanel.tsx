@@ -5,7 +5,7 @@ import Button from "@/app/components/ui/Button";
 import TradePersonPanel from "@/app/components/trade-person/TradePersonPanel";
 import TradePersonBadge from "@/app/components/trade-person/TradePersonBadge";
 import type { Lead } from "@/lib/trade-person/mock";
-import { CheckCircle2, User, Clock } from "lucide-react";
+import { CheckCircle2, User, AlertCircle } from "lucide-react";
 
 type Props = {
   lead: Lead | null;
@@ -14,7 +14,7 @@ type Props = {
 function highlightIcon(h: Lead["highlights"][0]) {
   if (h === "Verified Phone") return <CheckCircle2 size={14} className="text-emerald-600" />;
   if (h === "Frequent User") return <User size={14} className="text-emerald-600" />;
-  return <Clock size={14} className="text-amber-600" />;
+  return <AlertCircle size={14} className="text-amber-600" />;
 }
 
 function statusBanner(status: Lead["status"]) {
@@ -22,7 +22,7 @@ function statusBanner(status: Lead["status"]) {
     return (
       <div className="mb-4 rounded-lg bg-amber-50 px-4 py-3">
         <div className="text-[13px] font-medium text-amber-900">
-          You've successfully unlocked this customer request.
+          You`ve successfully unlocked this customer request.
         </div>
         <div className="mt-2">
           <span className="text-[12px] text-amber-700">Request Status</span>
@@ -111,13 +111,18 @@ export default function LeadDetailPanel({ lead }: Props) {
               <span className="font-medium text-primaryText">example*****21@gmail.com</span>
             </div>
             <div className="flex items-center gap-2 text-slate-600">
-              <span>0 Tradepeople have responded</span>
+              <span>{lead.responsesCount} Tradepeople have responded</span>
             </div>
           </div>
 
           {lead.status === "locked" ? (
             <div>
-              <Button variant="primary" size="md" fullWidth>
+              <Button 
+                variant="primary" 
+                size="md" 
+                fullWidth
+                disabled={lead.responsesCount >= 3}
+              >
                 Unlock
               </Button>
               <p className="mt-2 text-[11px] text-slate-500">

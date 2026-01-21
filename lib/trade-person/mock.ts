@@ -15,6 +15,7 @@ export type Lead = {
   priceLabel: string;
   highlights: LeadHighlight[];
   jobDetails: { label: string; value: string }[];
+  responsesCount: number; // Number of tradepeople who responded (0-3)
 };
 
 export type TradePersonProfile = {
@@ -67,6 +68,7 @@ export const leadsMock: Lead[] = [
       { label: "Approximate budget?", value: "House" },
       { label: "Timing?", value: "Urgent" },
     ],
+    responsesCount: 0,
   },
   {
     id: "lead_2",
@@ -77,7 +79,7 @@ export const leadsMock: Lead[] = [
     title: "Kitchen remodeling",
     summary: "Medium kitchen / New cabinets / House",
     budgetLabel: "$5000-$10000 / Normal",
-    status: "unlocked",
+    status: "locked",
     priceLabel: "£15.00",
     highlights: ["Verified Phone", "Frequent User"],
     jobDetails: [
@@ -87,6 +89,7 @@ export const leadsMock: Lead[] = [
       { label: "Approximate budget?", value: "$5000-$10000" },
       { label: "Timing?", value: "Normal" },
     ],
+    responsesCount: 1,
   },
   {
     id: "lead_3",
@@ -97,7 +100,7 @@ export const leadsMock: Lead[] = [
     title: "Bathroom installation",
     summary: "Small bathroom / Full renovation / Apartment",
     budgetLabel: "Under $3000 / Urgent",
-    status: "hired",
+    status: "locked",
     priceLabel: "£12.00",
     highlights: ["Verified Phone", "Urgent"],
     jobDetails: [
@@ -107,6 +110,7 @@ export const leadsMock: Lead[] = [
       { label: "Approximate budget?", value: "Under $3000" },
       { label: "Timing?", value: "Urgent" },
     ],
+    responsesCount: 2,
   },
   {
     id: "lead_4",
@@ -117,7 +121,7 @@ export const leadsMock: Lead[] = [
     title: "Patio & paving installation",
     summary: "Large patio / Stone paving / House",
     budgetLabel: "$10000+ / Normal",
-    status: "completed",
+    status: "locked",
     priceLabel: "£20.00",
     highlights: ["Verified Phone", "Frequent User"],
     jobDetails: [
@@ -127,6 +131,7 @@ export const leadsMock: Lead[] = [
       { label: "Approximate budget?", value: "$10000+" },
       { label: "Timing?", value: "Normal" },
     ],
+    responsesCount: 3,
   },
   {
     id: "lead_5",
@@ -147,6 +152,7 @@ export const leadsMock: Lead[] = [
       { label: "Approximate budget?", value: "$3000-$5000" },
       { label: "Timing?", value: "Urgent" },
     ],
+    responsesCount: 0,
   },
   {
     id: "lead_6",
@@ -157,7 +163,7 @@ export const leadsMock: Lead[] = [
     title: "Electrical rewiring",
     summary: "Full house rewiring / Safety upgrade / House",
     budgetLabel: "$5000-$10000 / Normal",
-    status: "unlocked",
+    status: "locked",
     priceLabel: "£25.00",
     highlights: ["Verified Phone", "Frequent User"],
     jobDetails: [
@@ -167,6 +173,7 @@ export const leadsMock: Lead[] = [
       { label: "Approximate budget?", value: "$5000-$10000" },
       { label: "Timing?", value: "Normal" },
     ],
+    responsesCount: 1,
   },
 ];
 

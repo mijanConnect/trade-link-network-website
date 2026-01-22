@@ -5,9 +5,6 @@ export default function Home() {
     <main>
       <>
         <Hero />
-        <div className="container mx-auto px-4">
-          <Hero />
-        </div>
       </>
     </main>
   );

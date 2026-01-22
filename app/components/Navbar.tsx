@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Button from "./ui/Button";
+import { LogoNav, LogoNavIcon } from "./Svg";
 
 const navbarStyles = `
   .nav-link {
@@ -103,24 +103,12 @@ export default function NavRes() {
       >
         <div className="container mx-auto flex items-center justify-between py-3">
           <div>
-            <Link href="/">
-              <Image
-                src="/assets/logo-nav.png"
-                alt="Login Image"
-                width={150}
-                height={48}
-                className="hidden md:block"
-              />
-            </Link>
-            <Link href="/">
-              <Image
-                src="/assets/logo-icon.png"
-                alt="Login Image"
-                width={50}
-                height={48}
-                className="block md:hidden"
-              />
-            </Link>
+            <div className="hidden md:block">
+              <LogoNav />
+            </div>
+            <div className="md:hidden">
+              <LogoNavIcon />
+            </div>
           </div>
           <div className="flex gap-4 align-middle justify-between">
             <div className="hidden lg:flex justify-start items-center gap-4">

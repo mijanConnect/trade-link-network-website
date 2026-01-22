@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Button from "./ui/Button";
 import { LogoNav, LogoNavIcon } from "./Svg";
 
@@ -48,6 +48,7 @@ export default function NavRes() {
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -104,10 +105,14 @@ export default function NavRes() {
         <div className="container mx-auto flex items-center justify-between py-3">
           <div>
             <div className="hidden md:block">
-              <LogoNav />
+              <Link href="/">
+                <LogoNav />
+              </Link>
             </div>
             <div className="md:hidden">
-              <LogoNavIcon />
+              <Link href="/">
+                <LogoNavIcon />
+              </Link>
             </div>
           </div>
           <div className="flex gap-4 align-middle justify-between">
@@ -132,7 +137,12 @@ export default function NavRes() {
                   Login
                 </Link>
               </div>
-              <Button variant="primary" size="md" className="font-semibold">
+              <Button
+                onClick={() => router.push("/trade-person/leads")}
+                variant="primary"
+                size="md"
+                className="font-semibold"
+              >
                 Join as a Tradeperson
               </Button>
             </div>

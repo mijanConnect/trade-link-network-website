@@ -1,0 +1,180 @@
+"use client";
+
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import LeadCard from "@/app/components/trade-person/LeadCard";
+import LeadDetailPanel from "@/app/components/trade-person/LeadDetailPanel";
+import LeadsFilterDrawer, {
+  LeadsFilterButton,
+} from "@/app/components/trade-person/LeadsFilterDrawer";
+import { leadsMock } from "@/lib/trade-person/mock";
+import { Briefcase, MapPin } from "lucide-react";
+
+export type SortOption = "date" | "responses" | "price";
+export type DateFilterKey = "today" | "yesterday" | "last7";
+
+function getMinutesAgo(label: string): number {
+  const match = label.match(/(\d+)\s*(h|d)\s+ago/i);
+  if (!match) return Number.MAX_SAFE_INTEGER;
+  const value = Number(match[1]);
+  const unit = match[2]?.toLowerCase();
+  if (unit === "h") return value * 60;
+  if (unit === "d") return value * 24 * 60;
+  return Number.MAX_SAFE_INTEGER;
+}
+
+function getDateBucket(label: string): "today" | "yesterday" | "last7" | "older" {
+  const match = label.match(/(\d+)\s*(h|d)\s+ago/i);
+  if (!match) return "older";
+  const value = Number(match[1]);
+  const unit = match[2]?.toLowerCase();
+
+  if (unit === "h") {
+    return "today";
+  }
+
+  if (unit === "d") {
+    if (value === 1) return "yesterday";
+    if (value <= 7) return "last7";
+  }
+
+  return "older";
+}
+
+function parsePrice(priceLabel: string): number {
+  const numeric = parseFloat(priceLabel.replace(/[^0-9.]/g, ""));
+  return Number.isNaN(numeric) ? 0 : numeric;
+}
+
+export default function LeadDetailPage() {
+  const params = useParams();
+  const router = useRouter();
+  const leadId = params.leadId as string;
+
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [sortOption, setSortOption] = useState<SortOption>("date");
+  const [dateFilters, setDateFilters] = useState<DateFilterKey[]>([]);
+
+  const selectedLead = leadsMock.find((l) => l.id === leadId);
+
+  useEffect(() => {
+    if (!selectedLead && leadsMock.length > 0) {
+      router.replace(`/trade-person/leads/${leadsMock[0]!.id}`);
+    }
+  }, [selectedLead, router]);
+
+  const filteredAndSortedLeads = useMemo(() => {
+    const matchesDateFilter = (label: string) => {
+      if (dateFilters.length === 0) return true;
+      const bucket = getDateBucket(label);
+
+      // Last 7 days should include today + yesterday + last7 bucket
+      if (dateFilters.includes("last7")) {
+        if (bucket === "today" || bucket === "yesterday" || bucket === "last7") {
+          return true;
+        }
+      }
+
+      if (dateFilters.includes("today") && bucket === "today") return true;
+      if (dateFilters.includes("yesterday") && bucket === "yesterday") return true;
+
+      return false;
+    };
+
+    const sorted = [...leadsMock]
+      .filter((lead) => matchesDateFilter(lead.createdAtLabel))
+      .sort((a, b) => {
+        if (sortOption === "date") {
+          return getMinutesAgo(a.createdAtLabel) - getMinutesAgo(b.createdAtLabel);
+        }
+        if (sortOption === "responses") {
+          // 0 responses first, 3/3 last
+          return a.responsesCount - b.responsesCount;
+        }
+        if (sortOption === "price") {
+          return parsePrice(a.priceLabel) - parsePrice(b.priceLabel);
+        }
+        return 0;
+      });
+
+    return sorted;
+  }, [sortOption, dateFilters]);
+
+  if (!selectedLead) {
+    return null;
+  }
+
+  const toggleDateFilter = (key: DateFilterKey) => {
+    setDateFilters((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key],
+    );
+  };
+
+  const resetFilters = () => {
+    setSortOption("date");
+    setDateFilters([]);
+  };
+
+  return (
+    <>
+      <div className="flex h-[calc(100vh-120px)] gap-4">
+        {/* Left Sidebar */}
+        <aside className="flex w-1/3 flex-col overflow-hidden bg-background border border-slate-200 ">
+          {/* Summary Header */}
+          <div className="bg-primary px-5 py-6 text-white">
+            <h1 className="text-[24px] font-bold">1,050 matching leads</h1>
+            <div className="mt-3 flex flex-col gap-2 text-[13px]">
+              <div className="flex items-center gap-2">
+                <Briefcase size={14} />
+                <span>02 Services</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin size={14} />
+                <span>Avondale, Harare</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Leads List */}
+          <div className="flex-1 overflow-y-auto px-4 py-4 ">
+            <div className="mb-3 flex items-center justify-between bg-white rounded-md p-4">
+              <span className="text-[13px] text-slate-600">
+                Showing {filteredAndSortedLeads.length} of {leadsMock.length} leads
+              </span>
+              <LeadsFilterButton onClick={() => setIsFilterOpen(true)} />
+            </div>
+
+            <div className="space-y-4">
+              {filteredAndSortedLeads.map((lead) => (
+                <div key={lead.id}>
+                  <LeadCard
+                    lead={lead}
+                    selected={lead.id === leadId}
+                    onClick={() => {
+                      router.push(`/trade-person/leads/${lead.id}`);
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        {/* Right Panel - Lead Details */}
+        <div className="flex-1 w-2/3 overflow-y-auto">
+          <LeadDetailPanel lead={selectedLead} />
+        </div>
+      </div>
+
+      <LeadsFilterDrawer
+        isOpen={isFilterOpen}
+        sortOption={sortOption}
+        dateFilters={dateFilters}
+        onClose={() => setIsFilterOpen(false)}
+        onSortChange={setSortOption}
+        onToggleDateFilter={toggleDateFilter}
+        onReset={resetFilters}
+      />
+    </>
+  );
+}

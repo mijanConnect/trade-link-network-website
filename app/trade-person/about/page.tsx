@@ -1,0 +1,163 @@
+"use client";
+
+import { useState } from "react";
+import TradePersonProfileCard from "@/app/components/trade-person/TradePersonProfileCard";
+import TradePersonPanel from "@/app/components/trade-person/TradePersonPanel";
+import InputField from "@/app/components/ui/InputField";
+import SelectField from "@/app/components/ui/SelectField";
+import Button from "@/app/components/ui/Button";
+import { tradePersonProfile } from "@/lib/trade-person/mock";
+import { Upload } from "lucide-react";
+
+export default function AboutPage() {
+  const [businessName, setBusinessName] = useState("ABC Company");
+  const [postcode, setPostcode] = useState("EM22");
+  const [professionCategory, setProfessionCategory] = useState("outdoor");
+  const [selectedProfessions, setSelectedProfessions] = useState<string[]>([
+    "Full garden renovation",
+    "Garden redesign / makeover",
+  ]);
+  const [phone, setPhone] = useState("123456789");
+  const [officeAddress, setOfficeAddress] = useState("12 Street, London");
+  const [email, setEmail] = useState("exmample.email@gmail.com");
+  const [website, setWebsite] = useState("website.com");
+
+  const professionOptions = [
+    { label: "Outdoor & Landscaping", value: "outdoor" },
+    { label: "Plumbing", value: "plumbing" },
+    { label: "Electrical", value: "electrical" },
+  ];
+
+  const availableProfessions = [
+    "Full garden renovation",
+    "Patios & paving",
+    "Garden redesign / makeover",
+    "Lawn care",
+    "Tree services",
+  ];
+
+  const handleRemoveProfession = (prof: string) => {
+    setSelectedProfessions((prev) => prev.filter((p) => p !== prof));
+  };
+
+  const handleAddProfession = (prof: string) => {
+    if (!selectedProfessions.includes(prof)) {
+      setSelectedProfessions((prev) => [...prev, prof]);
+    }
+  };
+
+  return (
+    <div className="flex gap-6">
+      {/* Left Column - Profile Card */}
+      <aside className="w-1/3 ">
+        <TradePersonProfileCard profile={tradePersonProfile} />
+      </aside>
+
+      {/* Right Column - Edit Form */}
+      <div className="flex-1 w-2/3 space-y-6">
+        <h1 className="text-[32px] font-bold text-primaryText">About</h1>
+
+        {/* Business Photos */}
+        <TradePersonPanel title="Add your business photos">
+          <div className="flex h-[200px] items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50">
+            <div className="text-center">
+              <Upload size={32} className="mx-auto text-slate-400" />
+              <p className="mt-2 text-[14px] text-slate-600">Upload Image</p>
+            </div>
+          </div>
+        </TradePersonPanel>
+
+        {/* Profile Details */}
+        <TradePersonPanel title="Profile Details">
+          <div className="space-y-4">
+            <InputField
+              title="Business Name"
+              initialValue={businessName}
+              onChange={setBusinessName}
+            />
+            <InputField title="Postcode" initialValue={postcode} onChange={setPostcode} />
+            <SelectField
+              title="Select profession category"
+              value={professionCategory}
+              options={professionOptions}
+              onChange={(e) => setProfessionCategory(e.target.value)}
+            />
+            <div>
+              <label className="text-[16px] font-semibold text-primaryText">
+                Select profession
+              </label>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {selectedProfessions.map((prof) => (
+                  <span
+                    key={prof}
+                    className="inline-flex items-center gap-1 rounded-md bg-primary/10 px-3 py-1.5 text-[13px] text-primary"
+                  >
+                    {prof}
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveProfession(prof)}
+                      className="hover:text-primary/70"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+              <select
+                className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-[14px]"
+                onChange={(e) => {
+                  if (e.target.value) handleAddProfession(e.target.value);
+                }}
+                defaultValue=""
+              >
+                <option value="">Select profession...</option>
+                {availableProfessions
+                  .filter((p) => !selectedProfessions.includes(p))
+                  .map((prof) => (
+                    <option key={prof} value={prof}>
+                      {prof}
+                    </option>
+                  ))}
+              </select>
+            </div>
+          </div>
+        </TradePersonPanel>
+
+        {/* Documents */}
+        <TradePersonPanel title="Add your business/personal documents">
+          <div className="flex h-[150px] items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50">
+            <div className="text-center">
+              <Upload size={32} className="mx-auto text-slate-400" />
+              <p className="mt-2 text-[14px] text-slate-600">Upload documents</p>
+            </div>
+          </div>
+        </TradePersonPanel>
+
+        {/* Contact */}
+        <TradePersonPanel title="Contact">
+          <div className="space-y-4">
+            <InputField title="Phone number" initialValue={phone} onChange={setPhone} type="tel" />
+            <InputField
+              title="Office address"
+              initialValue={officeAddress}
+              onChange={setOfficeAddress}
+            />
+            <InputField title="Email" initialValue={email} onChange={setEmail} type="email" />
+            <InputField
+              title="Website (Optional)"
+              initialValue={website}
+              onChange={setWebsite}
+            />
+          </div>
+        </TradePersonPanel>
+
+        {/* Save Button */}
+        <div>
+          <Button variant="primary" size="lg" fullWidth>
+            Save Changes
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}

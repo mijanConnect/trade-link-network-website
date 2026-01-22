@@ -1,0 +1,110 @@
+import Image from "next/image";
+
+const categories = [
+  {
+    id: 1,
+    title: "Outdoor & Landscaping",
+    image: "/assets/category/category-1.png",
+    alt: "Outdoor & Landscaping",
+    link: "/category/outdoor-landscaping",
+  },
+  {
+    id: 2,
+    title: "Driveways & Surfacing",
+    image: "/assets/category/category-2.png",
+    alt: "Driveways & Surfacing",
+    link: "/category/driveways-surfacing",
+  },
+  {
+    id: 3,
+    title: "Building & Structural",
+    image: "/assets/category/category-3.png",
+    alt: "Building & Structural",
+    link: "/category/building-structural",
+  },
+  {
+    id: 4,
+    title: "Home Renovation & Interiors",
+    image: "/assets/category/category-4.png",
+    alt: "Home Renovation & Interiors",
+    link: "/category/home-renovation-interiors",
+  },
+  {
+    id: 5,
+    title: "Electrical, Plumbing & Heating",
+    image: "/assets/category/category-5.png",
+    alt: "Electrical, Plumbing & Heating",
+    link: "/category/electrical-plumbing-heating",
+  },
+  {
+    id: 6,
+    title: "Roofing & Exterior Shell",
+    image: "/assets/category/category-6.png",
+    alt: "Roofing & Exterior Shell",
+    link: "/category/roofing-exterior-shell",
+  },
+  {
+    id: 7,
+    title: "Windows, Doors & Security",
+    image: "/assets/category/category-7.png",
+    alt: "Windows, Doors & Security",
+    link: "/category/windows-doors-security",
+  },
+  {
+    id: 8,
+    title: "Cleaning, Maintenance & Repairs",
+    image: "/assets/category/category-8.png",
+    alt: "Cleaning, Maintenance & Repairs",
+    link: "/category/cleaning-maintenance-repairs",
+  },
+  {
+    id: 9,
+    title: "Specialist Service",
+    image: "/assets/category/category-9.png",
+    alt: "Specialist Service",
+    link: "/category/specialist-service",
+  },
+  {
+    id: 10,
+    title: "All Moving Services",
+    image: "/assets/category/category-10.png",
+    alt: "All Moving Services",
+    link: "/category/all-moving-services",
+  },
+];
+
+export default function Category() {
+  return (
+    <>
+      <div className="container mx-auto px-4 lg:px-0">
+        <div className="py-10 lg:py-[140px]">
+          <h1 className="text-[24px] md:text-[40px] font-semibold text-primaryText mb-6 lg:mb-15 text-center">
+            Browse by Category
+          </h1>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-6 gap-y-4 md:gap-y-15">
+            {categories.map((category, index) => (
+              <li key={`${category.title}-${index}`}>
+                <a href={category.link} className="group block">
+                  <div className="bg-white rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300 ease-out">
+                    <div className="relative w-full h-[265px] overflow-hidden rounded-t-sm">
+                      <Image
+                        src={category.image}
+                        alt={category.alt}
+                        fill
+                        style={{ objectFit: "cover" }}
+                        className="rounded-t-sm transition-transform duration-300 ease-out group-hover:scale-105"
+                      />
+                    </div>
+                    <h2 className="p-6 text-[20px] font-semibold text-primaryTextLight">
+                      {category.title}
+                    </h2>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
+  );
+}

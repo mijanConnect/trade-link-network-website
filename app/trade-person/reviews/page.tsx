@@ -11,12 +11,12 @@ export default function ReviewsPage() {
   return (
     <div className="flex gap-6">
       {/* Left Column - Profile Card */}
-      <aside className="w-[320px] flex-shrink-0">
+      <aside className="w-1/3 ">
         <TradePersonProfileCard profile={tradePersonProfile} />
       </aside>
 
       {/* Right Column - Reviews */}
-      <div className="flex-1">
+      <div className="flex-1 w-2/3">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-[32px] font-bold text-primaryText">
             Reviews ({reviewsMock.length})

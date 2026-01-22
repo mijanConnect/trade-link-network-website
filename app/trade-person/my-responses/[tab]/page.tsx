@@ -107,7 +107,7 @@ export default function MyResponsesTabPage() {
   return (
     <div className="flex h-[calc(100vh-120px)] gap-4">
       {/* Left Sidebar */}
-      <aside className="flex w-[380px] flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
+      <aside className="flex w-1/3 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
         {/* Summary Header */}
         <div className="bg-primary px-5 py-6 text-white">
           <h1 className="text-[24px] font-bold">1,050 matching leads</h1>
@@ -269,7 +269,7 @@ export default function MyResponsesTabPage() {
       </aside>
 
       {/* Right Panel - Lead Details */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 w-2/3 overflow-y-auto">
         {selectedLead ? (
           <LeadDetailPanel lead={selectedLead} />
         ) : (

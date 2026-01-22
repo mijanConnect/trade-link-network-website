@@ -49,12 +49,12 @@ export default function AboutPage() {
   return (
     <div className="flex gap-6">
       {/* Left Column - Profile Card */}
-      <aside className="w-[320px] flex-shrink-0">
+      <aside className="w-1/3 ">
         <TradePersonProfileCard profile={tradePersonProfile} />
       </aside>
 
       {/* Right Column - Edit Form */}
-      <div className="flex-1 space-y-6">
+      <div className="flex-1 w-2/3 space-y-6">
         <h1 className="text-[32px] font-bold text-primaryText">About</h1>
 
         {/* Business Photos */}

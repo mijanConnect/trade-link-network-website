@@ -76,32 +76,34 @@ const categories = [
 export default function Category() {
   return (
     <>
-      <div className="py-10 lg:py-[140px]">
-        <h1 className="text-[24px] md:text-[40px] font-semibold text-primaryText mb-6 lg:mb-15 text-center">
-          Browse by Category
-        </h1>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-6 gap-y-4 md:gap-y-15">
-          {categories.map((category, index) => (
-            <li key={`${category.title}-${index}`}>
-              <a href={category.link} className="group block">
-                <div className="bg-white rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300 ease-out">
-                  <div className="relative w-full h-[265px] overflow-hidden rounded-t-sm">
-                    <Image
-                      src={category.image}
-                      alt={category.alt}
-                      fill
-                      style={{ objectFit: "cover" }}
-                      className="rounded-t-sm transition-transform duration-300 ease-out group-hover:scale-105"
-                    />
+      <div className="container mx-auto px-4 lg:px-0">
+        <div className="py-10 lg:py-[140px]">
+          <h1 className="text-[24px] md:text-[40px] font-semibold text-primaryText mb-6 lg:mb-15 text-center">
+            Browse by Category
+          </h1>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-6 gap-y-4 md:gap-y-15">
+            {categories.map((category, index) => (
+              <li key={`${category.title}-${index}`}>
+                <a href={category.link} className="group block">
+                  <div className="bg-white rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300 ease-out">
+                    <div className="relative w-full h-[265px] overflow-hidden rounded-t-sm">
+                      <Image
+                        src={category.image}
+                        alt={category.alt}
+                        fill
+                        style={{ objectFit: "cover" }}
+                        className="rounded-t-sm transition-transform duration-300 ease-out group-hover:scale-105"
+                      />
+                    </div>
+                    <h2 className="p-6 text-[20px] font-semibold text-primaryTextLight">
+                      {category.title}
+                    </h2>
                   </div>
-                  <h2 className="p-6 text-[20px] font-semibold text-primaryTextLight">
-                    {category.title}
-                  </h2>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );

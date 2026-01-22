@@ -77,11 +77,11 @@ export default function LeadDetailPanel({ lead }: Props) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 bg-background">
       {statusBanner(lead.status)}
 
-      <TradePersonPanel title="Profile information">
-        <div className="space-y-4">
+      <TradePersonPanel title="Profile information  " >
+        <div className="space-y-4 ">
           <div className="flex items-start gap-3">
             <div className="h-12 w-12 overflow-hidden rounded-full border border-slate-200">
               <Image

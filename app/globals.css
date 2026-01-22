@@ -10,6 +10,8 @@
   --color-primaryText: #1f2933;
   --color-primaryTextLight: #4b5563;
   --color-stroke: #dbd6d6;
+  --color-tradeBg: #D9D9D9;
+  --color-cardBg: #F7F9FB;
 }
 
 :root {

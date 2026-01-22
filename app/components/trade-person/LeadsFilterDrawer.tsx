@@ -18,7 +18,7 @@ export function LeadsFilterButton({ onClick }: { onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex items-center gap-1 rounded-md border border-slate-300 bg-white px-3 py-1 text-[12px] font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 hover:shadow-md"
+      className="inline-flex items-center gap-1 rounded-md cursor-pointer bg-white px-3 py-1 text-[12px] font-medium text-slate-700  transition hover:bg-slate-50 "
     >
       <SlidersHorizontal size={14} />
       <span>Filter</span>

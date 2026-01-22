@@ -119,7 +119,7 @@ export default function LeadDetailPage() {
     <>
       <div className="flex h-[calc(100vh-120px)] gap-4">
         {/* Left Sidebar */}
-        <aside className="flex w-1/3 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
+        <aside className="flex w-1/3 flex-col overflow-hidden bg-background border border-slate-200 ">
           {/* Summary Header */}
           <div className="bg-primary px-5 py-6 text-white">
             <h1 className="text-[24px] font-bold">1,050 matching leads</h1>
@@ -136,15 +136,15 @@ export default function LeadDetailPage() {
           </div>
 
           {/* Leads List */}
-          <div className="flex-1 overflow-y-auto px-4 py-4">
-            <div className="mb-3 flex items-center justify-between">
+          <div className="flex-1 overflow-y-auto px-4 py-4 ">
+            <div className="mb-3 flex items-center justify-between bg-white rounded-md p-4">
               <span className="text-[13px] text-slate-600">
                 Showing {filteredAndSortedLeads.length} of {leadsMock.length} leads
               </span>
               <LeadsFilterButton onClick={() => setIsFilterOpen(true)} />
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {filteredAndSortedLeads.map((lead) => (
                 <div key={lead.id}>
                   <LeadCard

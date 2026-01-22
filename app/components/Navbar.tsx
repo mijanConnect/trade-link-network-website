@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Button from "./ui/Button";
+import { LogoNav, LogoNavIcon } from "./Svg";
 
 const navbarStyles = `
   .nav-link {
@@ -100,30 +100,18 @@ export default function NavRes() {
     <>
       <style>{navbarStyles}</style>
       <header
-        className={`sticky top-0 z-20 bg-white rounded-b-2xl shadow-[0_3px_5px_rgba(0,0,0,0.10)] px-4 transition-transform duration-300 ${
+        className={`sticky top-0 z-20 bg-white shadow-[0_3px_5px_rgba(0,0,0,0.05)] px-4 transition-transform duration-300 ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="container mx-auto flex items-center justify-between py-4">
+        <div className="container mx-auto flex items-center justify-between py-3">
           <div>
-            <Link href="/">
-              <Image
-                src="/assets/logo-nav.png"
-                alt="Login Image"
-                width={150}
-                height={48}
-                className="hidden md:block"
-              />
-            </Link>
-            <Link href="/">
-              <Image
-                src="/assets/logo-icon.png"
-                alt="Login Image"
-                width={50}
-                height={48}
-                className="block md:hidden"
-              />
-            </Link>
+            <div className="hidden md:block">
+              <LogoNav />
+            </div>
+            <div className="md:hidden">
+              <LogoNavIcon />
+            </div>
           </div>
           <div className="flex gap-4 align-middle justify-between">
             <div className="hidden lg:flex justify-start items-center gap-4">

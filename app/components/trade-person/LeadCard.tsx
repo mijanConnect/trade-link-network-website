@@ -32,11 +32,11 @@ export default function LeadCard({ lead, selected, onClick }: Props) {
   };
 
   return (
-    <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-sm border border-slate-200 bg-white shadow-sm">
       <button
         type="button"
         onClick={onClick}
-        className={`w-full p-4 text-left transition ${selected ? "bg-white" : "hover:scale-102 hover:cursor-pointer"}`}
+        className={`w-full p-4 text-left transition ${selected ? "bg-white border-2 border-primary" : "hover:scale-102 hover:cursor-pointer"}`}
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">
@@ -81,7 +81,7 @@ export default function LeadCard({ lead, selected, onClick }: Props) {
         type="button"
         onClick={handleCheckoutClick}
         disabled={!isLeadAvailable}
-        className={`flex w-full items-center justify-between bg-slate-900 px-4 py-5 text-left text-white transition ${isLeadAvailable ? "hover:bg-slate-800 cursor-pointer" : "cursor-not-allowed opacity-60"}`}
+        className={`flex w-full items-center justify-between bg-primary px-4 py-5 text-left text-white transition ${isLeadAvailable ? "hover:bg-slate-800 cursor-pointer" : "cursor-not-allowed opacity-60"}`}
       >
         <div className="flex items-center gap-3">
           {/* three vertical lines icon */}

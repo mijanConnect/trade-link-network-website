@@ -169,7 +169,7 @@ export default function MyResponsesJobPage() {
                               <span className="text-[11px] text-slate-500">{job.dateLabel}</span>
                             </div>
                             <div className="mt-2 text-[14px] font-semibold text-primaryText">
-                              You've Been Hired!
+                              You`ve Been Hired!
                             </div>
                             <p className="mt-1 text-[12px] text-slate-600">
                               Congratulations! A customer has hired you for their request. Please check

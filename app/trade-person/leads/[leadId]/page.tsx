@@ -162,7 +162,7 @@ export default function LeadDetailPage() {
 
         {/* Right Panel - Lead Details */}
         <div className="flex-1 w-2/3 overflow-y-auto bg-background pl-4">
-          <LeadDetailPanel lead={selectedLead} />
+          <LeadDetailPanel lead={selectedLead} source="leads" />
         </div>
       </div>
 

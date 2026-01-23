@@ -271,7 +271,7 @@ export default function MyResponsesTabPage() {
       {/* Right Panel - Lead Details */}
       <div className="flex-1 w-2/3 overflow-y-auto">
         {selectedLead ? (
-          <LeadDetailPanel lead={selectedLead} />
+          <LeadDetailPanel lead={selectedLead} source="my-responses" />
         ) : (
           <div className="flex h-[600px] items-center justify-center rounded-lg border border-slate-200 bg-white">
             <p className="text-slate-500">Select a job to view details</p>

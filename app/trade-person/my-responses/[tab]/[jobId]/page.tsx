@@ -273,7 +273,7 @@ export default function MyResponsesJobPage() {
 
       {/* Right Panel - Lead Details */}
       <div className="flex-1 w-2/3 overflow-y-auto">
-        <LeadDetailPanel lead={selectedLead} />
+        <LeadDetailPanel lead={selectedLead} source="my-responses" />
       </div>
     </div>
   );

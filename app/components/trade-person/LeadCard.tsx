@@ -1,8 +1,9 @@
 import Image from "next/image";
 import type { Lead } from "@/lib/trade-person/mock";
 // import TradePersonBadge from "@/app/components/trade-person/TradePersonBadge";
-import { CheckCircle2, User, AlertCircle } from "lucide-react";
+// import { CheckCircle2, User, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { FrequentUserIcon, UrgentIcon, VerifyIcon } from "./Svg";
 
 type Props = {
   lead: Lead;
@@ -11,9 +12,9 @@ type Props = {
 };
 
 function highlightIcon(h: Lead["highlights"][0]) {
-  if (h === "Verified Phone") return <CheckCircle2 size={20} className="text-white rounded-full  bg-green-500" />;
-  if (h === "Frequent User") return <User size={20} className="text-white rounded-full  bg-blue-500" />;
-  return <AlertCircle size={20} className="text-white rounded-full  bg-red-500" />;
+  if (h === "Verified Phone") return <VerifyIcon  />;
+  if (h === "Frequent User") return <FrequentUserIcon />;
+  return <UrgentIcon />;
 }
 
 function getResponseStatus(responsesCount: number): string {

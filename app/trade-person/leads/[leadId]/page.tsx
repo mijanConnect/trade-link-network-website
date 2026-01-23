@@ -9,7 +9,6 @@ import LeadsFilterDrawer, {
   LeadsFilterButton,
 } from "@/app/components/trade-person/LeadsFilterDrawer";
 import { leadsMock } from "@/lib/trade-person/mock";
-import type { Lead } from "@/lib/trade-person/mock";
 import { Briefcase, MapPin, ArrowLeft } from "lucide-react";
 
 export type SortOption = "date" | "responses" | "price";
@@ -57,26 +56,12 @@ export default function LeadDetailPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortOption, setSortOption] = useState<SortOption>("date");
   const [dateFilters, setDateFilters] = useState<DateFilterKey[]>([]);
-
-  // Mobile view state
-  const [isMobile, setIsMobile] = useState(false);
   const [showDetailOnMobile, setShowDetailOnMobile] = useState(false);
   const [mobileSelectedLeadId, setMobileSelectedLeadId] = useState<string | null>(
-    null,
+    leadId || null,
   );
 
-  // Detect mobile viewport
-  useEffect(() => {
-    const updateViewport = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    updateViewport();
-    window.addEventListener("resize", updateViewport);
-    return () => window.removeEventListener("resize", updateViewport);
-  }, []);
-
-  // Save scroll position before navigation (desktop / larger screens)
+  // Save scroll position before navigation
   const handleScroll = () => {
     if (listRef.current) {
       sessionStorage.setItem("leadsScrollTop", listRef.current.scrollTop.toString());
@@ -122,28 +107,20 @@ export default function LeadDetailPage() {
 
   const selectedLead = filteredAndSortedLeads.find((l) => l.id === leadId);
   const defaultLeadId = filteredAndSortedLeads[0]?.id;
+  const mobileSelectedLead =
+    filteredAndSortedLeads.find((l) => l.id === mobileSelectedLeadId) ??
+    selectedLead ??
+    null;
 
-  // Mobile selected lead (uses local state so we can switch views without routing)
-  let mobileSelectedLead: Lead | null = null;
-  const mobileFromList = filteredAndSortedLeads.find(
-    (l) => l.id === mobileSelectedLeadId,
-  );
-  if (mobileFromList) {
-    mobileSelectedLead = mobileFromList;
-  } else if (selectedLead != null) {
-    mobileSelectedLead = selectedLead as Lead;
-  }
-
-  // Redirect to default lead if no lead selected or invalid lead (desktop behaviour)
+  // Redirect to default lead if no lead selected or invalid lead
   useEffect(() => {
-    if (!isMobile && !selectedLead && defaultLeadId) {
+    if (!selectedLead && defaultLeadId) {
       router.replace(`/trade-person/leads/${defaultLeadId}`);
     }
-  }, [selectedLead, defaultLeadId, router, isMobile]);
+  }, [selectedLead, defaultLeadId, router]);
 
-  // Restore scroll position when lead changes (desktop only)
+  // Restore scroll position when lead changes
   useEffect(() => {
-    if (isMobile) return;
     const saved = sessionStorage.getItem("leadsScrollTop");
     if (saved && listRef.current) {
       // Use requestAnimationFrame to ensure DOM is ready
@@ -153,7 +130,7 @@ export default function LeadDetailPage() {
         }
       });
     }
-  }, [leadId, isMobile]);
+  }, [leadId]);
 
   const toggleDateFilter = (key: DateFilterKey) => {
     setDateFilters((prev) =>
@@ -176,7 +153,7 @@ export default function LeadDetailPage() {
 
   return (
     <>
-      {/* Desktop / Tablet layout (md and up) - current behaviour preserved */}
+      {/* Desktop / Tablet layout (md+) */}
       <div className="hidden h-[calc(100vh-120px)] md:flex">
         {/* Left Sidebar */}
         <aside className="flex w-1/3 flex-col overflow-hidden border border-slate-200 bg-tradeBg">
@@ -277,7 +254,10 @@ export default function LeadDetailPage() {
                       setShowDetailOnMobile(true);
                     }}
                   >
-                    <LeadCard lead={lead} selected={lead.id === mobileSelectedLeadId} />
+                    <LeadCard
+                      lead={lead}
+                      selected={lead.id === mobileSelectedLeadId}
+                    />
                   </button>
                 ))}
               </div>

@@ -9,7 +9,8 @@ import LeadsFilterDrawer, {
   LeadsFilterButton,
 } from "@/app/components/trade-person/LeadsFilterDrawer";
 import { leadsMock } from "@/lib/trade-person/mock";
-import { Briefcase, MapPin } from "lucide-react";
+import type { Lead } from "@/lib/trade-person/mock";
+import { Briefcase, MapPin, ArrowLeft } from "lucide-react";
 
 export type SortOption = "date" | "responses" | "price";
 export type DateFilterKey = "today" | "yesterday" | "last7";
@@ -57,7 +58,25 @@ export default function LeadDetailPage() {
   const [sortOption, setSortOption] = useState<SortOption>("date");
   const [dateFilters, setDateFilters] = useState<DateFilterKey[]>([]);
 
-  // Save scroll position before navigation
+  // Mobile view state
+  const [isMobile, setIsMobile] = useState(false);
+  const [showDetailOnMobile, setShowDetailOnMobile] = useState(false);
+  const [mobileSelectedLeadId, setMobileSelectedLeadId] = useState<string | null>(
+    null,
+  );
+
+  // Detect mobile viewport
+  useEffect(() => {
+    const updateViewport = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    updateViewport();
+    window.addEventListener("resize", updateViewport);
+    return () => window.removeEventListener("resize", updateViewport);
+  }, []);
+
+  // Save scroll position before navigation (desktop / larger screens)
   const handleScroll = () => {
     if (listRef.current) {
       sessionStorage.setItem("leadsScrollTop", listRef.current.scrollTop.toString());
@@ -104,15 +123,27 @@ export default function LeadDetailPage() {
   const selectedLead = filteredAndSortedLeads.find((l) => l.id === leadId);
   const defaultLeadId = filteredAndSortedLeads[0]?.id;
 
-  // Redirect to default lead if no lead selected or invalid lead
+  // Mobile selected lead (uses local state so we can switch views without routing)
+  let mobileSelectedLead: Lead | null = null;
+  const mobileFromList = filteredAndSortedLeads.find(
+    (l) => l.id === mobileSelectedLeadId,
+  );
+  if (mobileFromList) {
+    mobileSelectedLead = mobileFromList;
+  } else if (selectedLead != null) {
+    mobileSelectedLead = selectedLead as Lead;
+  }
+
+  // Redirect to default lead if no lead selected or invalid lead (desktop behaviour)
   useEffect(() => {
-    if (!selectedLead && defaultLeadId) {
+    if (!isMobile && !selectedLead && defaultLeadId) {
       router.replace(`/trade-person/leads/${defaultLeadId}`);
     }
-  }, [selectedLead, defaultLeadId, router]);
+  }, [selectedLead, defaultLeadId, router, isMobile]);
 
-  // Restore scroll position when lead changes
+  // Restore scroll position when lead changes (desktop only)
   useEffect(() => {
+    if (isMobile) return;
     const saved = sessionStorage.getItem("leadsScrollTop");
     if (saved && listRef.current) {
       // Use requestAnimationFrame to ensure DOM is ready
@@ -122,7 +153,7 @@ export default function LeadDetailPage() {
         }
       });
     }
-  }, [leadId]);
+  }, [leadId, isMobile]);
 
   const toggleDateFilter = (key: DateFilterKey) => {
     setDateFilters((prev) =>
@@ -145,9 +176,10 @@ export default function LeadDetailPage() {
 
   return (
     <>
-      <div className="flex h-[calc(100vh-120px)] ">
+      {/* Desktop / Tablet layout (md and up) - current behaviour preserved */}
+      <div className="hidden h-[calc(100vh-120px)] md:flex">
         {/* Left Sidebar */}
-        <aside className="flex w-1/3 flex-col overflow-hidden bg-tradeBg border border-slate-200 ">
+        <aside className="flex w-1/3 flex-col overflow-hidden border border-slate-200 bg-tradeBg">
           {/* Summary Header */}
           <div className="bg-primary px-5 py-6 text-white">
             <h1 className="text-[24px] font-bold">1,050 matching leads</h1>
@@ -186,16 +218,13 @@ export default function LeadDetailPage() {
                     if (listRef.current) {
                       sessionStorage.setItem(
                         "leadsScrollTop",
-                        listRef.current.scrollTop.toString()
+                        listRef.current.scrollTop.toString(),
                       );
                     }
                   }}
                   className="block"
                 >
-                  <LeadCard
-                    lead={lead}
-                    selected={lead.id === leadId}
-                  />
+                  <LeadCard lead={lead} selected={lead.id === leadId} />
                 </Link>
               ))}
             </div>
@@ -203,9 +232,79 @@ export default function LeadDetailPage() {
         </aside>
 
         {/* Right Panel - Lead Details */}
-        <div className="flex-1 w-2/3 overflow-y-auto bg-background pl-4">
-          <LeadDetailPanel lead={selectedLead} source="leads" />
+        <div className="w-2/3 flex-1 overflow-y-auto bg-background pl-4">
+          <LeadDetailPanel lead={selectedLead ?? null} source="leads" />
         </div>
+      </div>
+
+      {/* Mobile layout (under md) */}
+      <div className="block h-[calc(100vh-120px)] md:hidden">
+        {/* List view (default) */}
+        {!showDetailOnMobile && (
+          <div className="flex h-full flex-col overflow-hidden border border-slate-200 bg-tradeBg">
+            {/* Summary Header */}
+            <div className="bg-primary px-4 py-5 text-white">
+              <h1 className="text-[20px] font-bold">1,050 matching leads</h1>
+              <div className="mt-3 flex flex-col gap-2 text-[12px]">
+                <div className="flex items-center gap-2">
+                  <Briefcase size={14} />
+                  <span>02 Services</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <MapPin size={14} />
+                  <span>Avondale, Harare</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Leads List */}
+            <div className="flex-1 overflow-y-auto px-3 py-4">
+              <div className="mb-3 flex items-center justify-between rounded-md bg-white p-3">
+                <span className="text-[12px] text-slate-600">
+                  Showing {filteredAndSortedLeads.length} of {leadsMock.length} leads
+                </span>
+                <LeadsFilterButton onClick={() => setIsFilterOpen(true)} />
+              </div>
+
+              <div className="space-y-3">
+                {filteredAndSortedLeads.map((lead) => (
+                  <button
+                    key={lead.id}
+                    type="button"
+                    className="block w-full text-left"
+                    onClick={() => {
+                      setMobileSelectedLeadId(lead.id);
+                      setShowDetailOnMobile(true);
+                    }}
+                  >
+                    <LeadCard lead={lead} selected={lead.id === mobileSelectedLeadId} />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Detail view */}
+        {showDetailOnMobile && mobileSelectedLead && (
+          <div className="flex h-full flex-col overflow-hidden bg-background">
+            {/* Back to leads button */}
+            <div className="flex items-center gap-2 border-b border-slate-200 bg-white px-4 py-3">
+              <button
+                type="button"
+                onClick={() => setShowDetailOnMobile(false)}
+                className="flex items-center gap-2 text-sm font-medium text-primary"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                <span>Back to leads</span>
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-3 py-4">
+              <LeadDetailPanel lead={mobileSelectedLead} source="leads" />
+            </div>
+          </div>
+        )}
       </div>
 
       <LeadsFilterDrawer

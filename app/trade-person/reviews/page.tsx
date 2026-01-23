@@ -9,16 +9,16 @@ import { tradePersonProfile, reviewsMock } from "@/lib/trade-person/mock";
 
 export default function ReviewsPage() {
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col gap-6 md:flex-row">
       {/* Left Column - Profile Card */}
-      <aside className="w-1/3 ">
+      <aside className="w-full md:w-1/3">
         <TradePersonProfileCard profile={tradePersonProfile} />
       </aside>
 
       {/* Right Column - Reviews */}
-      <div className="flex-1 w-2/3">
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-[32px] font-bold text-primaryText">
+      <div className="w-full flex-1 md:w-2/3">
+        <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <h1 className="text-2xl font-bold text-primaryText md:text-[32px]">
             Reviews ({reviewsMock.length})
           </h1>
         </div>

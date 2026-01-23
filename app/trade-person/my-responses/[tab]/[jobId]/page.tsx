@@ -96,9 +96,9 @@ export default function MyResponsesJobPage() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-120px)] gap-4">
+    <div className="flex h-[calc(100vh-120px)] ">
       {/* Left Sidebar */}
-      <aside className="flex w-1/3 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
+      <aside className="flex w-1/3 flex-col overflow-hidden rounded-lg border border-slate-200 bg-tradeBg">
         {/* Summary Header */}
         <div className="bg-primary px-5 py-6 text-white">
           <h1 className="text-[24px] font-bold">1,050 matching leads</h1>
@@ -152,16 +152,18 @@ export default function MyResponsesJobPage() {
                       const lead = leadsMock.find((l) => l.id === job.leadId);
                       if (!lead) return null;
                       return (
-                        <Link
+                        <div key={job.id} className="space-y-4">
+                          <Link
                           key={job.id}
                           href={`/trade-person/my-responses/hired/${job.id}`}
+                          // className="space-y-3"
                         >
                           <button
                             type="button"
-                            className={`w-full rounded-lg border p-4 text-left transition ${
+                            className={`w-full rounded-sm border p-4 text-left transition  ${
                               job.id === jobId
-                                ? "border-primary bg-primary/5"
-                                : "border-slate-200 bg-white hover:bg-slate-50"
+                                ? "border-primary border-2 bg-background"
+                                : "border-slate-200 bg-white "
                             }`}
                           >
                             <div className="flex items-center justify-between">
@@ -177,6 +179,7 @@ export default function MyResponsesJobPage() {
                             </p>
                           </button>
                         </Link>
+                        </div>
                       );
                     })}
                   </div>
@@ -193,16 +196,17 @@ export default function MyResponsesJobPage() {
                       const lead = leadsMock.find((l) => l.id === job.leadId);
                       if (!lead) return null;
                       return (
-                        <Link
+                       <div key={job.id} className="space-y-4">
+                         <Link
                           key={job.id}
                           href={`/trade-person/my-responses/hired/${job.id}`}
                         >
                           <button
                             type="button"
-                            className={`w-full rounded-lg border p-4 text-left transition ${
+                            className={`w-full rounded-sm border p-4 text-left transition ${
                               job.id === jobId
-                                ? "border-primary bg-primary/5"
-                                : "border-slate-200 bg-white hover:bg-slate-50"
+                                ? "border-primary border-2 bg-background"
+                                : "border-slate-200 bg-white "
                             }`}
                           >
                             <div className="flex items-center justify-between">
@@ -220,6 +224,7 @@ export default function MyResponsesJobPage() {
                             </p>
                           </button>
                         </Link>
+                       </div>
                       );
                     })}
                   </div>
@@ -236,16 +241,17 @@ export default function MyResponsesJobPage() {
                     const lead = leadsMock.find((l) => l.id === job.leadId);
                     if (!lead) return null;
                     return (
-                      <Link
+                     <div key={job.id} className="space-y-4">
+                       <Link
                         key={job.id}
                         href={`/trade-person/my-responses/pending/${job.id}`}
                       >
                         <button
                           type="button"
-                          className={`w-full rounded-lg border p-4 text-left transition ${
+                          className={`w-full rounded-sm border p-4 text-left transition ${
                             job.id === jobId
-                              ? "border-primary bg-primary/5"
-                              : "border-slate-200 bg-white hover:bg-slate-50"
+                              ? "border-primary border-2 bg-background"
+                              : "border-slate-200 bg-white "
                           }`}
                         >
                           <div className="flex items-center justify-between">
@@ -260,6 +266,7 @@ export default function MyResponsesJobPage() {
                           </p>
                         </button>
                       </Link>
+                     </div>
                     );
                   })}
                 </div>
@@ -272,7 +279,7 @@ export default function MyResponsesJobPage() {
       </aside>
 
       {/* Right Panel - Lead Details */}
-      <div className="flex-1 w-2/3 overflow-y-auto">
+      <div className="flex-1 w-2/3 overflow-y-auto bg-background pl-4">
         <LeadDetailPanel lead={selectedLead} source="my-responses" />
       </div>
     </div>

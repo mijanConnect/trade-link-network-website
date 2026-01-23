@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import LeadCard from "@/app/components/trade-person/LeadCard";
 import LeadDetailPanel from "@/app/components/trade-person/LeadDetailPanel";
 import LeadsFilterDrawer, {
@@ -56,21 +57,12 @@ export default function LeadDetailPage() {
   const [sortOption, setSortOption] = useState<SortOption>("date");
   const [dateFilters, setDateFilters] = useState<DateFilterKey[]>([]);
 
-  const selectedLead = leadsMock.find((l) => l.id === leadId);
-
-  useEffect(() => {
-    if (!selectedLead && leadsMock.length > 0) {
-      router.replace(`/trade-person/leads/${leadsMock[0]!.id}`);
+  // Save scroll position before navigation
+  const handleScroll = () => {
+    if (listRef.current) {
+      sessionStorage.setItem("leadsScrollTop", listRef.current.scrollTop.toString());
     }
-  }, [selectedLead, router]);
-
-
-  useEffect(() => {
-    const saved = sessionStorage.getItem("leadsScrollTop");
-    if (saved && listRef.current) {
-      listRef.current.scrollTop = Number(saved);
-    }
-  }, [leadId]);
+  };
 
   const filteredAndSortedLeads = useMemo(() => {
     const matchesDateFilter = (label: string) => {
@@ -109,9 +101,28 @@ export default function LeadDetailPage() {
     return sorted;
   }, [sortOption, dateFilters]);
 
-  if (!selectedLead) {
-    return null;
-  }
+  const selectedLead = filteredAndSortedLeads.find((l) => l.id === leadId);
+  const defaultLeadId = filteredAndSortedLeads[0]?.id;
+
+  // Redirect to default lead if no lead selected or invalid lead
+  useEffect(() => {
+    if (!selectedLead && defaultLeadId) {
+      router.replace(`/trade-person/leads/${defaultLeadId}`);
+    }
+  }, [selectedLead, defaultLeadId, router]);
+
+  // Restore scroll position when lead changes
+  useEffect(() => {
+    const saved = sessionStorage.getItem("leadsScrollTop");
+    if (saved && listRef.current) {
+      // Use requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        if (listRef.current) {
+          listRef.current.scrollTop = Number(saved);
+        }
+      });
+    }
+  }, [leadId]);
 
   const toggleDateFilter = (key: DateFilterKey) => {
     setDateFilters((prev) =>
@@ -124,16 +135,13 @@ export default function LeadDetailPage() {
     setDateFilters([]);
   };
 
-
-  const handleLeadClick = (id: string) => {
-    const scrollTop = listRef.current?.scrollTop ?? 0;
-    sessionStorage.setItem("leadsScrollTop", scrollTop.toString());
-  
-    router.push(`/trade-person/leads/${id}`, { scroll: false });
-  };
-  
- 
-  
+  if (!selectedLead && !defaultLeadId && filteredAndSortedLeads.length === 0) {
+    return (
+      <div className="flex h-[calc(100vh-120px)] items-center justify-center">
+        <p className="text-slate-500">No leads found</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -156,10 +164,12 @@ export default function LeadDetailPage() {
           </div>
 
           {/* Leads List */}
-          <div 
-          ref={listRef}
-          className="flex-1 overflow-y-auto px-4 py-4 ">
-            <div className="mb-3 flex items-center justify-between bg-white rounded-md p-4">
+          <div
+            ref={listRef}
+            onScroll={handleScroll}
+            className="flex-1 overflow-y-auto px-4 py-4"
+          >
+            <div className="mb-3 flex items-center justify-between rounded-md bg-white p-4">
               <span className="text-[13px] text-slate-600">
                 Showing {filteredAndSortedLeads.length} of {leadsMock.length} leads
               </span>
@@ -168,15 +178,25 @@ export default function LeadDetailPage() {
 
             <div className="space-y-4">
               {filteredAndSortedLeads.map((lead) => (
-                <div key={lead.id}>
+                <Link
+                  key={lead.id}
+                  href={`/trade-person/leads/${lead.id}`}
+                  onClick={() => {
+                    // Save scroll position before navigation
+                    if (listRef.current) {
+                      sessionStorage.setItem(
+                        "leadsScrollTop",
+                        listRef.current.scrollTop.toString()
+                      );
+                    }
+                  }}
+                  className="block"
+                >
                   <LeadCard
                     lead={lead}
                     selected={lead.id === leadId}
-                    onClick={() => {
-                      handleLeadClick(lead.id);
-                    }}
                   />
-                </div>
+                </Link>
               ))}
             </div>
           </div>

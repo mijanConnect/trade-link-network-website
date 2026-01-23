@@ -23,21 +23,21 @@ function getResponseStatus(responsesCount: number): string {
   return `${responsesCount}/3`;
 }
 
-export default function LeadCard({ lead, selected, onClick }: Props) {
+export default function LeadCard({ lead, selected }: Props) {
   const router = useRouter();
   const isLeadAvailable = lead.responsesCount < 3;
 
-  const handleCheckoutClick = () => {
+  const handleCheckoutClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!isLeadAvailable) return;
-    router.push(`/trade-person/checkout/${lead.id}`,);
+    router.push(`/trade-person/checkout/${lead.id}`);
   };
 
   return (
     <div className="overflow-hidden rounded-sm border border-slate-200 bg-white shadow-sm">
-      <button
-        type="button"
-        onClick={onClick}
-        className={`w-full p-4 text-left transition ${selected ? "bg-white border-2 border-primary" : " hover:cursor-pointer"}`}
+      <div
+        className={`w-full p-4 text-left transition ${selected ? "bg-white border-2 border-primary" : ""}`}
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">
@@ -75,7 +75,7 @@ export default function LeadCard({ lead, selected, onClick }: Props) {
             ))}
           </div>
         )}
-      </button>
+      </div>
 
       {/* Bottom checkout bar - similar to design */}
       <button

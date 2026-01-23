@@ -29,7 +29,7 @@ export default function LeadCard({ lead, selected, onClick }: Props) {
 
   const handleCheckoutClick = () => {
     if (!isLeadAvailable) return;
-    router.push(`/trade-person/checkout/${lead.id}`);
+    router.push(`/trade-person/checkout/${lead.id}`,);
   };
 
   return (
@@ -37,7 +37,7 @@ export default function LeadCard({ lead, selected, onClick }: Props) {
       <button
         type="button"
         onClick={onClick}
-        className={`w-full p-4 text-left transition ${selected ? "bg-white border-2 border-primary" : "hover:scale-102 hover:cursor-pointer"}`}
+        className={`w-full p-4 text-left transition ${selected ? "bg-white border-2 border-primary" : " hover:cursor-pointer"}`}
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">

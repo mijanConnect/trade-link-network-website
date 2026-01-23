@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import LeadCard from "@/app/components/trade-person/LeadCard";
 import LeadDetailPanel from "@/app/components/trade-person/LeadDetailPanel";
 import LeadsFilterDrawer, {
@@ -50,6 +50,7 @@ export default function LeadDetailPage() {
   const params = useParams();
   const router = useRouter();
   const leadId = params.leadId as string;
+  const listRef = useRef<HTMLDivElement>(null);
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortOption, setSortOption] = useState<SortOption>("date");
@@ -62,6 +63,14 @@ export default function LeadDetailPage() {
       router.replace(`/trade-person/leads/${leadsMock[0]!.id}`);
     }
   }, [selectedLead, router]);
+
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem("leadsScrollTop");
+    if (saved && listRef.current) {
+      listRef.current.scrollTop = Number(saved);
+    }
+  }, [leadId]);
 
   const filteredAndSortedLeads = useMemo(() => {
     const matchesDateFilter = (label: string) => {
@@ -115,6 +124,17 @@ export default function LeadDetailPage() {
     setDateFilters([]);
   };
 
+
+  const handleLeadClick = (id: string) => {
+    const scrollTop = listRef.current?.scrollTop ?? 0;
+    sessionStorage.setItem("leadsScrollTop", scrollTop.toString());
+  
+    router.push(`/trade-person/leads/${id}`, { scroll: false });
+  };
+  
+ 
+  
+
   return (
     <>
       <div className="flex h-[calc(100vh-120px)] ">
@@ -136,7 +156,9 @@ export default function LeadDetailPage() {
           </div>
 
           {/* Leads List */}
-          <div className="flex-1 overflow-y-auto px-4 py-4 ">
+          <div 
+          ref={listRef}
+          className="flex-1 overflow-y-auto px-4 py-4 ">
             <div className="mb-3 flex items-center justify-between bg-white rounded-md p-4">
               <span className="text-[13px] text-slate-600">
                 Showing {filteredAndSortedLeads.length} of {leadsMock.length} leads
@@ -151,7 +173,7 @@ export default function LeadDetailPage() {
                     lead={lead}
                     selected={lead.id === leadId}
                     onClick={() => {
-                      router.push(`/trade-person/leads/${lead.id}`);
+                      handleLeadClick(lead.id);
                     }}
                   />
                 </div>

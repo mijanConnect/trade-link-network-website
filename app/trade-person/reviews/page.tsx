@@ -16,17 +16,18 @@ export default function ReviewsPage() {
       </aside>
 
       {/* Right Column - Reviews */}
-      <div className="w-full flex-1 md:w-2/3">
+      <div className="w-full flex-1 md:w-2/3 bg-background p-12">
         <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <h1 className="text-2xl font-bold text-primaryText md:text-[32px]">
             Reviews ({reviewsMock.length})
           </h1>
         </div>
 
-        <TradePersonPanel>
-          <div className="space-y-6">
+
+        <div className="bg-background">
+          <div className="space-y-6  max-w-2xl">
             {reviewsMock.map((review) => (
-              <div key={review.id} className="border-b border-slate-200 pb-6 last:border-0">
+              <div key={review.id} className="border-b  border-slate-200 pb-6 last:border-0">
                 <div className="flex items-start gap-4">
                   <div className="h-12 w-12 overflow-hidden rounded-full border border-slate-200">
                     <Image
@@ -58,12 +59,13 @@ export default function ReviewsPage() {
             ))}
           </div>
 
-          <div className="mt-6">
-            <Button variant="primary" size="md" fullWidth>
+          <div className="mt-6 w-full flex justify-center">
+            <Button variant="primary" size="md" >
               View All Reviews
             </Button>
           </div>
-        </TradePersonPanel>
+        </div>
+
       </div>
     </div>
   );

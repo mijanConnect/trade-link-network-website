@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function TradePersonLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#eef1f4]">
+    <div className="min-h-screen bg-[#F7F9FB]">
       <div className=" ">
         <TradePersonHeader />
         <div className="mt-">{children}</div>

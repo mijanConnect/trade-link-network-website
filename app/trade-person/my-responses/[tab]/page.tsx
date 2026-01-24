@@ -2,10 +2,10 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import LeadDetailPanel from "@/app/components/trade-person/LeadDetailPanel";
+// import LeadDetailPanel from "@/app/components/trade-person/LeadDetailPanel";
 import { leadsMock, type Lead } from "@/lib/trade-person/mock";
-import { Briefcase, MapPin } from "lucide-react";
-import Link from "next/link";
+// import { Briefcase, MapPin } from "lucide-react";
+// import Link from "next/link";
 
 type JobCard = {
   id: string;
@@ -97,18 +97,21 @@ export default function MyResponsesTabPage() {
     }
   }, [jobId, defaultJobId, tab, router, isPending, isHired]);
 
-  const selectedJob = jobId ? jobCardsMock.find((j) => j.id === jobId) : null;
-  const selectedLead = selectedJob ? selectedJob.lead : null;
+  // const selectedJob = jobId ? jobCardsMock.find((j) => j.id === jobId) : null;
+  // const selectedLead = selectedJob ? selectedJob.lead : null;
 
   if (!isPending && !isHired) {
     return null;
   }
 
   return (
+
     <div className="flex h-[calc(100vh-120px)] gap-4">
+
+
       {/* Left Sidebar */}
-      <aside className="flex w-1/3 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
-        {/* Summary Header */}
+      {/* <aside className="flex w-1/3 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
+
         <div className="bg-primary px-5 py-6 text-white">
           <h1 className="text-[24px] font-bold">1,050 matching leads</h1>
           <div className="mt-3 flex flex-col gap-2 text-[13px]">
@@ -122,32 +125,31 @@ export default function MyResponsesTabPage() {
             </div>
           </div>
 
-          {/* Tabs */}
+
+
           <div className="mt-4 flex gap-2">
             <Link
               href="/trade-person/my-responses/pending"
-              className={`flex-1 rounded-md px-4 py-2 text-center text-[13px] font-semibold transition ${
-                isPending
+              className={`flex-1 rounded-md px-4 py-2 text-center text-[13px] font-semibold transition ${isPending
                   ? "bg-white text-primary"
                   : "bg-white/20 text-white hover:bg-white/30"
-              }`}
+                }`}
             >
               Pending
             </Link>
             <Link
               href="/trade-person/my-responses/hired"
-              className={`flex-1 rounded-md px-4 py-2 text-center text-[13px] font-semibold transition ${
-                isHired
+              className={`flex-1 rounded-md px-4 py-2 text-center text-[13px] font-semibold transition ${isHired
                   ? "bg-white text-primary"
                   : "bg-white/20 text-white hover:bg-white/30"
-              }`}
+                }`}
             >
               Hired
             </Link>
           </div>
         </div>
 
-        {/* Job List */}
+
         <div className="flex-1 overflow-y-auto px-4 py-4">
           {isHired && (
             <>
@@ -164,11 +166,10 @@ export default function MyResponsesTabPage() {
                       >
                         <button
                           type="button"
-                          className={`w-full rounded-lg border p-4 text-left transition ${
-                            job.id === jobId
+                          className={`w-full rounded-lg border p-4 text-left transition ${job.id === jobId
                               ? "border-primary bg-primary/5"
                               : "border-slate-200 bg-white hover:bg-slate-50"
-                          }`}
+                            }`}
                         >
                           <div className="flex items-center justify-between">
                             <span className="text-[12px] text-slate-600">{job.title}</span>
@@ -201,11 +202,10 @@ export default function MyResponsesTabPage() {
                       >
                         <button
                           type="button"
-                          className={`w-full rounded-lg border p-4 text-left transition ${
-                            job.id === jobId
+                          className={`w-full rounded-lg border p-4 text-left transition ${job.id === jobId
                               ? "border-primary bg-primary/5"
                               : "border-slate-200 bg-white hover:bg-slate-50"
-                          }`}
+                            }`}
                         >
                           <div className="flex items-center justify-between">
                             <span className="text-[12px] font-medium text-emerald-700">
@@ -240,11 +240,10 @@ export default function MyResponsesTabPage() {
                     >
                       <button
                         type="button"
-                        className={`w-full rounded-lg border p-4 text-left transition ${
-                          job.id === jobId
+                        className={`w-full rounded-lg border p-4 text-left transition ${job.id === jobId
                             ? "border-primary bg-primary/5"
                             : "border-slate-200 bg-white hover:bg-slate-50"
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center justify-between">
                           <span className="text-[12px] text-slate-600">{job.title}</span>
@@ -266,18 +265,19 @@ export default function MyResponsesTabPage() {
             </>
           )}
         </div>
-      </aside>
+      </aside> */}
 
       {/* Right Panel - Lead Details */}
-      <div className="flex-1 w-2/3 overflow-y-auto">
+      {/* <div className="flex-1 w-2/3 overflow-y-auto">
         {selectedLead ? (
-          <LeadDetailPanel lead={selectedLead} />
+          <LeadDetailPanel lead={selectedLead} source="my-responses" tab={tab as "pending" | "hired"} />
         ) : (
           <div className="flex h-[600px] items-center justify-center rounded-lg border border-slate-200 bg-white">
             <p className="text-slate-500">Select a job to view details</p>
           </div>
         )}
-      </div>
+      </div> */}
+
     </div>
   );
 }

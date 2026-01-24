@@ -9,14 +9,14 @@ type Props = {
 
 export default function TradePersonProfileCard({ profile }: Props) {
   return (
-    <aside className="rounded-lg border border-slate-200 bg-white p-6">
+    <aside className=" p-10 ">
       <div className="flex flex-col items-center text-center">
-        <div className="h-[92px] w-[92px] overflow-hidden rounded-full border border-slate-200">
+        <div className="h-[160px] w-[160px] overflow-hidden rounded-full border border-slate-200">
           <Image
             src={profile.avatar}
             alt={`${profile.businessName} avatar`}
-            width={92}
-            height={92}
+              width={160}
+            height={160}
             className="h-full w-full object-cover"
           />
         </div>
@@ -30,19 +30,19 @@ export default function TradePersonProfileCard({ profile }: Props) {
           </span>
         </div>
 
-        <div className="mt-4 flex flex-wrap justify-center gap-2">
+        <div className=" flex flex-wrap justify-center p-6 gap-2 w-96">
           {profile.tags.map((t) => (
             <span
               key={t}
-              className="rounded-md bg-slate-100 px-2 py-1 text-[12px] text-slate-700"
+              className="rounded bg-slate-100 border border-primary/40 px-2 py-1 text-[12px] text-slate-700"
             >
               {t}
             </span>
           ))}
         </div>
 
-        <div className="mt-5 w-full">
-          <Button variant="primary" size="md" fullWidth>
+        <div className=" w-full flex justify-center">
+          <Button variant="primary" size="md" >
             Contact
           </Button>
         </div>

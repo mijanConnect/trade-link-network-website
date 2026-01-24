@@ -47,115 +47,121 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col  md:flex-row">
       {/* Left Column - Profile Card */}
-      <aside className="w-1/3 ">
+      <aside className="w-full md:w-1/3  container mx-auto">
         <TradePersonProfileCard profile={tradePersonProfile} />
       </aside>
 
       {/* Right Column - Edit Form */}
-      <div className="flex-1 w-2/3 space-y-6">
-        <h1 className="text-[32px] font-bold text-primaryText">About</h1>
+      <div className="w-full flex-1 space-y-6 md:w-2/3 bg-background p-12 ">
+        <h1 className="text-2xl font-bold text-primaryText md:text-[32px]">About</h1>
 
-        {/* Business Photos */}
-        <TradePersonPanel title="Add your business photos">
-          <div className="flex h-[200px] items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50">
-            <div className="text-center">
-              <Upload size={32} className="mx-auto text-slate-400" />
-              <p className="mt-2 text-[14px] text-slate-600">Upload Image</p>
-            </div>
-          </div>
-        </TradePersonPanel>
-
-        {/* Profile Details */}
-        <TradePersonPanel title="Profile Details">
-          <div className="space-y-4">
-            <InputField
-              title="Business Name"
-              initialValue={businessName}
-              onChange={setBusinessName}
-            />
-            <InputField title="Postcode" initialValue={postcode} onChange={setPostcode} />
-            <SelectField
-              title="Select profession category"
-              value={professionCategory}
-              options={professionOptions}
-              onChange={(e) => setProfessionCategory(e.target.value)}
-            />
-            <div>
-              <label className="text-[16px] font-semibold text-primaryText">
-                Select profession
-              </label>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {selectedProfessions.map((prof) => (
-                  <span
-                    key={prof}
-                    className="inline-flex items-center gap-1 rounded-md bg-primary/10 px-3 py-1.5 text-[13px] text-primary"
-                  >
-                    {prof}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveProfession(prof)}
-                      className="hover:text-primary/70"
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
+        <div className="max-w-2xl border rounded-sm p-4">
+          {/* Business Photos */}
+          <div className="rounded-sm   p-4">
+            <h2 className="text-[14px] font-semibold text-primaryText mb-4">Add your business photos</h2>
+            <div className="flex h-[200px] items-center justify-center rounded-lg border-2 border-dashed border-slate-300 ">
+              <div className="text-center">
+                <Upload size={32} className="mx-auto text-slate-400" />
+                <p className="mt-2 text-[14px] text-slate-600">Upload Image</p>
               </div>
-              <select
-                className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-[14px]"
-                onChange={(e) => {
-                  if (e.target.value) handleAddProfession(e.target.value);
-                }}
-                defaultValue=""
-              >
-                <option value="">Select profession...</option>
-                {availableProfessions
-                  .filter((p) => !selectedProfessions.includes(p))
-                  .map((prof) => (
-                    <option key={prof} value={prof}>
+            </div>
+          </div>
+
+          {/* Profile Details */}
+          <div className="rounded-sm   p-4">
+            <h2 className="text-[14px] font-semibold text-primaryText mb-4">Profile Details</h2>
+            <div className="space-y-4">
+              <InputField
+                title="Business Name"
+                initialValue={businessName}
+                onChange={setBusinessName}
+              />
+              <InputField title="Postcode" initialValue={postcode} onChange={setPostcode} />
+              <SelectField
+                title="Select profession category"
+                value={professionCategory}
+                options={professionOptions}
+                onChange={(e) => setProfessionCategory(e.target.value)}
+              />
+              <div>
+                <label className="text-[16px] font-semibold text-primaryText">
+                  Select profession
+                </label>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {selectedProfessions.map((prof) => (
+                    <span
+                      key={prof}
+                      className="inline-flex items-center gap-1 rounded-md bg-primary/10 px-3 py-1.5 text-[13px] text-primary"
+                    >
                       {prof}
-                    </option>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveProfession(prof)}
+                        className="hover:text-primary/70"
+                      >
+                        ×
+                      </button>
+                    </span>
                   ))}
-              </select>
+                </div>
+                <select
+                  className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-[14px]"
+                  onChange={(e) => {
+                    if (e.target.value) handleAddProfession(e.target.value);
+                  }}
+                  defaultValue=""
+                >
+                  <option value="">Select profession...</option>
+                  {availableProfessions
+                    .filter((p) => !selectedProfessions.includes(p))
+                    .map((prof) => (
+                      <option key={prof} value={prof}>
+                        {prof}
+                      </option>
+                    ))}
+                </select>
+              </div>
             </div>
           </div>
-        </TradePersonPanel>
 
-        {/* Documents */}
-        <TradePersonPanel title="Add your business/personal documents">
-          <div className="flex h-[150px] items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50">
-            <div className="text-center">
-              <Upload size={32} className="mx-auto text-slate-400" />
-              <p className="mt-2 text-[14px] text-slate-600">Upload documents</p>
+          {/* Documents */}
+          <div className="rounded-sm   p-4">
+            <h2 className="text-[14px] font-semibold text-primaryText mb-4">Add your business/personal documents</h2>
+            <div className="flex h-[150px] items-center justify-center rounded-lg border-2 border-dashed border-slate-300 ">
+              <div className="text-center">
+                <Upload size={32} className="mx-auto text-slate-400" />
+                <p className="mt-2 text-[14px] text-slate-600">Upload documents</p>
+              </div>
             </div>
           </div>
-        </TradePersonPanel>
 
-        {/* Contact */}
-        <TradePersonPanel title="Contact">
-          <div className="space-y-4">
-            <InputField title="Phone number" initialValue={phone} onChange={setPhone} type="tel" />
-            <InputField
-              title="Office address"
-              initialValue={officeAddress}
-              onChange={setOfficeAddress}
-            />
-            <InputField title="Email" initialValue={email} onChange={setEmail} type="email" />
-            <InputField
-              title="Website (Optional)"
-              initialValue={website}
-              onChange={setWebsite}
-            />
+          {/* Contact */}
+          <div className="rounded-sm   p-4">
+            <h2 className="text-[14px] font-semibold text-primaryText mb-4">Contact</h2>
+            <div className="space-y-4">
+              <InputField title="Phone number" initialValue={phone} onChange={setPhone} type="tel" />
+              <InputField
+                title="Office address"
+                initialValue={officeAddress}
+                onChange={setOfficeAddress}
+              />
+              <InputField title="Email" initialValue={email} onChange={setEmail} type="email" />
+              <InputField
+                title="Website (Optional)"
+                initialValue={website}
+                onChange={setWebsite}
+              />
+            </div>
           </div>
-        </TradePersonPanel>
 
-        {/* Save Button */}
-        <div>
-          <Button variant="primary" size="lg" fullWidth>
-            Save Changes
-          </Button>
+          {/* Save Button */}
+          <div>
+            <Button variant="primary" size="lg" fullWidth>
+              Save Changes
+            </Button>
+          </div>
         </div>
       </div>
     </div>

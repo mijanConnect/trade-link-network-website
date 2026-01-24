@@ -136,12 +136,12 @@ export default function LeadDetailPanel({ lead, source = "leads" }: Props) {
                 size="md" 
                 fullWidth
                 disabled={lead.responsesCount >= 3}
-                className="cursor-pointer w-24"
+                className="cursor-pointer w-[100px]!"
               
               >
                 Unlock
               </Button>
-              <p className="mt-2 text-[11px] text-slate-500">
+              <p className="mt-2 text-[14px] text-orange-500">
                 You only pay to unlock this lead. No subscription or ongoing fees.
               </p>
             </div>

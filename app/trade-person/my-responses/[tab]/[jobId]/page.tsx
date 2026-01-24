@@ -129,25 +129,27 @@ export default function MyResponsesJobPage() {
               </div>
             </div>
 
-            {/* Tabs */}
-            <div className="mt-4 flex gap-2">
+         
+          </div>
+
+          <div >
+               {/* Tabs */}
+               <div className="p-4 flex gap-2 bg-tradeBg">
               <Link
                 href="/trade-person/my-responses/pending"
-                className={`flex-1 rounded-md px-4 py-2 text-center text-[13px] font-semibold transition ${
-                  isPending
-                    ? "bg-white text-primary"
-                    : "bg-white/20 text-white hover:bg-white/30"
-                }`}
+                className={`flex-1 rounded-md px-4 py-6 text-center cursor-pointer text-[14px] font-semibold transition ${isPending
+                    ? "bg-primary text-white font-semibold"
+                    : "bg-white text-black "
+                  }`}
               >
                 Pending
               </Link>
               <Link
                 href="/trade-person/my-responses/hired"
-                className={`flex-1 rounded-md px-4 py-2 text-center text-[13px] font-semibold transition ${
-                  isHired
-                    ? "bg-white text-primary"
-                    : "bg-white/20 text-white hover:bg-white/30"
-                }`}
+                className={`flex-1 rounded-md px-4 py-6 text-center cursor-pointer text-[14px]  transition ${isHired
+                    ? "bg-primary text-white font-semibold"
+                    : "bg-white text-black "
+                  }`}
               >
                 Hired
               </Link>
@@ -155,7 +157,7 @@ export default function MyResponsesJobPage() {
           </div>
 
           {/* Job List */}
-          <div className="flex-1 overflow-y-auto px-4 py-4">
+          <div className="flex-1 overflow-y-auto px-4 py-4 bg-tradeBg">
             {isHired && (
               <>
                 {inProgressJobs.length > 0 && (
@@ -168,36 +170,37 @@ export default function MyResponsesJobPage() {
                         const lead = leadsMock.find((l) => l.id === job.leadId);
                         if (!lead) return null;
                         return (
-                          <Link
-                            key={job.id}
-                            href={`/trade-person/my-responses/hired/${job.id}`}
-                          >
-                            <button
-                              type="button"
-                              className={`w-full rounded-lg border p-4 text-left transition ${
-                                job.id === jobId
-                                  ? "border-primary bg-primary/5"
-                                  : "border-slate-200 bg-white hover:bg-slate-50"
-                              }`}
+                          <div key={job.id} className="space-y-4">
+                            <Link
+                              key={job.id}
+                              href={`/trade-person/my-responses/hired/${job.id}`}
                             >
-                              <div className="flex items-center justify-between">
-                                <span className="text-[12px] text-slate-600">
-                                  {job.title}
-                                </span>
-                                <span className="text-[11px] text-slate-500">
-                                  {job.dateLabel}
-                                </span>
-                              </div>
-                              <div className="mt-2 text-[14px] font-semibold text-primaryText">
-                                You`ve Been Hired!
-                              </div>
-                              <p className="mt-1 text-[12px] text-slate-600">
-                                Congratulations! A customer has hired you for their
-                                request. Please check the job details and prepare to
-                                proceed.
-                              </p>
-                            </button>
-                          </Link>
+                              <button
+                                type="button"
+                                className={`w-full rounded-md p-4 text-left transition ${job.id === jobId
+                                    ? "border-primary bg-background  border-2"
+                                    : "border-slate-200 bg-white "
+                                  }`}
+                              >
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[12px] text-slate-600">
+                                    {job.title}
+                                  </span>
+                                  <span className="text-[11px] text-slate-500">
+                                    {job.dateLabel}
+                                  </span>
+                                </div>
+                                <div className="mt-2 text-[14px] font-semibold text-primaryText">
+                                  You`ve Been Hired!
+                                </div>
+                                <p className="mt-1 text-[12px] text-slate-600">
+                                  Congratulations! A customer has hired you for their
+                                  request. Please check the job details and prepare to
+                                  proceed.
+                                </p>
+                              </button>
+                            </Link>
+                          </div>
                         );
                       })}
                     </div>
@@ -214,36 +217,37 @@ export default function MyResponsesJobPage() {
                         const lead = leadsMock.find((l) => l.id === job.leadId);
                         if (!lead) return null;
                         return (
-                          <Link
-                            key={job.id}
-                            href={`/trade-person/my-responses/hired/${job.id}`}
-                          >
-                            <button
-                              type="button"
-                              className={`w-full rounded-lg border p-4 text-left transition ${
-                                job.id === jobId
-                                  ? "border-primary bg-primary/5"
-                                  : "border-slate-200 bg-white hover:bg-slate-50"
-                              }`}
+                          <div key={job.id} className="space-y-4">
+                            <Link
+                              key={job.id}
+                              href={`/trade-person/my-responses/hired/${job.id}`}
                             >
-                              <div className="flex items-center justify-between">
-                                <span className="text-[12px] font-medium text-emerald-700">
-                                  {job.title}
-                                </span>
-                                <span className="text-[11px] text-slate-500">
-                                  {job.dateLabel}
-                                </span>
-                              </div>
-                              <div className="mt-2 text-[14px] font-semibold text-primaryText">
-                                You&apos;ve Been Hired!!
-                              </div>
-                              <p className="mt-1 text-[12px] text-slate-600">
-                                Congratulations! A customer has hired you for their
-                                request. Please check the job details and prepare to
-                                proceed.
-                              </p>
-                            </button>
-                          </Link>
+                              <button
+                                type="button"
+                                className={`w-full rounded-md p-4 text-left transition ${job.id === jobId
+                                    ? "border-primary bg-background  border-2"
+                                    : "border-slate-200 bg-white "
+                                  }`}
+                              >
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[12px] font-medium text-emerald-700">
+                                    {job.title}
+                                  </span>
+                                  <span className="text-[11px] text-slate-500">
+                                    {job.dateLabel}
+                                  </span>
+                                </div>
+                                <div className="mt-2 text-[14px] font-semibold text-primaryText">
+                                  You&apos;ve Been Hired!!
+                                </div>
+                                <p className="mt-1 text-[12px] text-slate-600">
+                                  Congratulations! A customer has hired you for their
+                                  request. Please check the job details and prepare to
+                                  proceed.
+                                </p>
+                              </button>
+                            </Link>
+                          </div>
                         );
                       })}
                     </div>
@@ -260,35 +264,36 @@ export default function MyResponsesJobPage() {
                       const lead = leadsMock.find((l) => l.id === job.leadId);
                       if (!lead) return null;
                       return (
-                        <Link
-                          key={job.id}
-                          href={`/trade-person/my-responses/pending/${job.id}`}
-                        >
-                          <button
-                            type="button"
-                            className={`w-full rounded-lg border p-4 text-left transition ${
-                              job.id === jobId
-                                ? "border-primary bg-primary/5"
-                                : "border-slate-200 bg-white hover:bg-slate-50"
-                            }`}
+                        <div key={job.id} className="space-y-4">
+                          <Link
+                            key={job.id}
+                            href={`/trade-person/my-responses/pending/${job.id}`}
                           >
-                            <div className="flex items-center justify-between">
-                              <span className="text-[12px] text-slate-600">
-                                {job.title}
-                              </span>
-                              <span className="text-[11px] text-slate-500">
-                                {job.dateLabel}
-                              </span>
-                            </div>
-                            <div className="mt-2 text-[14px] font-semibold text-primaryText">
-                              Waiting for Response
-                            </div>
-                            <p className="mt-1 text-[12px] text-slate-600">
-                              Your response has been sent. Waiting for customer to
-                              review and respond.
-                            </p>
-                          </button>
-                        </Link>
+                            <button
+                              type="button"
+                              className={`w-full rounded-md p-4 text-left transition ${job.id === jobId
+                                  ? "border-primary bg-background  border-2"
+                                  : "border-slate-200 bg-white hover:bg-slate-50"
+                                }`}
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="text-[12px] text-slate-600">
+                                  {job.title}
+                                </span>
+                                <span className="text-[11px] text-slate-500">
+                                  {job.dateLabel}
+                                </span>
+                              </div>
+                              <div className="mt-2 text-[14px] font-semibold text-primaryText">
+                                Waiting for Response
+                              </div>
+                              <p className="mt-1 text-[12px] text-slate-600">
+                                Your response has been sent. Waiting for customer to
+                                review and respond.
+                              </p>
+                            </button>
+                          </Link>
+                        </div>
                       );
                     })}
                   </div>
@@ -329,21 +334,19 @@ export default function MyResponsesJobPage() {
               <div className="mt-4 flex gap-2">
                 <Link
                   href="/trade-person/my-responses/pending"
-                  className={`flex-1 rounded-md px-3 py-2 text-center text-[12px] font-semibold transition ${
-                    isPending
+                  className={`flex-1 rounded-md px-3 py-2 text-center text-[12px] font-semibold transition ${isPending
                       ? "bg-white text-primary"
                       : "bg-white/20 text-white hover:bg-white/30"
-                  }`}
+                    }`}
                 >
                   Pending
                 </Link>
                 <Link
                   href="/trade-person/my-responses/hired"
-                  className={`flex-1 rounded-md px-3 py-2 text-center text-[12px] font-semibold transition ${
-                    isHired
+                  className={`flex-1 rounded-md px-3 py-2 text-center text-[12px] font-semibold transition ${isHired
                       ? "bg-white text-primary"
                       : "bg-white/20 text-white hover:bg-white/30"
-                  }`}
+                    }`}
                 >
                   Hired
                 </Link>
@@ -371,11 +374,10 @@ export default function MyResponsesJobPage() {
                                 setMobileSelectedJobId(job.id);
                                 setShowDetailOnMobile(true);
                               }}
-                              className={`w-full rounded-lg border p-3 text-left transition ${
-                                job.id === mobileSelectedJobId
+                              className={`w-full rounded-lg border p-3 text-left transition ${job.id === mobileSelectedJobId
                                   ? "border-primary bg-primary/5"
                                   : "border-slate-200 bg-white hover:bg-slate-50"
-                              }`}
+                                }`}
                             >
                               <div className="flex items-center justify-between">
                                 <span className="text-[12px] text-slate-600">
@@ -416,11 +418,10 @@ export default function MyResponsesJobPage() {
                                 setMobileSelectedJobId(job.id);
                                 setShowDetailOnMobile(true);
                               }}
-                              className={`w-full rounded-lg border p-3 text-left transition ${
-                                job.id === mobileSelectedJobId
+                              className={`w-full rounded-lg border p-3 text-left transition ${job.id === mobileSelectedJobId
                                   ? "border-primary bg-primary/5"
                                   : "border-slate-200 bg-white hover:bg-slate-50"
-                              }`}
+                                }`}
                             >
                               <div className="flex items-center justify-between">
                                 <span className="text-[12px] font-medium text-emerald-700">
@@ -461,11 +462,10 @@ export default function MyResponsesJobPage() {
                               setMobileSelectedJobId(job.id);
                               setShowDetailOnMobile(true);
                             }}
-                            className={`w-full rounded-lg border p-3 text-left transition ${
-                              job.id === mobileSelectedJobId
+                            className={`w-full rounded-lg border p-3 text-left transition ${job.id === mobileSelectedJobId
                                 ? "border-primary bg-primary/5"
                                 : "border-slate-200 bg-white hover:bg-slate-50"
-                            }`}
+                              }`}
                           >
                             <div className="flex items-center justify-between">
                               <span className="text-[12px] text-slate-600">

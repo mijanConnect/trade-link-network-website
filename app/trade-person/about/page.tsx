@@ -47,14 +47,14 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="flex flex-col gap-6 md:flex-row">
+    <div className="flex flex-col  md:flex-row">
       {/* Left Column - Profile Card */}
       <aside className="w-full md:w-1/3">
         <TradePersonProfileCard profile={tradePersonProfile} />
       </aside>
 
       {/* Right Column - Edit Form */}
-      <div className="w-full flex-1 space-y-6 md:w-2/3">
+      <div className="w-full flex-1 space-y-6 md:w-2/3 bg-background pl-4">
         <h1 className="text-2xl font-bold text-primaryText md:text-[32px]">About</h1>
 
         {/* Business Photos */}

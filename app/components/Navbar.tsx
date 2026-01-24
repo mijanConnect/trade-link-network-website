@@ -94,8 +94,6 @@ export default function NavRes() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  
-
   return (
     <>
       <style>{navbarStyles}</style>
@@ -107,10 +105,14 @@ export default function NavRes() {
         <div className="container mx-auto flex items-center justify-between py-3">
           <div>
             <div className="hidden md:block">
-              <LogoNav />
+              <Link href="/">
+                <LogoNav />
+              </Link>
             </div>
             <div className="md:hidden">
-              <LogoNavIcon />
+              <Link href="/">
+                <LogoNavIcon />
+              </Link>
             </div>
           </div>
           <div className="flex gap-4 align-middle justify-between">
@@ -135,7 +137,12 @@ export default function NavRes() {
                   Login
                 </Link>
               </div>
-              <Button onClick={() => router.push("/trade-person/leads")} variant="primary" size="md" className="font-semibold">
+              <Button
+                onClick={() => router.push("/trade-person/leads")}
+                variant="primary"
+                size="md"
+                className="font-semibold"
+              >
                 Join as a Tradeperson
               </Button>
             </div>

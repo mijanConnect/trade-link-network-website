@@ -45,7 +45,8 @@ export default function TradePersonHeader() {
   }, [open]);
 
   return (
-    <header className="rounded-t-md border border-slate-200 bg-white">
+    <div className="   bg-white">
+      <header className=" container mx-auto">
       <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4">
         <Link href="/" className="flex items-center gap-3">
           <Image
@@ -116,6 +117,7 @@ export default function TradePersonHeader() {
         </nav>
       </div>
     </header>
+    </div>
   );
 }
 

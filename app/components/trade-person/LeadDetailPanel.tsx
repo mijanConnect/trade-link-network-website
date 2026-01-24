@@ -25,14 +25,14 @@ function statusBanner(status: Lead["status"], source?: "leads" | "my-responses",
   if (source === "my-responses") {
     if (tab === "pending") {
       return (
-        <div className="mb-4 rounded-lg bg-amber-50 px-4 py-3">
-          <div className="text-[13px] font-medium text-amber-900">
+        <div className="mb-4 rounded-sm bg-[#F4A2611A] px-4 py-3">
+          <div className="text-[14px] font-medium text-black">
             You`ve successfully unlocked this customer request.
           </div>
           <div className="mt-2">
-            <span className="text-[12px] text-amber-700">Request Status</span>
-            <div className="mt-1">
-              <TradePersonBadge label="Pending" tone="warning" />
+            <span className="text-[14px] text-amber-700">Request Status</span>
+            <div className="mt-1 bg-[#F4A261] text-white px-2 py-2 rounded-md w-28 text-center">
+             Pending
             </div>
           </div>
         </div>
@@ -40,16 +40,16 @@ function statusBanner(status: Lead["status"], source?: "leads" | "my-responses",
     }
     if (tab === "hired") {
       return (
-        <div className="mb-4 rounded-lg bg-emerald-50 px-4 py-3">
-          <div className="text-[13px] font-medium text-emerald-900">
+        <div className="mb-4 rounded-sm bg-[#3E6B5B1A] px-4 py-3">
+          <div className="text-[14px] font-medium text-black">
             Congratulations! A customer has hired you for their request.
           </div>
           <div className="mt-2">
-            <span className="text-[12px] text-emerald-700">Service Status</span>
+            <span className="text-[14px] text-[#34C759]">Service Status</span>
             <div className="mt-1">
-              <Button variant="primary" size="sm" className="text-[12px]">
+              <button   className="text-[14px] bg-[#34C759] py-3 px-6 rounded-md text-white">
                 Mark as Complete
-              </Button>
+              </button>
             </div>
           </div>
         </div>
@@ -172,7 +172,7 @@ export default function LeadDetailPanel({ lead, source = "leads", tab }: Props) 
               <Button 
                 variant="primary" 
                 size="md" 
-                fullWidth
+                
                 disabled={lead.responsesCount >= 3}
                 className="cursor-pointer w-[100px]!"
               
@@ -184,7 +184,7 @@ export default function LeadDetailPanel({ lead, source = "leads", tab }: Props) 
               </p>
             </div>
           ) : (
-            <Button variant="primary" size="md" fullWidth>
+            <Button variant="primary" size="md" >
               Contact {lead.customerName.split(" ")[0]}
             </Button>
           )}

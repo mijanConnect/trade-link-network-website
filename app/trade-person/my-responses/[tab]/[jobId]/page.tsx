@@ -219,7 +219,7 @@ export default function MyResponsesJobPage() {
                <div className="p-4 flex gap-2 bg-tradeBg">
               <Link
                 href="/trade-person/my-responses/pending"
-                className={`flex-1 rounded-md px-4 py-6 text-center cursor-pointer text-[14px] font-semibold transition-all duration-200 ${isPending
+                className={`flex-1 rounded px-4 py-6 text-center cursor-pointer text-[14px] font-semibold transition-all duration-200 ${isPending
                     ? "bg-primary text-white font-semibold"
                     : "bg-white text-black "
                   }`}
@@ -228,7 +228,7 @@ export default function MyResponsesJobPage() {
               </Link>
               <Link
                 href="/trade-person/my-responses/hired"
-                className={`flex-1 rounded-md px-4 py-6 text-center cursor-pointer text-[14px] transition-all duration-200 ${isHired
+                className={`flex-1 rounded px-4 py-6 text-center cursor-pointer text-[14px] transition-all duration-200 ${isHired
                     ? "bg-primary text-white font-semibold"
                     : "bg-white text-black "
                   }`}

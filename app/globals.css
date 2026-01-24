@@ -10,6 +10,8 @@
   --color-primaryText: #1f2933;
   --color-primaryTextLight: #4b5563;
   --color-stroke: #dbd6d6;
+  --color-tradeBg: #D9D9D9;
+  --color-cardBg: #F7F9FB;
 }
 
 :root {
@@ -257,4 +259,20 @@ body {
 
 .modal-scroll::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+/* Smooth fade-in animation for lead detail transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
 }

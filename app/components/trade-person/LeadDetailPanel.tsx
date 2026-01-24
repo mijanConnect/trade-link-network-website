@@ -5,19 +5,59 @@ import Button from "@/app/components/ui/Button";
 import TradePersonPanel from "@/app/components/trade-person/TradePersonPanel";
 import TradePersonBadge from "@/app/components/trade-person/TradePersonBadge";
 import type { Lead } from "@/lib/trade-person/mock";
-import { CheckCircle2, User, AlertCircle } from "lucide-react";
+// import { CheckCircle2, User, AlertCircle, VerifiedIcon } from "lucide-react";
+import { FrequentUserIcon, UrgentIcon, VerifyIcon } from "./Svg";
 
 type Props = {
   lead: Lead | null;
+  source?: "leads" | "my-responses"; // "leads" = locked view with masked data, "my-responses" = unlocked view with full data
+  tab?: "pending" | "hired"; // Tab from my-responses page to determine which banner to show
 };
 
 function highlightIcon(h: Lead["highlights"][0]) {
-  if (h === "Verified Phone") return <CheckCircle2 size={14} className="text-emerald-600" />;
-  if (h === "Frequent User") return <User size={14} className="text-emerald-600" />;
-  return <AlertCircle size={14} className="text-amber-600" />;
+  if (h === "Verified Phone") return <VerifyIcon />;
+  if (h === "Frequent User") return <FrequentUserIcon />;
+  return <UrgentIcon />;
 }
 
-function statusBanner(status: Lead["status"]) {
+function statusBanner(status: Lead["status"], source?: "leads" | "my-responses", tab?: "pending" | "hired") {
+  // When viewing from my-responses page, prioritize tab over lead status
+  if (source === "my-responses") {
+    if (tab === "pending") {
+      return (
+        <div className="mb-4 rounded-sm bg-[#F4A2611A] px-4 py-3">
+          <div className="text-[14px] font-medium text-black">
+            You`ve successfully unlocked this customer request.
+          </div>
+          <div className="mt-2">
+            <span className="text-[14px] text-amber-700">Request Status</span>
+            <div className="mt-1 bg-[#F4A261] text-white px-2 py-2 rounded-md w-28 text-center">
+             Pending
+            </div>
+          </div>
+        </div>
+      );
+    }
+    if (tab === "hired") {
+      return (
+        <div className="mb-4 rounded-sm bg-[#3E6B5B1A] px-4 py-3">
+          <div className="text-[14px] font-medium text-black">
+            Congratulations! A customer has hired you for their request.
+          </div>
+          <div className="mt-2">
+            <span className="text-[14px] text-[#34C759]">Service Status</span>
+            <div className="mt-1">
+              <button   className="text-[14px] bg-[#34C759] py-3 px-6 rounded-md text-white">
+                Mark as Complete
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  // Fallback to lead status for leads page or when tab is not provided
   if (status === "unlocked") {
     return (
       <div className="mb-4 rounded-lg bg-amber-50 px-4 py-3">
@@ -67,7 +107,7 @@ function statusBanner(status: Lead["status"]) {
   return null;
 }
 
-export default function LeadDetailPanel({ lead }: Props) {
+export default function LeadDetailPanel({ lead, source = "leads", tab }: Props) {
   if (!lead) {
     return (
       <div className="flex h-[600px] items-center justify-center rounded-lg border border-slate-200 bg-white">
@@ -76,12 +116,24 @@ export default function LeadDetailPanel({ lead }: Props) {
     );
   }
 
-  return (
-    <div className="space-y-4">
-      {statusBanner(lead.status)}
+  const isUnlocked = source === "my-responses";
+  const showUnlockButton = source === "leads" && lead.status === "locked";
+  
+  // Mock phone and email - in real app, these would come from the lead data
+  const fullPhone = "+44 789 123 4567";
+  const fullEmail = "example.customer21@gmail.com";
+  const maskedPhone = "+44 789 *** *** 24";
+  const maskedEmail = "example*****21@gmail.com";
 
-      <TradePersonPanel title="Profile information">
-        <div className="space-y-4">
+  const displayPhone = isUnlocked ? fullPhone : maskedPhone;
+  const displayEmail = isUnlocked ? fullEmail : maskedEmail;
+
+  return (
+    <div className="space-y-4 bg-background">
+      {statusBanner(lead.status, source, tab)}
+
+      <TradePersonPanel title="Profile information  " >
+        <div className="space-y-4 ">
           <div className="flex items-start gap-3">
             <div className="h-12 w-12 overflow-hidden rounded-full border border-slate-200">
               <Image
@@ -103,34 +155,36 @@ export default function LeadDetailPanel({ lead }: Props) {
           <div className="space-y-2 text-[13px]">
             <div className="flex items-center gap-2">
               <span className="text-slate-600">Phone:</span>
-              <span className="font-medium text-primaryText">+44 789 *** *** 24</span>
+              <span className="font-medium text-primaryText">{displayPhone}</span>
               <TradePersonBadge label="Verified" tone="success" />
             </div>
             <div className="flex items-center gap-2">
               <span className="text-slate-600">Email:</span>
-              <span className="font-medium text-primaryText">example*****21@gmail.com</span>
+              <span className="font-medium text-primaryText">{displayEmail}</span>
             </div>
             <div className="flex items-center gap-2 text-slate-600">
               <span>{lead.responsesCount} Tradepeople have responded</span>
             </div>
           </div>
 
-          {lead.status === "locked" ? (
+          {showUnlockButton ? (
             <div>
               <Button 
                 variant="primary" 
                 size="md" 
-                fullWidth
+                
                 disabled={lead.responsesCount >= 3}
+                className="cursor-pointer w-[100px]!"
+              
               >
                 Unlock
               </Button>
-              <p className="mt-2 text-[11px] text-slate-500">
+              <p className="mt-2 text-[14px] text-orange-500">
                 You only pay to unlock this lead. No subscription or ongoing fees.
               </p>
             </div>
           ) : (
-            <Button variant="primary" size="md" fullWidth>
+            <Button variant="primary" size="md" >
               Contact {lead.customerName.split(" ")[0]}
             </Button>
           )}
@@ -138,11 +192,11 @@ export default function LeadDetailPanel({ lead }: Props) {
       </TradePersonPanel>
 
       <TradePersonPanel title="Highlights">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col gap-2">
           {lead.highlights.map((h) => (
             <div
               key={h}
-              className="flex items-center gap-1.5 rounded-md bg-slate-50 px-2 py-1 text-[12px] text-slate-700"
+              className="flex items-center gap-1.5 text-sm font-semibold text-primaryText"
             >
               {highlightIcon(h)}
               <span>{h}</span>

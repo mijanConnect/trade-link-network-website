@@ -1,8 +1,9 @@
 import Image from "next/image";
 import type { Lead } from "@/lib/trade-person/mock";
 // import TradePersonBadge from "@/app/components/trade-person/TradePersonBadge";
-import { CheckCircle2, User, AlertCircle } from "lucide-react";
+// import { CheckCircle2, User, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { FrequentUserIcon, UrgentIcon, VerifyIcon } from "./Svg";
 
 type Props = {
   lead: Lead;
@@ -11,9 +12,9 @@ type Props = {
 };
 
 function highlightIcon(h: Lead["highlights"][0]) {
-  if (h === "Verified Phone") return <CheckCircle2 size={20} className="text-white rounded-full  bg-green-500" />;
-  if (h === "Frequent User") return <User size={20} className="text-white rounded-full  bg-blue-500" />;
-  return <AlertCircle size={20} className="text-white rounded-full  bg-red-500" />;
+  if (h === "Verified Phone") return <VerifyIcon  />;
+  if (h === "Frequent User") return <FrequentUserIcon />;
+  return <UrgentIcon />;
 }
 
 function getResponseStatus(responsesCount: number): string {
@@ -22,21 +23,21 @@ function getResponseStatus(responsesCount: number): string {
   return `${responsesCount}/3`;
 }
 
-export default function LeadCard({ lead, selected, onClick }: Props) {
+export default function LeadCard({ lead, selected }: Props) {
   const router = useRouter();
   const isLeadAvailable = lead.responsesCount < 3;
 
-  const handleCheckoutClick = () => {
+  const handleCheckoutClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!isLeadAvailable) return;
     router.push(`/trade-person/checkout/${lead.id}`);
   };
 
   return (
     <div className="overflow-hidden rounded-sm border border-slate-200 bg-white shadow-sm">
-      <button
-        type="button"
-        onClick={onClick}
-        className={`w-full p-4 text-left transition ${selected ? "bg-white border-2 border-primary" : "hover:scale-102 hover:cursor-pointer"}`}
+      <div
+        className={`w-full p-4 text-left transition ${selected ? "bg-white border-2 border-primary" : ""}`}
       >
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">
@@ -74,7 +75,7 @@ export default function LeadCard({ lead, selected, onClick }: Props) {
             ))}
           </div>
         )}
-      </button>
+      </div>
 
       {/* Bottom checkout bar - similar to design */}
       <button

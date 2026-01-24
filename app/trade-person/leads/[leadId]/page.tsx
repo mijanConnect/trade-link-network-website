@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import LeadCard from "@/app/components/trade-person/LeadCard";
 import LeadDetailPanel from "@/app/components/trade-person/LeadDetailPanel";
+import LeadDetailLoading from "@/app/components/trade-person/LeadDetailLoading";
 import LeadsFilterDrawer, {
   LeadsFilterButton,
 } from "@/app/components/trade-person/LeadsFilterDrawer";
@@ -60,6 +61,8 @@ export default function LeadDetailPage() {
   const [mobileSelectedLeadId, setMobileSelectedLeadId] = useState<string | null>(
     leadId || null,
   );
+  const [isLoading, setIsLoading] = useState(false);
+  const loadingTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Save scroll position before navigation
   const handleScroll = () => {
@@ -111,6 +114,46 @@ export default function LeadDetailPage() {
     filteredAndSortedLeads.find((l) => l.id === mobileSelectedLeadId) ??
     selectedLead ??
     null;
+
+  // Handle loading state with timer when lead changes - smooth experience
+  useEffect(() => {
+    // Clear any existing timer
+    if (loadingTimerRef.current) {
+      clearTimeout(loadingTimerRef.current);
+      loadingTimerRef.current = null;
+    }
+
+    // Start loading timer (200ms delay) - only show loading if data takes time
+    // This prevents UI jerk for fast data loads
+    const showLoadingTimer = setTimeout(() => {
+      // Only show loading if data is not ready yet
+      if (!selectedLead && !mobileSelectedLead) {
+        setIsLoading(true);
+      }
+    }, 200);
+
+    loadingTimerRef.current = showLoadingTimer;
+
+    // Simulate data loading delay (in real app, this would be an API call)
+    // If data is ready quickly, hide loading immediately
+    const dataLoadTimer = setTimeout(() => {
+      setIsLoading(false);
+      if (loadingTimerRef.current) {
+        clearTimeout(loadingTimerRef.current);
+        loadingTimerRef.current = null;
+      }
+    }, 300); // Simulate 300ms data load time
+
+    return () => {
+      if (loadingTimerRef.current) {
+        clearTimeout(loadingTimerRef.current);
+        loadingTimerRef.current = null;
+      }
+      clearTimeout(dataLoadTimer);
+      // Reset loading state on cleanup
+      setIsLoading(false);
+    };
+  }, [leadId, mobileSelectedLeadId, selectedLead, mobileSelectedLead]);
 
   // Redirect to default lead if no lead selected or invalid lead
   useEffect(() => {
@@ -198,8 +241,9 @@ export default function LeadDetailPage() {
                         listRef.current.scrollTop.toString(),
                       );
                     }
+                    // Don't set loading immediately - let useEffect handle it smoothly
                   }}
-                  className="block"
+                  className="block transition-opacity duration-200"
                 >
                   <LeadCard lead={lead} selected={lead.id === leadId} />
                 </Link>
@@ -210,7 +254,17 @@ export default function LeadDetailPage() {
 
         {/* Right Panel - Lead Details */}
         <div className="w-2/3 flex-1 overflow-y-auto bg-background pl-4">
-          <LeadDetailPanel lead={selectedLead ?? null} source="leads" />
+          <div className="relative min-h-[600px] transition-opacity duration-300">
+            {isLoading ? (
+              <div className="absolute inset-0 animate-fadeIn">
+                <LeadDetailLoading />
+              </div>
+            ) : (
+              <div className="animate-fadeIn">
+                <LeadDetailPanel lead={selectedLead ?? null} source="leads" />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -248,8 +302,9 @@ export default function LeadDetailPage() {
                   <button
                     key={lead.id}
                     type="button"
-                    className="block w-full text-left"
+                    className="block w-full text-left transition-opacity duration-200"
                     onClick={() => {
+                      // Don't set loading immediately - let useEffect handle it smoothly
                       setMobileSelectedLeadId(lead.id);
                       setShowDetailOnMobile(true);
                     }}
@@ -281,7 +336,17 @@ export default function LeadDetailPage() {
             </div>
 
             <div className="flex-1 overflow-y-auto px-3 py-4">
-              <LeadDetailPanel lead={mobileSelectedLead} source="leads" />
+              <div className="relative min-h-[400px] transition-opacity duration-300">
+                {isLoading ? (
+                  <div className="absolute inset-0 animate-fadeIn">
+                    <LeadDetailLoading />
+                  </div>
+                ) : (
+                  <div className="animate-fadeIn">
+                    <LeadDetailPanel lead={mobileSelectedLead} source="leads" />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}

@@ -1,8 +1,9 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import LeadDetailPanel from "@/app/components/trade-person/LeadDetailPanel";
+import LeadDetailLoading from "@/app/components/trade-person/LeadDetailLoading";
 import { leadsMock } from "@/lib/trade-person/mock";
 import type { Lead } from "@/lib/trade-person/mock";
 import { Briefcase, MapPin, ArrowLeft } from "lucide-react";
@@ -91,6 +92,11 @@ export default function MyResponsesJobPage() {
   const [mobileSelectedJobId, setMobileSelectedJobId] = useState<string | null>(
     jobId || null,
   );
+  const [isLoading, setIsLoading] = useState(false);
+  const [isTabChanging, setIsTabChanging] = useState(false);
+  const loadingTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const tabChangeTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const prevTabRef = useRef<string>(tab);
 
   const mobileSelectedJob = mobileSelectedJobId
     ? jobCardsMock.find((j) => j.id === mobileSelectedJobId)
@@ -105,6 +111,82 @@ export default function MyResponsesJobPage() {
     }
   }, [selectedJob, isPending, isHired, router]);
 
+  // Handle tab change with smooth loading - no UI jump
+  useEffect(() => {
+    // Check if tab actually changed
+    if (prevTabRef.current !== tab) {
+      // Clear any existing timers
+      if (tabChangeTimerRef.current) {
+        clearTimeout(tabChangeTimerRef.current);
+        tabChangeTimerRef.current = null;
+      }
+
+      // Don't show loading immediately - let content transition smoothly
+      // Only show a brief loading overlay if needed
+      tabChangeTimerRef.current = setTimeout(() => {
+        setIsTabChanging(false);
+        tabChangeTimerRef.current = null;
+      }, 150); // Quick transition, no visible loading needed
+
+      // Update previous tab immediately
+      prevTabRef.current = tab;
+
+      return () => {
+        if (tabChangeTimerRef.current) {
+          clearTimeout(tabChangeTimerRef.current);
+          tabChangeTimerRef.current = null;
+        }
+      };
+    }
+
+    return () => {
+      if (tabChangeTimerRef.current) {
+        clearTimeout(tabChangeTimerRef.current);
+        tabChangeTimerRef.current = null;
+      }
+    };
+  }, [tab]);
+
+  // Handle loading state with timer when job/lead changes - smooth experience
+  useEffect(() => {
+    // Clear any existing timer
+    if (loadingTimerRef.current) {
+      clearTimeout(loadingTimerRef.current);
+      loadingTimerRef.current = null;
+    }
+
+    // Start loading timer (200ms delay) - only show loading if data takes time
+    // This prevents UI jerk for fast data loads
+    const showLoadingTimer = setTimeout(() => {
+      // Only show loading if data is not ready yet
+      if (!selectedLead && !mobileSelectedLead) {
+        setIsLoading(true);
+      }
+    }, 200);
+
+    loadingTimerRef.current = showLoadingTimer;
+
+    // Simulate data loading delay (in real app, this would be an API call)
+    // If data is ready quickly, hide loading immediately
+    const dataLoadTimer = setTimeout(() => {
+      setIsLoading(false);
+      if (loadingTimerRef.current) {
+        clearTimeout(loadingTimerRef.current);
+        loadingTimerRef.current = null;
+      }
+    }, 300); // Simulate 300ms data load time
+
+    return () => {
+      if (loadingTimerRef.current) {
+        clearTimeout(loadingTimerRef.current);
+        loadingTimerRef.current = null;
+      }
+      clearTimeout(dataLoadTimer);
+      // Reset loading state on cleanup
+      setIsLoading(false);
+    };
+  }, [jobId, mobileSelectedJobId, selectedLead, mobileSelectedLead]);
+
   if (!selectedJob || !selectedLead) {
     return null;
   }
@@ -112,7 +194,7 @@ export default function MyResponsesJobPage() {
   return (
     <>
       {/* Desktop / Tablet layout (md+) */}
-      <div className="hidden h-[calc(100vh-120px)] gap-4 md:flex">
+      <div className="hidden h-[calc(100vh-120px)]  md:flex">
         {/* Left Sidebar */}
         <aside className="flex w-1/3 flex-col overflow-hidden rounded-lg border border-slate-200 bg-white">
           {/* Summary Header */}
@@ -137,7 +219,7 @@ export default function MyResponsesJobPage() {
                <div className="p-4 flex gap-2 bg-tradeBg">
               <Link
                 href="/trade-person/my-responses/pending"
-                className={`flex-1 rounded-md px-4 py-6 text-center cursor-pointer text-[14px] font-semibold transition ${isPending
+                className={`flex-1 rounded-md px-4 py-6 text-center cursor-pointer text-[14px] font-semibold transition-all duration-200 ${isPending
                     ? "bg-primary text-white font-semibold"
                     : "bg-white text-black "
                   }`}
@@ -146,7 +228,7 @@ export default function MyResponsesJobPage() {
               </Link>
               <Link
                 href="/trade-person/my-responses/hired"
-                className={`flex-1 rounded-md px-4 py-6 text-center cursor-pointer text-[14px]  transition ${isHired
+                className={`flex-1 rounded-md px-4 py-6 text-center cursor-pointer text-[14px] transition-all duration-200 ${isHired
                     ? "bg-primary text-white font-semibold"
                     : "bg-white text-black "
                   }`}
@@ -157,7 +239,15 @@ export default function MyResponsesJobPage() {
           </div>
 
           {/* Job List */}
-          <div className="flex-1 overflow-y-auto px-4 py-4 bg-tradeBg">
+          <div className="relative flex-1 overflow-y-auto px-4 py-4 bg-tradeBg">
+            {/* Loading overlay - doesn't affect layout */}
+            {isTabChanging && (
+              <div className="absolute inset-0 z-10 flex items-center justify-center bg-tradeBg/80 backdrop-blur-sm transition-opacity duration-200">
+                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+              </div>
+            )}
+            {/* Content with smooth opacity transition */}
+            <div className={`transition-opacity duration-200 ${isTabChanging ? "opacity-50" : "opacity-100"}`}>
             {isHired && (
               <>
                 {inProgressJobs.length > 0 && (
@@ -221,6 +311,7 @@ export default function MyResponsesJobPage() {
                             <Link
                               key={job.id}
                               href={`/trade-person/my-responses/hired/${job.id}`}
+                              className="transition-opacity duration-200"
                             >
                               <button
                                 type="button"
@@ -268,6 +359,7 @@ export default function MyResponsesJobPage() {
                           <Link
                             key={job.id}
                             href={`/trade-person/my-responses/pending/${job.id}`}
+                            className="transition-opacity duration-200"
                           >
                             <button
                               type="button"
@@ -302,12 +394,23 @@ export default function MyResponsesJobPage() {
                 )}
               </>
             )}
+            </div>
           </div>
         </aside>
 
         {/* Right Panel - Lead Details */}
-        <div className="flex-1 w-2/3 overflow-y-auto">
-          <LeadDetailPanel lead={selectedLead} source="my-responses" />
+        <div className="flex-1 w-2/3 overflow-y-auto bg-background pl-4">
+          <div className="relative min-h-[600px] transition-opacity duration-300">
+            {isLoading ? (
+              <div className="absolute inset-0 animate-fadeIn">
+                <LeadDetailLoading />
+              </div>
+            ) : (
+              <div className="animate-fadeIn">
+                <LeadDetailPanel lead={selectedLead} source="my-responses" tab={tab as "pending" | "hired"} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -334,7 +437,7 @@ export default function MyResponsesJobPage() {
               <div className="mt-4 flex gap-2">
                 <Link
                   href="/trade-person/my-responses/pending"
-                  className={`flex-1 rounded-md px-3 py-2 text-center text-[12px] font-semibold transition ${isPending
+                  className={`flex-1 rounded-md px-3 py-2 text-center text-[12px] font-semibold transition-all duration-200 ${isPending
                       ? "bg-white text-primary"
                       : "bg-white/20 text-white hover:bg-white/30"
                     }`}
@@ -343,7 +446,7 @@ export default function MyResponsesJobPage() {
                 </Link>
                 <Link
                   href="/trade-person/my-responses/hired"
-                  className={`flex-1 rounded-md px-3 py-2 text-center text-[12px] font-semibold transition ${isHired
+                  className={`flex-1 rounded-md px-3 py-2 text-center text-[12px] font-semibold transition-all duration-200 ${isHired
                       ? "bg-white text-primary"
                       : "bg-white/20 text-white hover:bg-white/30"
                     }`}
@@ -354,7 +457,15 @@ export default function MyResponsesJobPage() {
             </div>
 
             {/* Job List */}
-            <div className="flex-1 overflow-y-auto px-3 py-4">
+            <div className="relative flex-1 overflow-y-auto px-3 py-4">
+              {/* Loading overlay - doesn't affect layout */}
+              {isTabChanging && (
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-sm transition-opacity duration-200">
+                  <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                </div>
+              )}
+              {/* Content with smooth opacity transition */}
+              <div className={`transition-opacity duration-200 ${isTabChanging ? "opacity-50" : "opacity-100"}`}>
               {isHired && (
                 <>
                   {inProgressJobs.length > 0 && (
@@ -371,10 +482,11 @@ export default function MyResponsesJobPage() {
                               key={job.id}
                               type="button"
                               onClick={() => {
+                                // Don't set loading immediately - let useEffect handle it smoothly
                                 setMobileSelectedJobId(job.id);
                                 setShowDetailOnMobile(true);
                               }}
-                              className={`w-full rounded-lg border p-3 text-left transition ${job.id === mobileSelectedJobId
+                              className={`w-full rounded-lg border p-3 text-left transition-opacity duration-200 ${job.id === mobileSelectedJobId
                                   ? "border-primary bg-primary/5"
                                   : "border-slate-200 bg-white hover:bg-slate-50"
                                 }`}
@@ -415,10 +527,11 @@ export default function MyResponsesJobPage() {
                               key={job.id}
                               type="button"
                               onClick={() => {
+                                // Don't set loading immediately - let useEffect handle it smoothly
                                 setMobileSelectedJobId(job.id);
                                 setShowDetailOnMobile(true);
                               }}
-                              className={`w-full rounded-lg border p-3 text-left transition ${job.id === mobileSelectedJobId
+                              className={`w-full rounded-lg border p-3 text-left transition-opacity duration-200 ${job.id === mobileSelectedJobId
                                   ? "border-primary bg-primary/5"
                                   : "border-slate-200 bg-white hover:bg-slate-50"
                                 }`}
@@ -450,7 +563,8 @@ export default function MyResponsesJobPage() {
               {isPending && (
                 <>
                   {pendingJobs.length > 0 ? (
-                    <div className="space-y-3">
+                    <div>
+                      <div className="space-y-3">
                       {pendingJobs.map((job) => {
                         const lead = leadsMock.find((l) => l.id === job.leadId);
                         if (!lead) return null;
@@ -486,6 +600,7 @@ export default function MyResponsesJobPage() {
                         );
                       })}
                     </div>
+                    </div>
                   ) : (
                     <div className="text-center text-slate-500 text-sm">
                       No pending jobs
@@ -493,6 +608,7 @@ export default function MyResponsesJobPage() {
                   )}
                 </>
               )}
+              </div>
             </div>
           </div>
         )}
@@ -513,7 +629,17 @@ export default function MyResponsesJobPage() {
             </div>
 
             <div className="flex-1 overflow-y-auto px-3 py-4">
-              <LeadDetailPanel lead={mobileSelectedLead} source="my-responses" />
+              <div className="relative min-h-[400px] transition-opacity duration-300">
+                {isLoading ? (
+                  <div className="absolute inset-0 animate-fadeIn">
+                    <LeadDetailLoading />
+                  </div>
+                ) : (
+                  <div className="animate-fadeIn">
+                    <LeadDetailPanel lead={mobileSelectedLead} source="my-responses" tab={tab as "pending" | "hired"} />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}

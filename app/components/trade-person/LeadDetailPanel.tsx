@@ -11,6 +11,7 @@ import { FrequentUserIcon, UrgentIcon, VerifyIcon } from "./Svg";
 type Props = {
   lead: Lead | null;
   source?: "leads" | "my-responses"; // "leads" = locked view with masked data, "my-responses" = unlocked view with full data
+  tab?: "pending" | "hired"; // Tab from my-responses page to determine which banner to show
 };
 
 function highlightIcon(h: Lead["highlights"][0]) {
@@ -19,7 +20,44 @@ function highlightIcon(h: Lead["highlights"][0]) {
   return <UrgentIcon />;
 }
 
-function statusBanner(status: Lead["status"]) {
+function statusBanner(status: Lead["status"], source?: "leads" | "my-responses", tab?: "pending" | "hired") {
+  // When viewing from my-responses page, prioritize tab over lead status
+  if (source === "my-responses") {
+    if (tab === "pending") {
+      return (
+        <div className="mb-4 rounded-lg bg-amber-50 px-4 py-3">
+          <div className="text-[13px] font-medium text-amber-900">
+            You`ve successfully unlocked this customer request.
+          </div>
+          <div className="mt-2">
+            <span className="text-[12px] text-amber-700">Request Status</span>
+            <div className="mt-1">
+              <TradePersonBadge label="Pending" tone="warning" />
+            </div>
+          </div>
+        </div>
+      );
+    }
+    if (tab === "hired") {
+      return (
+        <div className="mb-4 rounded-lg bg-emerald-50 px-4 py-3">
+          <div className="text-[13px] font-medium text-emerald-900">
+            Congratulations! A customer has hired you for their request.
+          </div>
+          <div className="mt-2">
+            <span className="text-[12px] text-emerald-700">Service Status</span>
+            <div className="mt-1">
+              <Button variant="primary" size="sm" className="text-[12px]">
+                Mark as Complete
+              </Button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  // Fallback to lead status for leads page or when tab is not provided
   if (status === "unlocked") {
     return (
       <div className="mb-4 rounded-lg bg-amber-50 px-4 py-3">
@@ -69,7 +107,7 @@ function statusBanner(status: Lead["status"]) {
   return null;
 }
 
-export default function LeadDetailPanel({ lead, source = "leads" }: Props) {
+export default function LeadDetailPanel({ lead, source = "leads", tab }: Props) {
   if (!lead) {
     return (
       <div className="flex h-[600px] items-center justify-center rounded-lg border border-slate-200 bg-white">
@@ -92,7 +130,7 @@ export default function LeadDetailPanel({ lead, source = "leads" }: Props) {
 
   return (
     <div className="space-y-4 bg-background">
-      {statusBanner(lead.status)}
+      {statusBanner(lead.status, source, tab)}
 
       <TradePersonPanel title="Profile information  " >
         <div className="space-y-4 ">

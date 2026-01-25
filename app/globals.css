@@ -10,14 +10,14 @@
   --color-primaryText: #1f2933;
   --color-primaryTextLight: #4b5563;
   --color-stroke: #dbd6d6;
-  --color-tradeBg: #D9D9D9;
-  --color-cardBg: #F7F9FB;
+  --color-tradeBg: #d9d9d9;
+  --color-cardBg: #f7f9fb;
 }
 
 :root {
   --color-primary: #1e3a5f;
   --radius: 0.625rem;
-  --background: #FFFFFF;
+  --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);

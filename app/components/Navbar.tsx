@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Button from "./ui/Button";
 import { LogoNav, LogoNavIcon } from "./Svg";
@@ -10,64 +10,82 @@ const navbarStyles = `
   .nav-link {
     position: relative;
     z-index: 1;
-    transition: all 0.3s ease;
+    text-decoration: none; /* remove underline */
+    transition: color 0.25s ease, -webkit-text-stroke 0.25s ease;
+    -webkit-text-stroke: 0 currentColor; /* default: no stroke */
   }
 
-  .nav-link:hover {
-    color: #1e3a5f;
-  }
-
-  .nav-link::after {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 0%;
-    content: '';
-    color: transparent;
-    background: #1e3a5f;
-    height: 2px;
-    transition: width 0.3s ease;
-  }
-
-  .nav-link:hover::after,
-  .nav-link.active::after {
-    width: 100%;
-  }
-
+  /* Hover/Active styling with subtle stroke (no layout shift) */
+  .nav-link:hover,
   .nav-link.active {
     color: #1e3a5f;
+    -webkit-text-stroke: 0.3px currentColor;
+  }
+
+  .hamburger-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .mobile-menu {
+    animation: slideDown 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  .mobile-menu.closing {
+    animation: slideUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+      max-height: 0;
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      max-height: 500px;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+      max-height: 500px;
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-20px);
+      max-height: 0;
+    }
   }
 `;
 
 export default function NavRes() {
-  const [open, setOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
-  const langDropdownRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        langDropdownRef.current &&
-        !langDropdownRef.current.contains(event.target as Node)
-      ) {
-        setLangDropdownOpen(false);
-      }
-    };
+  const handleClose = () => {
+    setIsClosing(true);
+    // Close the menu immediately so the hamburger icon rotates without delay
+    setOpen(false);
+    // Keep the menu rendered to play the closing animation
+    setTimeout(() => {
+      setIsClosing(false);
+    }, 500);
+  };
 
-    if (langDropdownOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+  const toggleMenu = () => {
+    if (open) {
+      handleClose();
+    } else {
+      setOpen(true);
     }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [langDropdownOpen]);
+  };
 
   const isActive = (href: string) => {
     if (href === "/" && pathname === "/") return true;
@@ -98,68 +116,113 @@ export default function NavRes() {
     <>
       <style>{navbarStyles}</style>
       <header
-        className={`sticky top-0 z-20 bg-white shadow-[0_3px_5px_rgba(0,0,0,0.05)] px-4 transition-transform duration-300 ${
+        className={`sticky top-0 z-20 w-full transition-transform duration-300 ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
+        style={{
+          background: "white",
+          boxShadow: "0 3px 5px rgba(0,0,0,0.05)",
+        }}
       >
-        <div className="container mx-auto flex items-center justify-between py-3">
+        <div className="container mx-auto flex items-center justify-between py-3 gap-4 px-4">
           <div>
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               <Link href="/">
                 <LogoNav />
               </Link>
             </div>
-            <div className="md:hidden">
+            <div className="lg:hidden">
               <Link href="/">
                 <LogoNavIcon />
               </Link>
             </div>
           </div>
-          <div className="flex gap-4 align-middle justify-between">
-            <div className="hidden lg:flex justify-start items-center gap-4">
-              <div className="flex gap-8 items-center">
-                <Link
-                  href="/login"
-                  className={`nav-link text-[20px] font-semibold text-primary ${
-                    isActive("/post-job") ? "active" : ""
-                  }`}
-                  onClick={() => setOpen(false)}
-                >
-                  Post a Job
-                </Link>
-                <Link
-                  href="/login"
-                  className={`nav-link text-[20px] font-semibold text-primary ${
-                    isActive("/login") ? "active" : ""
-                  }`}
-                  onClick={() => setOpen(false)}
-                >
-                  Login
-                </Link>
-              </div>
-              <Button
-                onClick={() => router.push("/trade-person/leads")}
-                variant="primary"
-                size="md"
-                className="font-semibold"
+
+          {/* Navigation Links - Hidden on mobile, visible on md+ */}
+          <nav className="hidden lg:flex lg:flex-1 items-center justify-center gap-12">
+            <Link
+              href="/"
+              className={`nav-link py-1 transform transition-all text-[16px] font-normal ${
+                isActive("/") ? "text-blue active" : "text-primaryTextLight"
+              }`}
+              onClick={() => setOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              href="/car-details"
+              className={`nav-link py-1 transform transition-all text-[16px] font-normal ${
+                isActive("/car-details")
+                  ? "text-blue active"
+                  : "text-primaryTextLight"
+              }`}
+              onClick={() => setOpen(false)}
+            >
+              Services
+            </Link>
+            <Link
+              href="/area-covered"
+              className={`nav-link py-1 transform transition-all text-[16px] font-normal ${
+                isActive("/area-covered")
+                  ? "text-blue active"
+                  : "text-primaryTextLight"
+              }`}
+              onClick={() => setOpen(false)}
+            >
+              Area Covered
+            </Link>
+          </nav>
+
+          {/* Right Side Buttons - Visible on all devices */}
+          <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 ml-auto">
+            <div className="hidden lg:flex items-center gap-2 lg:gap-6">
+              <Link
+                href="/login"
+                className={`nav-link text-[14px] sm:text-[16px] font-bold text-primary transition-all ${
+                  isActive("/post-job") ? "active" : ""
+                }`}
+                onClick={() => setOpen(false)}
               >
-                Join as a Tradeperson
-              </Button>
+                Post a Job
+              </Link>
+              <Link
+                href="/login"
+                className={`nav-link text-[14px] sm:text-[16px] font-bold text-primary transition-all ${
+                  isActive("/login") ? "active" : ""
+                }`}
+                onClick={() => setOpen(false)}
+              >
+                Login
+              </Link>
             </div>
+
+            <Button
+              onClick={() => router.push("/trade-person/leads")}
+              variant="primary"
+              size="sm"
+              className="font-semibold whitespace-nowrap text-[12px] sm:text-[14px] lg:text-[16px] px-2 sm:px-3 lg:px-4"
+            >
+              Join as Tradeperson
+            </Button>
+
+            {/* Mobile Hamburger Toggler */}
             <button
               type="button"
-              className="inline-flex items-center justify-center rounded-md text-primary hover:bg-black/5 focus:outline-none focus:ring-2 focus:ring-[--color-primary] lg:hidden"
+              className="lg:hidden inline-flex items-center justify-center rounded-md text-primary hover:bg-blue-200 transition-colors p-2"
               aria-label="Toggle navigation"
-              onClick={() => setOpen((v) => !v)}
+              onClick={toggleMenu}
             >
-              <span className="sr-only">Toggle navigation</span>
               <svg
-                className="h-8 w-8"
+                className="h-6 w-6 hamburger-icon"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                strokeWidth="1.5"
+                strokeWidth="2"
+                style={{
+                  transform: open ? "rotate(90deg)" : "rotate(0deg)",
+                  transition: "transform 0.2s ease",
+                }}
               >
                 {open ? (
                   <path
@@ -171,7 +234,7 @@ export default function NavRes() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M3.75 7.5h16.5M3.75 12h16.5M3.75 16.5h16.5"
+                    d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"
                   />
                 )}
               </svg>
@@ -179,69 +242,73 @@ export default function NavRes() {
           </div>
         </div>
 
-        {/* Mobile Menu Drawer */}
-        {open && (
+        {/* Mobile Menu */}
+        {(open || isClosing) && (
           <>
+            {/* Backdrop */}
             <div
-              className="lg:hidden fixed inset-0 bg-white bg-opacity-50 z-40"
-              onClick={() => setOpen(false)}
-            />
-            <div
-              className={`lg:hidden fixed top-0 right-0 h-full w-[280px] bg-white shadow-lg z-50 transform transition-transform duration-300 ${
-                open ? "translate-x-0" : "translate-x-full"
+              className={`lg:hidden fixed inset-0 bg-black z-30 transition-opacity duration-500 ${
+                isClosing ? "opacity-0" : "opacity-0"
               }`}
-            >
-              <div className="flex flex-col p-6 gap-6 bg-white">
-                <div className="flex justify-end">
-                  <button
-                    onClick={() => setOpen(false)}
-                    className="text-primary hover:bg-gray-100 rounded-md p-2"
-                  >
-                    <svg
-                      className="h-6 w-6"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                </div>
+              onClick={handleClose}
+              style={{
+                pointerEvents: isClosing ? "none" : "auto",
+              }}
+            />
 
-                <div className="flex flex-col gap-6 text-end">
-                  <Link
-                    href="/login"
-                    className={`text-[18px] font-semibold text-primary hover:underline ${
-                      isActive("/post-job") ? "underline" : ""
-                    }`}
-                    onClick={() => setOpen(false)}
-                  >
-                    Post a Job
-                  </Link>
-                  <Link
-                    href="/login"
-                    className={`text-[18px] font-semibold text-primary hover:underline ${
-                      isActive("/login") ? "underline" : ""
-                    }`}
-                    onClick={() => setOpen(false)}
-                  >
-                    Login
-                  </Link>
-                  <Button
-                    variant="primary"
-                    size="md"
-                    className="font-semibold w-full"
-                    onClick={() => setOpen(false)}
-                  >
-                    Join as a Tradeperson
-                  </Button>
-                </div>
+            {/* Menu */}
+            <div
+              className={`lg:hidden fixed top-[88px] left-0 right-0 bg-white z-40 max-h-[calc(100vh-88px)] overflow-y-auto ${isClosing ? "mobile-menu closing" : "mobile-menu"}`}
+            >
+              <nav className="container mx-auto px-4 py-2 flex flex-col text-center">
+                <Link
+                  href="/"
+                  className={`nav-link py-4 text-[16px] font-normal transition-all border-b ${
+                    isActive("/") ? "text-blue active" : "text-primaryTextLight"
+                  }`}
+                  onClick={handleClose}
+                >
+                  Home
+                </Link>
+                <Link
+                  href="/car-details"
+                  className={`nav-link py-4 text-[16px] font-normal transition-all border-b ${
+                    isActive("/car-details")
+                      ? "text-blue active"
+                      : "text-primaryTextLight"
+                  }`}
+                  onClick={handleClose}
+                >
+                  Services
+                </Link>
+                <Link
+                  href="/area-covered"
+                  className={`nav-link py-4 text-[16px] font-normal transition-all ${
+                    isActive("/area-covered")
+                      ? "text-blue active"
+                      : "text-primaryTextLight"
+                  }`}
+                  onClick={handleClose}
+                >
+                  Area Covered
+                </Link>
+              </nav>
+
+              <div className="flex items-center gap-2 lg:gap-6">
+                <Link
+                  href="/login"
+                  className="bg-primary p-2 text-white font-semibold text-center flex-1"
+                  onClick={() => setOpen(false)}
+                >
+                  Post a Job
+                </Link>
+                <Link
+                  href="/login"
+                  className="bg-primary p-2 text-white font-semibold text-center flex-1"
+                  onClick={() => setOpen(false)}
+                >
+                  Login
+                </Link>
               </div>
             </div>
           </>

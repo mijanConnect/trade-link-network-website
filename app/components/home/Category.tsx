@@ -83,7 +83,10 @@ export default function Category() {
           </h1>
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-6 gap-y-4 md:gap-y-15">
             {categories.map((category, index) => (
-              <li key={`${category.title}-${index}`}>
+              <li
+                key={`${category.title}-${index}`}
+                className="last:lg:col-start-2"
+              >
                 <a href={category.link} className="group block">
                   <div className="bg-white rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300 ease-out">
                     <div className="relative w-full h-[265px] overflow-hidden rounded-t-sm">

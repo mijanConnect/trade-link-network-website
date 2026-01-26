@@ -19,14 +19,14 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "font-[16px] rounded-[6px] transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer disabled:cursor-not-allowed";
+    "font-[16px] rounded-[6px] transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer disabled:cursor-not-allowed shadow-sm disabled:shadow-none";
 
   const variantStyles = {
     primary: "bg-primary text-white hover:bg-primary/90 disabled:bg-primary/50",
     secondary:
       "bg-gray-200 text-gray-900 hover:bg-gray-300 disabled:bg-gray-200/50",
     outline:
-      "border-1 border-primary text-primary hover:bg-primary/10 disabled:border-primary/50",
+      "border-1 border-primary text-primary hover:bg-primary/5 disabled:border-primary/50",
   };
 
   const sizeStyles = {

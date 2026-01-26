@@ -1,6 +1,6 @@
 import Button from "../ui/Button";
 import { ReactNode } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type JobAction = {
   id?: string;
@@ -26,12 +26,14 @@ export default function JobCard({
   description,
   actions,
 }: JobCardProps) {
+  const router = useRouter();
+
   const defaultViewDetailsAction = id
     ? {
         label: "View Details",
         variant: "primary" as const,
         onClick: () => {
-          // Navigation will be handled via Link wrapper
+          router.push(`/my-jobs/details/${id}`);
         },
       }
     : { label: "View Details", variant: "primary" as const };
@@ -40,7 +42,11 @@ export default function JobCard({
     actions && actions.length > 0
       ? actions.map((action) =>
           action.label === "View Details" && id
-            ? { ...action, variant: "primary" as const }
+            ? {
+                ...action,
+                variant: "primary" as const,
+                onClick: () => router.push(`/my-jobs/details/${id}`),
+              }
             : action,
         )
       : [
@@ -70,8 +76,6 @@ export default function JobCard({
       <div className="flex justify-end">
         <div className="flex w-full gap-4 md:w-auto md:gap-6">
           {finalActions.map((action) => {
-            const isViewDetails = action.label === "View Details" && id;
-
             const button = (
               <Button
                 key={action.id ?? action.label}
@@ -93,16 +97,7 @@ export default function JobCard({
               </Button>
             );
 
-            return isViewDetails ? (
-              <Link
-                key={action.id ?? action.label}
-                href={`/my-jobs/details/${id}`}
-              >
-                {button}
-              </Link>
-            ) : (
-              button
-            );
+            return button;
           })}
         </div>
       </div>

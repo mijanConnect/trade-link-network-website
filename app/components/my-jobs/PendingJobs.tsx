@@ -1,4 +1,5 @@
 import JobCard from "./JobCard";
+import JobDetails from "./JobDetails";
 
 const jobs = [
   {
@@ -9,7 +10,7 @@ const jobs = [
       "Transform your outdoor space from the ground up with our full garden renovation service. We handle everything from initial design and layout planning to soil preparation, planting, lawn installation, paving, lighting, and finishing touches. Whether you want a modern, low-maintenance garden or a lush green retreat, we create a beautiful, functional space tailored to your style and needs.",
     actions: [
       {
-        label: "Create Post",
+        label: "Close Post",
         variant: "outline" as const,
         className:
           "border-red-500 text-red-500 hover:bg-red-500 hover:text-white",
@@ -25,7 +26,7 @@ const jobs = [
       "Complete bathroom tiling and plumbing services delivered with precision and care. We install wall and floor tiles, repair or replace plumbing lines, fit sanitary fixtures, and ensure proper water flow and drainage for a durable, clean, and modern finish.",
     actions: [
       {
-        label: "Create Post",
+        label: "Close Post",
         variant: "outline" as const,
         className:
           "border-red-500 text-red-500 hover:bg-red-500 hover:text-white",
@@ -41,7 +42,7 @@ const jobs = [
       "Painters notified. Expect interest soon; review color palette before confirming.",
     actions: [
       {
-        label: "Create Post",
+        label: "Close Post",
         variant: "outline" as const,
         className:
           "border-red-500 text-red-500 hover:bg-red-500 hover:text-white",
@@ -57,7 +58,7 @@ const jobs = [
       "Licensed electricians will reach out to confirm appointment slots.",
     actions: [
       {
-        label: "Create Post",
+        label: "Close Post",
         variant: "outline" as const,
         className:
           "border-red-500 text-red-500 hover:bg-red-500 hover:text-white",
@@ -69,16 +70,21 @@ const jobs = [
 
 export default function PendingJobs() {
   return (
-    <div className="flex flex-col gap-6">
-      {jobs.map((job) => (
-        <JobCard
-          key={job.id}
-          title={job.title}
-          postedOn={job.postedOn}
-          description={job.description}
-          actions={job.actions}
-        />
-      ))}
+    <div>
+      <div className="flex flex-col gap-6">
+        {jobs.map((job) => (
+          <JobCard
+            key={job.id}
+            title={job.title}
+            postedOn={job.postedOn}
+            description={job.description}
+            actions={job.actions}
+          />
+        ))}
+      </div>
+      <div className="mt-10">
+        <JobDetails />
+      </div>
     </div>
   );
 }

@@ -8,7 +8,7 @@ const jobs = [
     description:
       "Complete bathroom tiling and plumbing services delivered with precision and care. We install wall and floor tiles, repair or replace plumbing lines, fit sanitary fixtures, and ensure proper water flow and drainage for a durable, clean, and modern finish.",
     actions: [
-      { label: "Upload Profile", variant: "outline" as const },
+      { label: "View Profile", variant: "outline" as const },
       { label: "Accept Request", variant: "primary" as const },
     ],
   },
@@ -19,7 +19,7 @@ const jobs = [
     description:
       "Painters notified. Expect interest soon; review color palette before confirming.",
     actions: [
-      { label: "Upload Profile", variant: "outline" as const },
+      { label: "View Profile", variant: "outline" as const },
       { label: "Accept Request", variant: "primary" as const },
     ],
   },
@@ -30,7 +30,7 @@ const jobs = [
     description:
       "Licensed electricians will reach out to confirm appointment slots.",
     actions: [
-      { label: "Upload Profile", variant: "outline" as const },
+      { label: "View Profile", variant: "outline" as const },
       { label: "Accept Request", variant: "primary" as const },
     ],
   },
@@ -41,7 +41,7 @@ const jobs = [
     description:
       "Share final measurements to speed up quoting from interested carpenters.",
     actions: [
-      { label: "Upload Profile", variant: "outline" as const },
+      { label: "View Profile", variant: "outline" as const },
       { label: "Accept Request", variant: "primary" as const },
     ],
   },

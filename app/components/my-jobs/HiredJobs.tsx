@@ -1,5 +1,17 @@
+"use client";
+
 import JobCard from "./JobCard";
+import ReviewModal from "./ReviewModal";
+import ReviewViewModal from "./ReviewViewModal";
 import { Star } from "lucide-react";
+import { useState } from "react";
+
+type ReviewData = {
+  rating: number;
+  text: string;
+  reviewer?: string;
+  date?: string;
+};
 
 const RecentJobs = [
   {
@@ -39,6 +51,7 @@ const HistoryJobs = [
     postedOn: "Posted 10 Jan, 2026",
     description:
       "Painters notified. Expect interest soon; review color palette before confirming.",
+    review: null,
     actions: [
       {
         id: "rating-003",
@@ -61,6 +74,12 @@ const HistoryJobs = [
     postedOn: "Posted 08 Jan, 2026",
     description:
       "Licensed electricians will reach out to confirm appointment slots.",
+    review: {
+      rating: 4.5,
+      text: "Great communication and punctual. Work was neat and to spec.",
+      reviewer: "You",
+      date: "12 Jan, 2026",
+    } satisfies ReviewData,
     actions: [
       {
         id: "rating-004",
@@ -83,8 +102,39 @@ const HistoryJobs = [
 ];
 
 export default function HiredJobs() {
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isReviewViewModalOpen, setIsReviewViewModalOpen] = useState(false);
+  const [selectedReview, setSelectedReview] = useState<ReviewData | null>(null);
+
+  const handleReviewClick = (review: ReviewData | null) => {
+    if (review) {
+      setSelectedReview(review);
+      setIsReviewViewModalOpen(true);
+    } else {
+      setIsReviewModalOpen(true);
+    }
+  };
+
+  const handleReviewSubmit = (rating: number, review: string) => {
+    console.log("Review submitted:", { rating, review });
+    // Add your submission logic here
+  };
+
   return (
     <>
+      <ReviewModal
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        onSubmit={handleReviewSubmit}
+      />
+      <ReviewViewModal
+        isOpen={isReviewViewModalOpen}
+        onClose={() => {
+          setIsReviewViewModalOpen(false);
+          setSelectedReview(null);
+        }}
+        review={selectedReview}
+      />
       <div className="flex flex-col gap-6">
         <h3 className="text-[22px] font-bold text-primaryText">Recent</h3>
         {RecentJobs.map((job) => (
@@ -105,7 +155,14 @@ export default function HiredJobs() {
             title={job.title}
             postedOn={job.postedOn}
             description={job.description}
-            actions={job.actions}
+            actions={job.actions.map((action) =>
+              action.id?.startsWith("rating-")
+                ? {
+                    ...action,
+                    onClick: () => handleReviewClick(job.review ?? null),
+                  }
+                : action,
+            )}
           />
         ))}
       </div>

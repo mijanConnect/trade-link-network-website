@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import TradePersonProfileCard from "@/app/components/trade-person/TradePersonProfileCard";
-import TradePersonPanel from "@/app/components/trade-person/TradePersonPanel";
+// import TradePersonPanel from "@/app/components/trade-person/TradePersonPanel";
 import Stars from "@/app/components/trade-person/Stars";
 import Button from "@/app/components/ui/Button";
 import { tradePersonProfile, reviewsMock } from "@/lib/trade-person/mock";

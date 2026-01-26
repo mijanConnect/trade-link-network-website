@@ -26,7 +26,7 @@ export default function Button({
     secondary:
       "bg-gray-200 text-gray-900 hover:bg-gray-300 disabled:bg-gray-200/50",
     outline:
-      "border-1 border-primary text-primary hover:bg-primary/5 disabled:border-primary/50",
+      "border-1 border-primary text-primary hover:border-primary/40 disabled:border-primary/50",
   };
 
   const sizeStyles = {

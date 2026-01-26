@@ -12,7 +12,7 @@ const jobs = [
         label: "Close Post",
         variant: "outline" as const,
         className:
-          "border-red-500 text-red-500 hover:bg-red-500 hover:text-white",
+          "border-red-500 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-500",
       },
       { label: "View Details", variant: "primary" as const },
     ],
@@ -28,7 +28,7 @@ const jobs = [
         label: "Close Post",
         variant: "outline" as const,
         className:
-          "border-red-500 text-red-500 hover:bg-red-500 hover:text-white",
+          "border-red-500 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-500",
       },
       { label: "View Details", variant: "primary" as const },
     ],
@@ -44,7 +44,7 @@ const jobs = [
         label: "Close Post",
         variant: "outline" as const,
         className:
-          "border-red-500 text-red-500 hover:bg-red-500 hover:text-white",
+          "border-red-500 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-500",
       },
       { label: "View Details", variant: "primary" as const },
     ],
@@ -60,7 +60,7 @@ const jobs = [
         label: "Close Post",
         variant: "outline" as const,
         className:
-          "border-red-500 text-red-500 hover:bg-red-500 hover:text-white",
+          "border-red-500 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-500",
       },
       { label: "View Details", variant: "primary" as const },
     ],

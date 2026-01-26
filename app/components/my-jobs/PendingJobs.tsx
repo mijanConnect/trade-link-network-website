@@ -1,5 +1,4 @@
 import JobCard from "./JobCard";
-import JobDetails from "./JobDetails";
 
 const jobs = [
   {
@@ -75,15 +74,13 @@ export default function PendingJobs() {
         {jobs.map((job) => (
           <JobCard
             key={job.id}
+            id={job.id}
             title={job.title}
             postedOn={job.postedOn}
             description={job.description}
             actions={job.actions}
           />
         ))}
-      </div>
-      <div className="mt-10">
-        <JobDetails />
       </div>
     </div>
   );

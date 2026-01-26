@@ -15,7 +15,7 @@ export default function JobsContainer() {
   const [activeTab, setActiveTab] = useState<string>("pending");
   return (
     <>
-      <h1 className="text-[28px] md:text-[40px] font-bold text-primaryText mb-4 lg:mb-8">
+      <h1 className="text-[28px] md:text-[40px] font-bold text-primaryText mb-4 lg:mb-6">
         My Jobs
       </h1>
 

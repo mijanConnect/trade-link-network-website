@@ -140,6 +140,7 @@ export default function HiredJobs() {
         {RecentJobs.map((job) => (
           <JobCard
             key={job.id}
+            id={job.id}
             title={job.title}
             postedOn={job.postedOn}
             description={job.description}
@@ -152,6 +153,7 @@ export default function HiredJobs() {
         {HistoryJobs.map((job) => (
           <JobCard
             key={job.id}
+            id={job.id}
             title={job.title}
             postedOn={job.postedOn}
             description={job.description}

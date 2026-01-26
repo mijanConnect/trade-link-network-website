@@ -1,5 +1,6 @@
 import Button from "../ui/Button";
 import { ReactNode } from "react";
+import Link from "next/link";
 
 type JobAction = {
   id?: string;
@@ -11,6 +12,7 @@ type JobAction = {
 };
 
 type JobCardProps = {
+  id?: string;
   title: string;
   postedOn: string;
   description: string;
@@ -18,14 +20,29 @@ type JobCardProps = {
 };
 
 export default function JobCard({
+  id,
   title,
   postedOn,
   description,
   actions,
 }: JobCardProps) {
+  const defaultViewDetailsAction = id
+    ? {
+        label: "View Details",
+        variant: "primary" as const,
+        onClick: () => {
+          // Navigation will be handled via Link wrapper
+        },
+      }
+    : { label: "View Details", variant: "primary" as const };
+
   const finalActions: JobAction[] =
     actions && actions.length > 0
-      ? actions
+      ? actions.map((action) =>
+          action.label === "View Details" && id
+            ? { ...action, variant: "primary" as const }
+            : action,
+        )
       : [
           {
             label: "Create Post",
@@ -33,13 +50,11 @@ export default function JobCard({
             className:
               "border-red-500 text-red-500 hover:bg-red-500 hover:text-white",
           },
-          { label: "View Details", variant: "primary" },
+          defaultViewDetailsAction,
         ];
 
   return (
-    <div
-      className="flex flex-col gap-6 rounded-lg border border-primary bg-white hover:bg-gray-100 p-4 md:p-6 lg:gap-8 hover:shadow-[0_0_10px_rgba(0,0,0,0.10)] transform transition duration-300"
-    >
+    <div className="flex flex-col gap-6 rounded-lg border border-primary bg-white hover:bg-gray-100 p-4 md:p-6 lg:gap-8 hover:shadow-[0_0_10px_rgba(0,0,0,0.10)] transform transition duration-300">
       <div>
         <h1 className="text-[22px] text-primaryText lg:text-[24px] font-semibold">
           {title}
@@ -54,26 +69,41 @@ export default function JobCard({
 
       <div className="flex justify-end">
         <div className="flex w-full gap-4 md:w-auto md:gap-6">
-          {finalActions.map((action) => (
-            <Button
-              key={action.id ?? action.label}
-              variant={action.variant}
-              size="md"
-              className={`w-1/2 md:w-auto ${action.className ?? ""}`.trim()}
-              onClick={action.onClick}
-            >
-              <span
-                className={`flex items-center justify-center ${
-                  action.icon ? "gap-2" : "gap-0"
-                }`}
+          {finalActions.map((action) => {
+            const isViewDetails = action.label === "View Details" && id;
+
+            const button = (
+              <Button
+                key={action.id ?? action.label}
+                variant={action.variant}
+                size="md"
+                className={`w-1/2 md:w-auto ${action.className ?? ""}`.trim()}
+                onClick={action.onClick}
               >
-                {action.icon ? (
-                  <div className="-mt-1">{action.icon}</div>
-                ) : null}
-                <span>{action.label}</span>
-              </span>
-            </Button>
-          ))}
+                <span
+                  className={`flex items-center justify-center ${
+                    action.icon ? "gap-2" : "gap-0"
+                  }`}
+                >
+                  {action.icon ? (
+                    <div className="-mt-1">{action.icon}</div>
+                  ) : null}
+                  <span>{action.label}</span>
+                </span>
+              </Button>
+            );
+
+            return isViewDetails ? (
+              <Link
+                key={action.id ?? action.label}
+                href={`/my-jobs/details/${id}`}
+              >
+                {button}
+              </Link>
+            ) : (
+              button
+            );
+          })}
         </div>
       </div>
     </div>

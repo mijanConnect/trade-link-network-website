@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import TradePersonHeader from "@/app/components/trade-person/TradePersonHeader";
+import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
   title: "Tradeperson Dashboard | TradeLink Network",
@@ -15,6 +16,7 @@ export default function TradePersonLayout({ children }: { children: ReactNode })
       <div className=" ">
         <TradePersonHeader />
         <div className="mt-">{children}</div>
+        <Footer />
       </div>
     </div>
   );

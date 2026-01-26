@@ -5,49 +5,49 @@ import Button from "./ui/Button";
 export default function Footer() {
   return (
     <footer className="bg-white">
-      <div className="container mx-auto flex flex-col gap-6 px-4 py-8 md:py-8 sm:py-12 lg:py-15 bg-[url('/assets/watermark.png')] bg-contain bg-center bg-no-repeat">
+      <div className="container mx-auto flex flex-col gap-6 px-4 py-8 md:py-8 sm:py-12 lg:py-12 bg-[url('/assets/watermark.png')] bg-contain bg-center bg-no-repeat">
         <div className="flex flex-col lg:flex-row justify-between gap-4 lg:gap-0">
-          <div className="space-y-3 col-span-2 lg:col-span-1">
-            <div className="space-y-3 flex flex-col items-center md:items-start text-center md:text-left">
-              <h3 className="font-semibold text-primary text-[18px]">
+          <div className="col-span-2 lg:col-span-1">
+            <div className="flex flex-col items-center md:items-start text-center md:text-left">
+              <h3 className="font-semibold text-primary text-[22px]">
                 Contact
               </h3>
-              <ul className="flex flex-col gap-1 text-primary text-[16px]">
-                <li>
+              <ul className="flex flex-col gap-1 text-primary text-[16px] items-center md:items-start mt-2 lg:mt-4">
+                <li className="flex items-center gap-2">
+                  <p>Phone :</p>
                   <a
                     href="tel:+61234567890"
-                    className="hover:scale-110 hover:text-[--color-primary] transform transition-all"
                   >
                     +61 234 567 890
                   </a>
                 </li>
-                <li>
+                <li className="flex items-center gap-2">
+                  <p>Email :</p>
                   <a
                     href="mailto:tradelinknetwork@gmail.com"
-                    className="hover:scale-110 hover:text-[--color-primary] transform transition-all"
-                  >it
-                    tradelinknetwork@gmail.com
+                  >
+                    it tradelinknetwork@gmail.com
                   </a>
                 </li>
               </ul>
 
               <Button
                 variant="outline"
-                className="mt-2 lg:mt-6 px-10! font-semibold!"
+                className="mt-4 lg:mt-6 px-10! font-semibold!"
               >
                 Contact Us
               </Button>
             </div>
 
-            <div className="mt-25 scale-150 origin-left  hidden md:block">
+            <div className="mt-12 hidden md:block">
               <Link href="/">
                 <LogoNav />
               </Link>
             </div>
           </div>
-          <div className="space-y-3">
-            <div className="flex flex-col items-center md:items-end text-center md:text-right">
-              <ul className="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-3 text-primary text-[20px] font-medium">
+          <div className="mt-4 lg:mt-0">
+            <div className="flex flex-col items-center md:items-end text-center md:text-right justify-between">
+              <ul className="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-3 text-primary text-[16px] font-medium">
                 <li>
                   <Link
                     href="#products"
@@ -81,12 +81,16 @@ export default function Footer() {
                   </Link>
                 </li>
               </ul>
-              <div>
-                <h4 className="text-[24px] lg:text-[32px] font-semibold text-primary mt-4 lg:mt-10">
-                  Are you a tradesperson?
-                </h4>
+              <div className="flex flex-col items-center lg:items-end">
+                <div>
+                  <h4 className="text-[18px] lg:text-[24px] font-semibold text-primary mt-4 lg:mt-10">
+                    Are you a tradesperson?
+                  </h4>
+                </div>
+                <Button className="mt-4 lg:mt-4 px-10! font-semibold! inline-block">
+                  Sign Up
+                </Button>
               </div>
-              <Button className="mt-4 lg:mt-6 px-10! font-semibold!">Sign Up</Button>
             </div>
           </div>
         </div>
@@ -94,8 +98,7 @@ export default function Footer() {
       <div className="bg-white">
         <div className="text-center py-4 text-sm text-primary border-t border-primary/20">
           <span>
-            © {new Date().getFullYear()} Trade Link Network. All rights
-            reserved
+            © {new Date().getFullYear()} Trade Link Network. All rights reserved
           </span>
         </div>
       </div>

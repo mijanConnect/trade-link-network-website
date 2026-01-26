@@ -111,6 +111,28 @@ export default function TradePersonHeader() {
                 >
                   Reviews
                 </Link>
+                <Link
+                  href="/"
+                  className={`block px-4 py-2 text-[13px] ${
+                    isActive(pathname, "/")
+                      ? "bg-primary/10 text-primary"
+                      : "text-slate-700 hover:bg-slate-50"
+                  }`}
+                  onClick={() => setOpen(false)}
+                >
+                  Go to Home
+                </Link>
+                <Link
+                  href="/login"
+                  className={`block px-4 py-2 text-[13px] ${
+                    isActive(pathname, "/login")
+                      ? "bg-primary/10 text-primary"
+                      : "text-slate-700 hover:bg-slate-50"
+                  }`}
+                  onClick={() => setOpen(false)}
+                >
+                  Logout
+                </Link>
               </div>
             ) : null}
           </div>

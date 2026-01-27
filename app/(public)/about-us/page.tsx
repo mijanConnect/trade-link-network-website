@@ -5,8 +5,8 @@ export default function Page() {
     <>
       <div className="container mx-auto px-4 my-6 lg:mt-15 lg:mb-30">
         <div className="">
-          <h2 className="text-[24px] lg:text-[48px] font-semibold text-primaryTextmb-4 lg:mb-15 text-center">
-            Privacy/ Terms
+          <h2 className="text-[24px] lg:text-[48px] font-semibold text-primaryText mb-4 lg:mb-15 text-center">
+            About Us
           </h2>
 
           <div className="">

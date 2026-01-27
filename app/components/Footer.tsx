@@ -1,8 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 import { LogoNav } from "./Svg";
 import Button from "./ui/Button";
+import ContactUs from "./ui/ContactUs";
 
 export default function Footer() {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   return (
     <footer className="bg-white">
       <div className="container mx-auto flex flex-col gap-6 px-4 py-8 md:py-8 sm:py-12 lg:py-12 bg-[url('/assets/watermark.png')] bg-contain bg-center bg-no-repeat">
@@ -15,17 +21,11 @@ export default function Footer() {
               <ul className="flex flex-col gap-1 text-primary text-[16px] items-center md:items-start mt-2 lg:mt-4">
                 <li className="flex items-center gap-2">
                   <p>Phone :</p>
-                  <a
-                    href="tel:+61234567890"
-                  >
-                    +61 234 567 890
-                  </a>
+                  <a href="tel:+61234567890">+61 234 567 890</a>
                 </li>
                 <li className="flex items-center gap-2">
                   <p>Email :</p>
-                  <a
-                    href="mailto:tradelinknetwork@gmail.com"
-                  >
+                  <a href="mailto:tradelinknetwork@gmail.com">
                     it tradelinknetwork@gmail.com
                   </a>
                 </li>
@@ -34,6 +34,7 @@ export default function Footer() {
               <Button
                 variant="outline"
                 className="mt-4 lg:mt-6 px-10! font-semibold!"
+                onClick={() => setIsContactOpen(true)}
               >
                 Contact Us
               </Button>
@@ -50,7 +51,7 @@ export default function Footer() {
               <ul className="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-3 text-primary text-[16px] font-medium">
                 <li>
                   <Link
-                    href="#products"
+                    href="/services"
                     className="hover:underline transform transition-all"
                   >
                     Services
@@ -58,7 +59,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/car-details"
+                    href="/area"
                     className="hover:underline transform transition-all"
                   >
                     Area Covered
@@ -66,7 +67,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/"
+                    href="/about-us"
                     className="hover:underline transform transition-all"
                   >
                     About Us
@@ -74,7 +75,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/my-booking"
+                    href="/privacy-policy"
                     className="hover:underline transform transition-all"
                   >
                     Privacy/ Terms
@@ -87,9 +88,11 @@ export default function Footer() {
                     Are you a tradesperson?
                   </h4>
                 </div>
-                <Button className="mt-4 lg:mt-4 px-10! font-semibold! inline-block">
-                  Sign Up
-                </Button>
+                <Link href="/register" className="inline-block mt-4 lg:mt-4">
+                  <Button className="px-10! font-semibold! inline-block">
+                    Sign Up
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -102,6 +105,10 @@ export default function Footer() {
           </span>
         </div>
       </div>
+      <ContactUs
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+      />
     </footer>
   );
 }

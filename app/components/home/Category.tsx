@@ -76,7 +76,7 @@ const categories = [
 export default function Category() {
   return (
     <>
-      <div className="container mx-auto px-4 lg:px-0">
+      <div className="container mx-auto px-4 lg:px-0" id="browse-category">
         <div className="py-10 lg:py-[140px]">
           <h1 className="text-[24px] md:text-[40px] font-semibold text-primaryText mb-6 lg:mb-15 text-center">
             Browse by Category

@@ -1,6 +1,16 @@
+"use client";
+
+import { useCallback } from "react";
 import Button from "../ui/Button";
 
 export default function Hero() {
+  const handleScrollToCategory = useCallback(() => {
+    const target = document.getElementById("browse-category");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
+
   return (
     <>
       <div className="w-full h-[50vh] lg:h-[92vh] bg-[url('/assets/hero-image.png')] bg-cover bg-center bg-no-repeat flex items-center justify-center">
@@ -12,7 +22,11 @@ export default function Hero() {
             Tell us what you need and we’ll match you with verified
             professionals near you
           </p>
-          <Button className="mt-6 lg:mt-12" variant="primary">
+          <Button
+            className="mt-6 lg:mt-12"
+            variant="primary"
+            onClick={handleScrollToCategory}
+          >
             Post your job
           </Button>
         </div>

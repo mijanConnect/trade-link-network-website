@@ -29,7 +29,7 @@ export default function WorksFlow() {
           </h1>
           <div className="grid grid-cols-3 gap-2 md:gap-6 lg:gap-10">
             <div className="flex flex-col items-center">
-              <div className="p-4 md:p-16 lg:p-20 bg-primary rounded-full inline-block">
+              <div className="p-4 md:p-13 lg:p-15 bg-primary rounded-full inline-block">
                 <StepOne width={iconSize} height={iconSize} />
               </div>
               <p className="text-[12px] md:text-[18px] lg:text-[20px] font-semibold text-primary mt-2 md:mt-6 lg:mt-7">
@@ -40,7 +40,7 @@ export default function WorksFlow() {
               </h2>
             </div>
             <div className="flex flex-col items-center">
-              <div className="p-4 md:p-16 lg:p-20 bg-primary rounded-full inline-block">
+              <div className="p-4 md:p-13 lg:p-15 bg-primary rounded-full inline-block">
                 <StepTwo width={iconSize} height={iconSize} />
               </div>
               <p className="text-[12px] md:text-[18px] lg:text-[20px] font-semibold text-primary mt-2 md:mt-6 lg:mt-7">
@@ -51,7 +51,7 @@ export default function WorksFlow() {
               </h2>
             </div>
             <div className="flex flex-col items-center">
-              <div className="p-4 md:p-16 lg:p-20 bg-primary rounded-full inline-block">
+              <div className="p-4 md:p-13 lg:p-15 bg-primary rounded-full inline-block">
                 <StepThree width={iconSize} height={iconSize} />
               </div>
               <p className="text-[12px] md:text-[18px] lg:text-[20px] font-semibold text-primary mt-2 md:mt-6 lg:mt-7">

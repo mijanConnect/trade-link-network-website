@@ -59,7 +59,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/area-covered"
+                    href="/area"
                     className="hover:underline transform transition-all"
                   >
                     Area Covered
@@ -88,9 +88,11 @@ export default function Footer() {
                     Are you a tradesperson?
                   </h4>
                 </div>
-                <Button className="mt-4 lg:mt-4 px-10! font-semibold! inline-block">
-                  Sign Up
-                </Button>
+                <Link href="/register" className="inline-block mt-4 lg:mt-4">
+                  <Button className="px-10! font-semibold! inline-block">
+                    Sign Up
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

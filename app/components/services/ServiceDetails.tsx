@@ -27,6 +27,11 @@ export default function ServiceDetails() {
               <li>Secure online booking and payment options</li>
               <li>Customer reviews and ratings for informed decisions</li>
               <li>Dedicated customer support for assistance</li>
+              <li>Access to a network of trusted, verified tradespeople</li>
+              <li>Easy online comparison of quotes and services</li>
+              <li>Secure online booking and payment options</li>
+              <li>Customer reviews and ratings for informed decisions</li>
+              <li>Dedicated customer support for assistance</li>
             </ul>
           </div>
         </div>

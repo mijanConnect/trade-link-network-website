@@ -1,12 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import { StepOne, StepThree, StepTwo } from "../Svg";
 
 export default function WorksFlow() {
   const [iconSize, setIconSize] = useState(40);
 
   useEffect(() => {
+    AOS.init({
+      duration: 600,
+      once: true,
+      easing: "ease-out",
+      offset: 1200,
+    });
+
     const handleResize = () => {
       if (window.innerWidth >= 768) {
         setIconSize(120);
@@ -22,13 +31,23 @@ export default function WorksFlow() {
 
   return (
     <>
-      <div className="bg-[#E9EBEF] py-6 md:py-10 lg:py-[130px]">
+      <div className="bg-[#E9EBEF] py-6 md:py-10 lg:py-[130px]" id="works-flow">
         <div className="container mx-auto px-4 lg:px-0">
-          <h1 className="text-[20px] md:text-[40px] font-semibold text-primaryText mb-4 md:mb-6 lg:mb-20 text-center">
+          <h1
+            className="text-[20px] md:text-[40px] font-semibold text-primaryText mb-4 md:mb-6 lg:mb-20 text-center"
+            data-aos="fade-up"
+            data-aos-anchor-placement="top-bottom"
+          >
             How it Works
           </h1>
           <div className="grid grid-cols-3 gap-2 md:gap-6 lg:gap-10">
-            <div className="flex flex-col items-center">
+            <div
+              className="flex flex-col items-center"
+              data-aos="fade-left"
+              data-aos-anchor="#works-flow"
+              data-aos-offset="200"
+              data-aos-duration="500"
+            >
               <div className="p-4 md:p-13 lg:p-15 bg-primary rounded-full inline-block">
                 <StepOne width={iconSize} height={iconSize} />
               </div>
@@ -39,7 +58,14 @@ export default function WorksFlow() {
                 Choose the service <br /> you need
               </h2>
             </div>
-            <div className="flex flex-col items-center">
+            <div
+              className="flex flex-col items-center"
+              data-aos="fade-left"
+              data-aos-anchor="#works-flow"
+              data-aos-offset="200"
+              data-aos-duration="500"
+              data-aos-delay="200"
+            >
               <div className="p-4 md:p-13 lg:p-15 bg-primary rounded-full inline-block">
                 <StepTwo width={iconSize} height={iconSize} />
               </div>
@@ -50,7 +76,14 @@ export default function WorksFlow() {
                 Answer a few quick <br /> questions (3–6 steps)
               </h2>
             </div>
-            <div className="flex flex-col items-center">
+            <div
+              className="flex flex-col items-center"
+              data-aos="fade-left"
+              data-aos-anchor="#works-flow"
+              data-aos-offset="200"
+              data-aos-duration="500"
+              data-aos-delay="400"
+            >
               <div className="p-4 md:p-13 lg:p-15 bg-primary rounded-full inline-block">
                 <StepThree width={iconSize} height={iconSize} />
               </div>

@@ -1,4 +1,9 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const categories = [
   {
@@ -74,11 +79,25 @@ const categories = [
 ];
 
 export default function Category() {
+  useEffect(() => {
+    AOS.init({
+      duration: 600,
+      once: true,
+      easing: "ease-out",
+      offset: 50,
+      mirror: false,
+    });
+  }, []);
+
   return (
     <>
       <div className="container mx-auto px-4 lg:px-0" id="browse-category">
         <div className="py-10 lg:py-[140px]">
-          <h1 className="text-[24px] md:text-[40px] font-semibold text-primaryText mb-6 lg:mb-15 text-center">
+          <h1
+            className="text-[24px] md:text-[40px] font-semibold text-primaryText mb-6 lg:mb-15 text-center"
+            data-aos="fade-up"
+            data-aos-anchor-placement="top-bottom"
+          >
             Browse by Category
           </h1>
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-6 gap-y-4 md:gap-y-15">
@@ -86,6 +105,9 @@ export default function Category() {
               <li
                 key={`${category.title}-${index}`}
                 className="last:lg:col-start-2"
+                data-aos="fade-up"
+                data-aos-anchor-placement="top-bottom"
+                data-aos-delay={index * 10}
               >
                 <a href={category.link} className="group block">
                   <div className="bg-white rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300 ease-out">

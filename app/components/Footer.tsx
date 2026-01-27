@@ -1,8 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 import { LogoNav } from "./Svg";
 import Button from "./ui/Button";
+import ContactUs from "./ui/ContactUs";
 
 export default function Footer() {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   return (
     <footer className="bg-white">
       <div className="container mx-auto flex flex-col gap-6 px-4 py-8 md:py-8 sm:py-12 lg:py-12 bg-[url('/assets/watermark.png')] bg-contain bg-center bg-no-repeat">
@@ -28,6 +34,7 @@ export default function Footer() {
               <Button
                 variant="outline"
                 className="mt-4 lg:mt-6 px-10! font-semibold!"
+                onClick={() => setIsContactOpen(true)}
               >
                 Contact Us
               </Button>
@@ -96,6 +103,10 @@ export default function Footer() {
           </span>
         </div>
       </div>
+      <ContactUs
+        isOpen={isContactOpen}
+        onClose={() => setIsContactOpen(false)}
+      />
     </footer>
   );
 }

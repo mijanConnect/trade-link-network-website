@@ -15,17 +15,11 @@ export default function Footer() {
               <ul className="flex flex-col gap-1 text-primary text-[16px] items-center md:items-start mt-2 lg:mt-4">
                 <li className="flex items-center gap-2">
                   <p>Phone :</p>
-                  <a
-                    href="tel:+61234567890"
-                  >
-                    +61 234 567 890
-                  </a>
+                  <a href="tel:+61234567890">+61 234 567 890</a>
                 </li>
                 <li className="flex items-center gap-2">
                   <p>Email :</p>
-                  <a
-                    href="mailto:tradelinknetwork@gmail.com"
-                  >
+                  <a href="mailto:tradelinknetwork@gmail.com">
                     it tradelinknetwork@gmail.com
                   </a>
                 </li>
@@ -66,7 +60,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/"
+                    href="/about-us"
                     className="hover:underline transform transition-all"
                   >
                     About Us
@@ -74,7 +68,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/my-booking"
+                    href="/privacy-policy"
                     className="hover:underline transform transition-all"
                   >
                     Privacy/ Terms

@@ -44,7 +44,7 @@ export default function Footer() {
               <ul className="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-3 text-primary text-[16px] font-medium">
                 <li>
                   <Link
-                    href="#products"
+                    href="/services"
                     className="hover:underline transform transition-all"
                   >
                     Services
@@ -52,7 +52,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/car-details"
+                    href="/area-covered"
                     className="hover:underline transform transition-all"
                   >
                     Area Covered

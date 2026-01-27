@@ -150,9 +150,9 @@ export default function NavRes() {
               Home
             </Link>
             <Link
-              href="/car-details"
+              href="/services"
               className={`nav-link py-1 transform transition-all text-[16px] font-normal ${
-                isActive("/car-details")
+                isActive("/services")
                   ? "text-blue active"
                   : "text-primaryTextLight"
               }`}

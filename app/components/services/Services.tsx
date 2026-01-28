@@ -22,7 +22,7 @@ export default function Services() {
         </h2>
 
         <h3 className="text-[20px] lg:text-[32px] font-bold text-center text-primaryTextLight">
-          Categories
+          Categories we offer
         </h3>
 
         <div className="mt-4 lg:mt-8">

@@ -71,8 +71,22 @@ const categories = [
   },
   {
     id: 10,
-    title: "All Moving Services",
+    title: "Locksmith",
     image: "/assets/category/category-10.png",
+    alt: "Locksmith",
+    link: "/post-service",
+  },
+  {
+    id: 11,
+    title: "Drainage",
+    image: "/assets/category/category-11.png",
+    alt: "Drainage",
+    link: "/post-service",
+  },
+  {
+    id: 12,
+    title: "All Moving Services",
+    image: "/assets/category/category-12.png",
     alt: "All Moving Services",
     link: "/post-service",
   },
@@ -104,7 +118,7 @@ export default function Category() {
             {categories.map((category, index) => (
               <li
                 key={`${category.title}-${index}`}
-                className="last:lg:col-start-2"
+                className=""
                 data-aos="fade-up"
                 data-aos-anchor-placement="top-bottom"
                 data-aos-delay={index * 10}

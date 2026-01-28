@@ -11,10 +11,24 @@ import CreateAccount from "./CreateAccount";
 export default function PostService() {
   const [currentStep, setCurrentStep] = useState(1);
   const [totalSteps, setTotalSteps] = useState(10);
+  const [currentSection, setCurrentSection] = useState<
+    "initial" | "questions" | "createAccount"
+  >("initial");
+  const [initialSelection, setInitialSelection] = useState<string | null>(null);
 
   const handleProgressChange = (current: number, total: number) => {
     setCurrentStep(current);
     setTotalSteps(total);
+  };
+
+  const handleInitialNext = () => {
+    if (initialSelection) {
+      setCurrentSection("questions");
+    }
+  };
+
+  const handleQuestionsComplete = () => {
+    setCurrentSection("createAccount");
   };
 
   const options = [
@@ -34,25 +48,43 @@ export default function PostService() {
     <>
       <div>
         <QuestionProgressBar current={currentStep} total={totalSteps} />
-        <h3 className="text-[22px] lg:text-[36px] font-bold text-primary leading-7 lg:leading-11 mb-4 lg:mb-8">
-          Post an Outdoor & Landscaping <br /> Services Job
-        </h3>
         <div className="max-w-4xl">
+          <h3 className="text-[22px] lg:text-[36px] font-bold text-primary leading-7 lg:leading-11 mb-4 lg:mb-8">
+            Post an Outdoor & Landscaping <br /> Services Job
+          </h3>
+
           <div className="mb-6 lg:mb-10">
             <CustomSelect
               label="What best describes your Outdoor & landscaping project?"
               options={options}
               header="Select a category"
               placeholder="Choose a service category"
+              value={initialSelection}
+              onChange={(value) => setInitialSelection(value)}
             />
-            <div className="mt-4 lg:mt-8 flex gap-4">
-              <Button variant="primary" className="w-[100px]">
-                Next
-              </Button>
-            </div>
+            {currentSection === "initial" && (
+              <div className="mt-4 lg:mt-8 flex gap-4">
+                <Button
+                  variant="primary"
+                  className="w-[100px]"
+                  onClick={handleInitialNext}
+                  disabled={!initialSelection}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
           </div>
-          <Questions onProgressChange={handleProgressChange} />
-          <CreateAccount />
+
+          {(currentSection === "questions" ||
+            currentSection === "createAccount") && (
+            <Questions
+              onProgressChange={handleProgressChange}
+              onComplete={handleQuestionsComplete}
+            />
+          )}
+
+          {currentSection === "createAccount" && <CreateAccount />}
         </div>
         <Checkbox />
       </div>

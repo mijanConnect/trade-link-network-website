@@ -103,9 +103,10 @@ const questions = [
 
 interface QuestionsProps {
   onProgressChange?: (current: number, total: number) => void;
+  onComplete?: () => void;
 }
 
-export default function Questions({ onProgressChange }: QuestionsProps) {
+export default function Questions({ onProgressChange, onComplete }: QuestionsProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<
     Record<number, string>
@@ -122,6 +123,8 @@ export default function Questions({ onProgressChange }: QuestionsProps) {
       const newIndex = currentQuestionIndex + 1;
       setCurrentQuestionIndex(newIndex);
       onProgressChange?.(newIndex + 1, totalQuestions);
+    } else if (isLastQuestion && isAnswerSelected) {
+      onComplete?.();
     }
   };
 
@@ -192,7 +195,7 @@ export default function Questions({ onProgressChange }: QuestionsProps) {
             variant="primary"
             className="w-[100px]"
             onClick={handleNext}
-            disabled={!isAnswerSelected || isLastQuestion}
+            disabled={!isAnswerSelected}
           >
             {isLastQuestion ? "Finish" : "Next"}
           </Button>

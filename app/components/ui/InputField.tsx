@@ -36,7 +36,7 @@ export default function InputField({
   return (
     <div className="w-full space-y-3">
       {title && (
-        <label className="text-[16px] font-medium text-[#6C6C6C]">
+        <label className="block text-[14px] lg:text-[16px] font-medium text-primaryText mb-1">
           {title}
         </label>
       )}
@@ -52,15 +52,16 @@ export default function InputField({
           className="
           mt-1
             w-full
-            h-12
-            rounded-[8px]
+            rounded-sm
             border
-            border-[#E2E8F0]
+            border-primaryTextLight
             bg-transparent
-            px-3
-            py-3
+            px-5
+            py-4
             text-[14px]
-            text-[#292929]
+            lg
+            :text-[16px]
+            text-primaryText
             outline-none
             transition
             focus:border-primary

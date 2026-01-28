@@ -97,9 +97,9 @@ const questions = [
 export default function Questions() {
   return (
     <>
-      <div className="space-y-10">
+      <div className="space-y-6 lg:space-y-10">
         {questions.map((question, index) => (
-          <div key={index} className="space-y-6">
+          <div key={index} className="space-y-4 lg:space-y-6">
             <CustomSelect
               label={question.question}
               options={question.options}

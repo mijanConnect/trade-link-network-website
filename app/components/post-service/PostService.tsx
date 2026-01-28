@@ -28,14 +28,14 @@ export default function PostService() {
       <div>
         <QuestionProgressBar />
         <div className="max-w-4xl">
-          <div className="mb-10">
+          <div className="mb-6 lg:mb-10">
             <CustomSelect
               label="What best describes your Outdoor & landscaping project?"
               options={options}
               header="Select a category"
               placeholder="Choose a service category"
             />
-            <div className="mt-8 flex gap-4">
+            <div className="mt-4 lg:mt-8 flex gap-4">
               <Button variant="primary" className="w-[100px]">
                 Next
               </Button>
@@ -43,9 +43,9 @@ export default function PostService() {
           </div>
           <Questions />
 
-          <div className="mt-10 space-y-10">
+          <div className="mt-6 lg:mt-10 space-y-6 lg:space-y-10">
             <div>
-              <h3 className="block text-[20px] font-semibold text-primaryText mb-1">
+              <h3 className="block text-[18px] font-semibold text-primaryText mb-1">
                 Postcode for the job
               </h3>
               <p className="text-[16px] text-primaryTextLight mb-4">
@@ -57,7 +57,7 @@ export default function PostService() {
               />
             </div>
             <div>
-              <h3 className="block text-[20px] font-semibold text-primaryText mb-1">
+              <h3 className="block text-[18px] font-semibold text-primaryText mb-1">
                 Your Email Address
               </h3>
               <p className="text-[16px] text-primaryTextLight mb-4">
@@ -70,14 +70,14 @@ export default function PostService() {
               />
             </div>
             <div>
-              <h3 className="block text-[20px] font-semibold text-primaryText mb-1">
+              <h3 className="block text-[18px] font-semibold text-primaryText mb-1">
                 Create an account to track your jobs
               </h3>
               <p className="text-[16px] text-primaryTextLight mb-4">
                 To get response from tradepeople easily we’ll share this
                 Information with them
               </p>
-              <div className="space-y-6">
+              <div className="space-y-4 lg:space-y-6">
                 <InputField
                   title="Name"
                   placeholder="Your full name"
@@ -92,15 +92,15 @@ export default function PostService() {
             </div>
           </div>
         </div>
-        <div className="mt-4 space-y-6">
+        <div className="mt-4 space-y-4 lg:space-y-6">
           <div className="space-y-3">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-start space-x-3">
               <input
                 type="checkbox"
                 id="marketing-agree"
                 checked={agreeMarketing}
                 onChange={(e) => setAgreeMarketing(e.target.checked)}
-                className="h-4 w-4 mb-0.5 rounded border-gray-300 bg-transparent! accent-primary cursor-pointer hover:border-blue-500 hover:shadow-md transition-all"
+                className="h-4.5 w-4.5 rounded border-gray-300 bg-transparent! accent-primary cursor-pointer hover:border-blue-500 hover:shadow-md transition-all"
               />
               <label
                 htmlFor="marketing-agree"

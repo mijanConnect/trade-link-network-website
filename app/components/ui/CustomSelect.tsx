@@ -27,13 +27,13 @@ export function CustomSelect({
   return (
     <div className="w-full">
       {label && (
-        <label className="block text-[20px] font-semibold text-primaryText mb-4">
+        <label className="block text-[16px] lg:text-[18px] font-semibold text-primaryText mb-3">
           {label}
         </label>
       )}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-5 py-3 text-[18px] text-left text-primaryText border border-primaryTextLight rounded-sm bg-transparent hover:bg-gray-50 flex items-center justify-between"
+        className="w-full px-5 py-3 text-[14px] lg:text-[16px] text-left text-primaryText border border-primaryTextLight rounded-sm bg-transparent hover:bg-gray-50 flex items-center justify-between"
       >
         <span className={selected ? "" : "text-gray-400 font-normal"}>
           {selected
@@ -54,11 +54,11 @@ export function CustomSelect({
       >
         <div className="w-full border border-primaryTextLight border-t-0 bg-transparent rounded-sm overflow-hidden">
           {header && (
-            <div className="px-5 py-3 text-[18px] font-semibold text-primaryText border-b border-gray-200">
+            <div className="px-5 py-3 text-[14px] lg:text-[16px] font-semibold text-primaryText border-b border-gray-200">
               {header}
             </div>
           )}
-          <div className="max-h-[225px] overflow-y-auto">
+          <div className="max-h-[250px] overflow-y-auto">
             {options.map((option) => (
               <button
                 key={option.value}
@@ -66,7 +66,7 @@ export function CustomSelect({
                   setSelected(option.value);
                   setIsOpen(false);
                 }}
-                className={`w-full px-5 py-2 text-[18px] text-left transition-colors transform duration-100 ${
+                className={`w-full px-5 py-1 lg:py-2 text-[14px] lg:text-[16px] text-left transition-colors transform duration-100 ${
                   selected === option.value
                     ? "bg-primary text-white font-semibold"
                     : "text-primaryText hover:bg-primary hover:text-white"

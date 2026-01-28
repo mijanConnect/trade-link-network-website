@@ -3,13 +3,20 @@
 import { useState } from "react";
 import Button from "../ui/Button";
 import { CustomSelect } from "../ui/CustomSelect";
-import InputField from "../ui/InputField";
 import QuestionProgressBar from "./QuestionProgressBar";
 import Questions from "./Questions";
-import Link from "next/link";
+import Checkbox from "./Checkbox";
+import CreateAccount from "./CreateAccount";
 
 export default function PostService() {
-  const [agreeMarketing, setAgreeMarketing] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [totalSteps, setTotalSteps] = useState(10);
+
+  const handleProgressChange = (current: number, total: number) => {
+    setCurrentStep(current);
+    setTotalSteps(total);
+  };
+
   const options = [
     { value: "new-garden", label: "New garden / blank canvas" },
     { value: "garden-redesign", label: "Garden redesign / makeover" },
@@ -26,7 +33,10 @@ export default function PostService() {
   return (
     <>
       <div>
-        <QuestionProgressBar />
+        <QuestionProgressBar current={currentStep} total={totalSteps} />
+        <h3 className="text-[22px] lg:text-[36px] font-bold text-primary leading-7 lg:leading-11 mb-4 lg:mb-8">
+          Post an Outdoor & Landscaping <br /> Services Job
+        </h3>
         <div className="max-w-4xl">
           <div className="mb-6 lg:mb-10">
             <CustomSelect
@@ -41,91 +51,10 @@ export default function PostService() {
               </Button>
             </div>
           </div>
-          <Questions />
-
-          <div className="mt-6 lg:mt-10 space-y-6 lg:space-y-10">
-            <div>
-              <h3 className="block text-[18px] font-semibold text-primaryText mb-1">
-                Postcode for the job
-              </h3>
-              <p className="text-[16px] text-primaryTextLight mb-4">
-                To find tradepeople near you we need to know where the job is
-              </p>
-              <InputField
-                placeholder="Eg. SW1A 2AB"
-                onChange={(val) => console.log("Input changed:", val)}
-              />
-            </div>
-            <div>
-              <h3 className="block text-[18px] font-semibold text-primaryText mb-1">
-                Your Email Address
-              </h3>
-              <p className="text-[16px] text-primaryTextLight mb-4">
-                To get response from tradepeople easily we’ll share this email
-                with them
-              </p>
-              <InputField
-                placeholder="example.email@gmail.com"
-                onChange={(val) => console.log("Input changed:", val)}
-              />
-            </div>
-            <div>
-              <h3 className="block text-[18px] font-semibold text-primaryText mb-1">
-                Create an account to track your jobs
-              </h3>
-              <p className="text-[16px] text-primaryTextLight mb-4">
-                To get response from tradepeople easily we’ll share this
-                Information with them
-              </p>
-              <div className="space-y-4 lg:space-y-6">
-                <InputField
-                  title="Name"
-                  placeholder="Your full name"
-                  onChange={(val) => console.log("Input changed:", val)}
-                />
-                <InputField
-                  title="Phone Number"
-                  placeholder="+44 1234 567890"
-                  onChange={(val) => console.log("Input changed:", val)}
-                />
-              </div>
-            </div>
-          </div>
+          <Questions onProgressChange={handleProgressChange} />
+          <CreateAccount />
         </div>
-        <div className="mt-4 space-y-4 lg:space-y-6">
-          <div className="space-y-3">
-            <div className="flex items-start space-x-3">
-              <input
-                type="checkbox"
-                id="marketing-agree"
-                checked={agreeMarketing}
-                onChange={(e) => setAgreeMarketing(e.target.checked)}
-                className="h-4.5 w-4.5 rounded border-gray-300 bg-transparent! accent-primary cursor-pointer hover:border-blue-500 hover:shadow-md transition-all"
-              />
-              <label
-                htmlFor="marketing-agree"
-                className="text-[14px] text-primaryTextLight cursor-pointer"
-              >
-                I would like to receive all marketing communications about Trade
-                Link Network&apos;s Services by email, SMS and phone.
-              </label>
-            </div>
-          </div>
-          <p className="text-[14px] text-primaryTextLight">
-            By clicking Continue, You agree to Trade Link Network’s{" "}
-            <Link href="/terms-and-conditions">
-              <span className="text-primary underline hover:text-primary/70 transition transform ">
-                Terms & Conditions
-              </span>
-            </Link>{" "}
-            and <br /> how we process your data, see our{" "}
-            <Link href="/privacy-policy">
-              <span className="text-primary underline hover:text-primary/70 transition transform ">
-                Privacy Policy
-              </span>
-            </Link>
-          </p>
-        </div>
+        <Checkbox />
       </div>
     </>
   );

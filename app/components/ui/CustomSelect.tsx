@@ -13,6 +13,8 @@ interface CustomSelectProps {
   label?: string;
   header?: string;
   placeholder?: string;
+  value?: string | null;
+  onChange?: (value: string) => void;
 }
 
 export function CustomSelect({
@@ -20,9 +22,12 @@ export function CustomSelect({
   label,
   header,
   placeholder = "Please select",
+  value,
+  onChange,
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [internalValue, setInternalValue] = useState<string | null>(null);
+  const selected = value ?? internalValue;
 
   return (
     <div className="w-full">
@@ -63,7 +68,8 @@ export function CustomSelect({
               <button
                 key={option.value}
                 onClick={() => {
-                  setSelected(option.value);
+                  setInternalValue(option.value);
+                  onChange?.(option.value);
                   setIsOpen(false);
                 }}
                 className={`w-full px-5 py-1 lg:py-2 text-[14px] lg:text-[16px] text-left transition-colors transform duration-100 ${

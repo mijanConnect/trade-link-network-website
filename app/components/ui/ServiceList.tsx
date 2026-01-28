@@ -1,24 +1,31 @@
 import Link from "next/link";
 
-type Category = { id: number; name: string; slug: string };
+type Item = { id: number; name: string; slug: string };
 
-type ServiceListProps = { categories: Category[]; route: string };
+type ServiceListProps = {
+  categories?: Item[];
+  locations?: Item[];
+  route: string;
+};
 
-const ServiceList: React.FC<ServiceListProps> = ({ categories, route }) => {
+const ServiceList: React.FC<ServiceListProps> = ({
+  categories,
+  locations,
+  route,
+}) => {
+  const items = categories || locations || [];
+
   return (
     <>
       <div>
         <ul className="flex flex-wrap justify-between gap-y-4 md:gap-y-8">
-          {categories.map((category) => (
-            <li
-              key={category.id}
-              className="w-full sm:basis-[48%] lg:basis-[30%] last:lg:mx-auto"
-            >
+          {items.map((item) => (
+            <li key={item.id} className="w-full sm:basis-[48%] lg:basis-[30%] ">
               <Link
-                href={`/${route}/${category.slug}`}
+                href={`/${route}/${item.slug}`}
                 className="block w-full text-[18px] lg:text-[22px] font-medium text-center text-[#0088FF] my-0 lg:my-4 transform transition-all duration-200 px-8 pb-2 lg:pb-4 border-b border-blue-200 hover:border-[#0088FF] hover:scale-105"
               >
-                {category.name}
+                {item.name}
               </Link>
             </li>
           ))}

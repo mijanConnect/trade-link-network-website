@@ -10,7 +10,9 @@ const categories = [
   { id: 7, name: "Heating & Cooling", slug: "heating-cooling" },
   { id: 8, name: "Flooring Installation", slug: "flooring-installation" },
   { id: 9, name: "Kitchen & Bathroom", slug: "kitchen-bathroom" },
-  { id: 10, name: "General Maintenance", slug: "general-maintenance" },
+  { id: 10, name: "Locksmith", slug: "locksmith" },
+  { id: 11, name: "Drainage", slug: "drainage" },
+  { id: 12, name: "General Maintenance", slug: "general-maintenance" },
 ];
 
 export default function Services() {

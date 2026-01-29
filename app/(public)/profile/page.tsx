@@ -2,7 +2,7 @@
 
 // import { useState } from "react";
 // import DrivingInfo from "@/app/components/profile/DrivingInfo";
-import PersonalInfo from "@/app/components/profile/PersonalInfo";
+import ProviderContainer from "@/app/components/profile/ProviderContainer";
 
 export default function Page() {
   // const [activeTab, setActiveTab] = useState<"personal" | "driving">(
@@ -37,8 +37,8 @@ export default function Page() {
     //   {activeTab === "personal" && <PersonalInfo />}
     //   {activeTab === "driving" && <DrivingInfo />}
     // </div>
-    <div className="my-5 lg:my-12">
-      <PersonalInfo />
+    <div className="container mx-auto px-4 my-6 lg:mt-15 lg:mb-20">
+      <ProviderContainer />
     </div>
   );
 }

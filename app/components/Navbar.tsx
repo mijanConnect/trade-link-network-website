@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Button from "./ui/Button";
 import { LogoNav, LogoNavIcon } from "./Svg";
+import Image from "next/image";
 
 const navbarStyles = `
   .nav-link {
@@ -66,6 +67,7 @@ export default function NavRes() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [open, setOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -163,9 +165,7 @@ export default function NavRes() {
             <Link
               href="/area"
               className={`nav-link py-1 transform transition-all text-[16px] font-normal ${
-                isActive("/area")
-                  ? "text-blue active"
-                  : "text-primaryTextLight"
+                isActive("/area") ? "text-blue active" : "text-primaryTextLight"
               }`}
               onClick={() => setOpen(false)}
             >
@@ -204,6 +204,81 @@ export default function NavRes() {
             >
               Join as Tradeperson
             </Button>
+
+            {/* Profile Icon with Modal */}
+            <div className="relative w-8 h-8 sm:w-10 sm:h-10">
+              <button
+                onClick={() => setShowProfileModal(!showProfileModal)}
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-primary hover:border-blue-600 transition-colors"
+              >
+                <Image
+                  src="/assets/avatar.png"
+                  alt="Profile"
+                  width={64}
+                  height={64}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+
+              {/* Profile Modal */}
+              {showProfileModal && (
+                <>
+                  <div
+                    className="fixed inset-0 z-30"
+                    onClick={() => setShowProfileModal(false)}
+                  />
+                  <div className="absolute right-0 top-12 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-40 overflow-hidden">
+                    <div className="p-4 flex flex-col items-center border-b border-gray-200">
+                      <div className="w-16 h-16 rounded-full overflow-hidden mb-2">
+                        <Image
+                          src="/assets/avatar.png"
+                          alt="Profile"
+                          width={64}
+                          height={64}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <h3 className="font-semibold text-primaryText">
+                        Danai Gurira
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        example@example.com
+                      </p>
+                    </div>
+                    <div className="p-2">
+                      <button
+                        onClick={() => {
+                          router.push("/my-jobs");
+                          setShowProfileModal(false);
+                        }}
+                        className="w-full px-4 py-2 text-left hover:bg-gray-100 rounded-md transition-colors text-primaryText"
+                      >
+                        My Jobs
+                      </button>
+                      <button
+                        onClick={() => {
+                          router.push("/profile");
+                          setShowProfileModal(false);
+                        }}
+                        className="w-full px-4 py-2 text-left hover:bg-gray-100 rounded-md transition-colors text-primaryText"
+                      >
+                        View Profile
+                      </button>
+                      <button
+                        onClick={() => {
+                          // Add logout logic here
+                          router.push("/login");
+                          setShowProfileModal(false);
+                        }}
+                        className="w-full px-4 py-2 text-left hover:bg-gray-100 rounded-md transition-colors text-red-600"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
 
             {/* Mobile Hamburger Toggler */}
             <button

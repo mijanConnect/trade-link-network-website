@@ -5,6 +5,7 @@ import ReviewModal from "./ReviewModal";
 import ReviewViewModal from "./ReviewViewModal";
 import { Star } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type ReviewData = {
   rating: number;
@@ -102,9 +103,14 @@ const HistoryJobs = [
 ];
 
 export default function HiredJobs() {
+  const router = useRouter();
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [isReviewViewModalOpen, setIsReviewViewModalOpen] = useState(false);
   const [selectedReview, setSelectedReview] = useState<ReviewData | null>(null);
+
+  const handleViewProfile = () => {
+    router.push("/provider-profile");
+  };
 
   const handleReviewClick = (review: ReviewData | null) => {
     if (review) {
@@ -144,7 +150,11 @@ export default function HiredJobs() {
             title={job.title}
             postedOn={job.postedOn}
             description={job.description}
-            actions={job.actions}
+            actions={job.actions.map((action) =>
+              action.label === "View Profile"
+                ? { ...action, onClick: handleViewProfile }
+                : action,
+            )}
           />
         ))}
       </div>
@@ -158,12 +168,14 @@ export default function HiredJobs() {
             postedOn={job.postedOn}
             description={job.description}
             actions={job.actions.map((action) =>
-              action.id?.startsWith("rating-")
-                ? {
-                    ...action,
-                    onClick: () => handleReviewClick(job.review ?? null),
-                  }
-                : action,
+              action.label === "View Profile"
+                ? { ...action, onClick: handleViewProfile }
+                : action.id?.startsWith("rating-")
+                  ? {
+                      ...action,
+                      onClick: () => handleReviewClick(job.review ?? null),
+                    }
+                  : action,
             )}
           />
         ))}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "../ui/Button";
 import ProfileImage from "./ProfileImage";
 import InputField from "../ui/InputField";

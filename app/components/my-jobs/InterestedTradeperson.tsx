@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import JobCard from "./JobCard";
 
 const jobs = [
@@ -48,6 +51,12 @@ const jobs = [
 ];
 
 export default function InterestedTradeperson() {
+  const router = useRouter();
+
+  const handleViewProfile = () => {
+    router.push("/provider-profile");
+  };
+
   return (
     <div className="flex flex-col gap-6">
       {jobs.map((job) => (
@@ -56,7 +65,11 @@ export default function InterestedTradeperson() {
           title={job.title}
           postedOn={job.postedOn}
           description={job.description}
-          actions={job.actions}
+          actions={job.actions.map((action) =>
+            action.label === "View Profile"
+              ? { ...action, onClick: handleViewProfile }
+              : action,
+          )}
         />
       ))}
     </div>

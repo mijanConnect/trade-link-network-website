@@ -1,25 +1,45 @@
-
 import PopularServices from "./PopularServices";
+import { locations } from "./Location";
 
-export default function AreaDetails() {
+export default function AreaDetails({ areaId }: { areaId: string }) {
+  const selectedLocation = locations.find((loc) => loc.slug === areaId);
+  const areas = selectedLocation?.areas || [];
+
   return (
     <>
       <div className="container mx-auto px-4">
         <div className="mb-8 lg:mb-25">
           <h2 className="text-[22px] lg:text-[40px] font-bold text-primaryText">
-            Find Trusted Tradespeople in Greater London
+            Find Trusted Tradespeople in {selectedLocation?.name || "Your Area"}
           </h2>
           <p className="text-[14px] lg:text-[18px] text-primaryTextLight mt-4 lg:mt-10">
             Trade Link Network is a UK-wide marketplace that connects homeowners
-            with verified tradespeople across Greater London. Whether you need
+            with verified tradespeople across{" "}
+            {selectedLocation?.name || "your area"}. Whether you need
             landscaping, building work, repairs, or specialist services, our
             platform helps you reach suitable professionals in your area and
             manage everything online
           </p>
 
+          <div className="mt-6">
+            <h4 className="text-[22px] lg:text-[24px] font-semibold text-primaryText mb-2 lg:mb-6">
+              Principal areas in {selectedLocation?.name || "Your Area"} covered
+            </h4>
+            <ul className="flex gap-x-6 gap-y-3 flex-wrap">
+              {areas.map((area) => (
+                <li
+                  key={area.id}
+                  className="text-[14px] lg:text-[18px] text-primaryTextLight font-bold list-disc list-inside"
+                >
+                  {area.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+
           <div>
             <h3 className="text-[22px] lg:text-[24px] font-semibold text-primaryText mt-6 mb-2 lg:mt-12 lg:mb-6">
-              Sservice Available in This Region
+              Services Available in This Region
             </h3>
             <h4 className="text-[18px] lg:text-[20px] font-medium text-primaryText mb-4 lg:mb-6">
               Popular services requested in Greater London include:

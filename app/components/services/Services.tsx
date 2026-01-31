@@ -9,8 +9,9 @@ export default function Services() {
           Services
         </h2>
 
-        <h3 className="text-[20px] lg:text-[32px] font-bold text-center text-primaryTextLight">
-          Categories we offer
+        <h3 className="text-[20px] lg:text-[32px] font-bold text-center text-primaryTextLight max-w-[800px] mx-auto">
+          Choose the service you need and get matched with trusted, verified
+          local tradespeople.
         </h3>
 
         <div className="mt-4 lg:mt-8">

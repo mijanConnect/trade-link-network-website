@@ -61,14 +61,14 @@ export default function AreaDetails({ areaId }: { areaId: string }) {
             <PopularServices />
           </div>
 
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             <Button
               className="mt-6 lg:mt-10"
               onClick={() => router.push("/post-service")}
             >
               Post a Job in {selectedLocation?.name || "your area"}
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
       <Steps />

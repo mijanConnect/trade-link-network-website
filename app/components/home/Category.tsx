@@ -108,13 +108,13 @@ export default function Category() {
       <div className="container mx-auto px-4 lg:px-0" id="browse-category">
         <div className="py-10 lg:py-[140px]">
           <h1
-            className="text-[24px] md:text-[40px] font-semibold text-primaryText mb-6 lg:mb-15 text-center"
+            className="text-[22px] md:text-[40px] font-semibold text-primaryText mb-6 lg:mb-15 text-center"
             data-aos="fade-up"
             data-aos-anchor-placement="top-bottom"
           >
-            Browse by Category
+            What do you need help with?
           </h1>
-          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-6 gap-y-4 md:gap-y-15">
+          <ul className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-6 gap-y-4 md:gap-y-15">
             {categories.map((category, index) => (
               <li
                 key={`${category.title}-${index}`}
@@ -123,9 +123,9 @@ export default function Category() {
                 data-aos-anchor-placement="top-bottom"
                 data-aos-delay={index * 10}
               >
-                <a href={category.link} className="group block">
-                  <div className="bg-white rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300 ease-out">
-                    <div className="relative w-full h-[265px] overflow-hidden rounded-t-sm">
+                <a href={category.link} className="group block h-full">
+                  <div className="bg-white rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300 ease-out h-full flex flex-col">
+                    <div className="relative w-full h-[100px] sm:h-[265px] overflow-hidden rounded-t-sm">
                       <Image
                         src={category.image}
                         alt={category.alt}
@@ -134,7 +134,7 @@ export default function Category() {
                         className="rounded-t-sm transition-transform duration-300 ease-out group-hover:scale-105"
                       />
                     </div>
-                    <h2 className="p-6 text-[20px] font-semibold text-primaryTextLight">
+                    <h2 className="p-3 md:p-6 text-[14px] lg:text-[20px] font-semibold text-primaryTextLight flex-1 flex items-start">
                       {category.title}
                     </h2>
                   </div>

@@ -26,7 +26,7 @@ export default function Footer() {
                 <li className="flex items-center gap-2">
                   <p>Email :</p>
                   <a href="mailto:tradelinknetwork@gmail.com">
-                    it tradelinknetwork@gmail.com
+                    tradelinknetwork@gmail.com
                   </a>
                 </li>
               </ul>
@@ -59,7 +59,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/area"
+                    href="/areas"
                     className="hover:underline transform transition-all"
                   >
                     Area Covered

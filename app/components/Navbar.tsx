@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Button from "./ui/Button";
-import { LogoNav, LogoNavIcon } from "./Svg";
+import { LogoNav, LogoNavMobile } from "./Svg";
 import Image from "next/image";
 
 const navbarStyles = `
@@ -135,7 +135,7 @@ export default function NavRes() {
             </div>
             <div className="lg:hidden">
               <Link href="/">
-                <LogoNavIcon />
+                <LogoNavMobile />
               </Link>
             </div>
           </div>
@@ -163,9 +163,11 @@ export default function NavRes() {
               Services
             </Link>
             <Link
-              href="/area"
+              href="/areas"
               className={`nav-link py-1 transform transition-all text-[16px] font-normal ${
-                isActive("/area") ? "text-blue active" : "text-primaryTextLight"
+                isActive("/areas")
+                  ? "text-blue active"
+                  : "text-primaryTextLight"
               }`}
               onClick={() => setOpen(false)}
             >
@@ -333,7 +335,7 @@ export default function NavRes() {
 
             {/* Menu */}
             <div
-              className={`lg:hidden fixed top-[88px] left-0 right-0 bg-white z-40 max-h-[calc(100vh-88px)] overflow-y-auto ${isClosing ? "mobile-menu closing" : "mobile-menu"}`}
+              className={`lg:hidden fixed top-[63px] left-0 right-0 bg-white z-40 max-h-[calc(100vh-88px)] overflow-y-auto ${isClosing ? "mobile-menu closing" : "mobile-menu"}`}
             >
               <nav className="container mx-auto px-4 py-2 flex flex-col text-center">
                 <Link
@@ -346,9 +348,9 @@ export default function NavRes() {
                   Home
                 </Link>
                 <Link
-                  href="/car-details"
+                  href="/services"
                   className={`nav-link py-4 text-[16px] font-normal transition-all border-b ${
-                    isActive("/car-details")
+                    isActive("/services")
                       ? "text-blue active"
                       : "text-primaryTextLight"
                   }`}
@@ -357,9 +359,9 @@ export default function NavRes() {
                   Services
                 </Link>
                 <Link
-                  href="/area-covered"
+                  href="/areas"
                   className={`nav-link py-4 text-[16px] font-normal transition-all ${
-                    isActive("/area-covered")
+                    isActive("/areas")
                       ? "text-blue active"
                       : "text-primaryTextLight"
                   }`}

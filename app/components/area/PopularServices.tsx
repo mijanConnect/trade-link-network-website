@@ -30,7 +30,7 @@ export default function PopularServices() {
     <>
       <div>
         <div className="mt-6 lg:mt-8">
-          <ServiceList categories={categories} route="area" />
+          <ServiceList categories={categories} route="services" />
         </div>
       </div>
     </>

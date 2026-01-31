@@ -120,8 +120,8 @@ export const locations = [
   },
   {
     id: 10,
-    name: "Scotland (Council Areas)",
-    slug: "scotland-council-areas",
+    name: "Scotland",
+    slug: "scotland",
     areas: [
       { id: 1, name: "Aberdeen City", slug: "aberdeen-city" },
       { id: 2, name: "Aberdeenshire", slug: "aberdeenshire" },
@@ -159,8 +159,8 @@ export const locations = [
   },
   {
     id: 11,
-    name: "Wales (Principal Areas)",
-    slug: "wales-principal-areas",
+    name: "Wales",
+    slug: "wales",
     areas: [
       { id: 1, name: "Blaenau Gwent", slug: "blaenau-gwent" },
       { id: 2, name: "Bridgend County", slug: "bridgend-county" },
@@ -196,8 +196,8 @@ export const locations = [
   },
   {
     id: 12,
-    name: "Northern Ireland (Districts)",
-    slug: "northern-ireland-districts",
+    name: "Northern Ireland",
+    slug: "northern-ireland",
     areas: [
       {
         id: 1,

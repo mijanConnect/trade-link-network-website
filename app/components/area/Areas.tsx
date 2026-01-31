@@ -14,7 +14,7 @@ export default function Areas() {
         </h3>
 
         <div className="mt-4 lg:mt-8">
-          <ServiceList locations={locations} route="area" />
+          <ServiceList locations={locations} route="areas" />
         </div>
       </div>
     </>

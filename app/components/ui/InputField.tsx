@@ -58,9 +58,9 @@ export default function InputField({
             bg-transparent
             px-5
             py-4
-            text-[14px]
+            text-[16px]
             lg
-            :text-[16px]
+            :text-[14px]
             text-primaryText
             outline-none
             transition

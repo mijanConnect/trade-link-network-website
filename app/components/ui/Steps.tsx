@@ -126,7 +126,7 @@ export default function Steps() {
             className="mt-6 lg:mt-15"
             onClick={() => router.push("/post-service")}
           >
-            Post a Job in {selectedLocation?.name || "your area"}
+            Post a Job
           </Button>
         </div>
       </div>

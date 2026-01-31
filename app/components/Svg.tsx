@@ -268,7 +268,7 @@ const LogoNavMobile = () => {
       viewBox="0 0 110 40"
       fill="none"
     >
-      <g clip-path="url(#clip0_1173_293)">
+      <g clipPath="url(#clip0_1173_293)">
         <path
           d="M13.2776 26.1606C12.8725 26.7498 12.4661 27.3389 12.061 27.928C11.6531 28.5172 10.8525 28.644 10.2936 28.2071L10.273 28.193C9.73885 27.7772 9.62487 27.0035 10.0094 26.4411C10.4145 25.852 10.8209 25.2628 11.226 24.6737C11.6311 24.0845 12.4249 23.9577 12.9851 24.3876C12.9934 24.3932 12.9989 24.396 13.0085 24.4016C13.5481 24.8174 13.6649 25.5968 13.2776 26.1592V26.1606Z"
           fill="#1D384D"
@@ -467,8 +467,8 @@ const LogoNavMobile = () => {
           y2="21.9718"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#498556" />
-          <stop offset="1" stop-color="#69AF2A" />
+          <stop stopColor="#498556" />
+          <stop offset="1" stopColor="#69AF2A" />
         </linearGradient>
         <clipPath id="clip0_1173_293">
           <rect width="110" height="40" fill="white" />

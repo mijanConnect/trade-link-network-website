@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Button from "./Button";
@@ -14,6 +15,7 @@ export default function CTA() {
       offset: 100,
     });
   }, []);
+  const router = useRouter();
 
   return (
     <>
@@ -32,7 +34,9 @@ export default function CTA() {
               Ready to get started?
             </h1>
             <div data-aos="zoom-in-up" data-aos-delay="200">
-              <Button>Post a Job</Button>
+              <Button onClick={() => router.push("/post-service")}>
+                Post a Job
+              </Button>
             </div>
           </div>
         </div>

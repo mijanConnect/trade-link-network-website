@@ -82,6 +82,24 @@ export default function Footer() {
                   </Link>
                 </li>
               </ul>
+              <ul className="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-3 text-primary text-[16px] font-medium mt-4 lg:mt-4">
+                <li>
+                  <Link
+                    href="/review-policy"
+                    className="hover:underline transform transition-all"
+                  >
+                    Review Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/code-of-conduct"
+                    className="hover:underline transform transition-all"
+                  >
+                    Code of Conduct
+                  </Link>
+                </li>
+              </ul>
               <div className="flex flex-col items-center lg:items-end">
                 <div>
                   <h4 className="text-[18px] lg:text-[24px] font-semibold text-primary mt-4 lg:mt-10">

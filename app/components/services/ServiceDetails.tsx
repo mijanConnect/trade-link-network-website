@@ -1,10 +1,23 @@
+"use client";
+
+import { useRouter, useParams } from "next/navigation";
+import Button from "../ui/Button";
+import { categories } from "./Categories";
+
 export default function ServiceDetails() {
+  const router = useRouter();
+  const params = useParams();
+  const serviceId = params?.id as string | undefined;
+  const selectedCategory = categories.find((c) => c.slug === serviceId) || {
+    name: "Selected",
+  };
+
   return (
     <>
       <div className="container mx-auto px-4">
         <div className="mb-8 lg:mb-25">
           <h2 className="text-[22px] lg:text-[40px] font-bold text-primaryText">
-            Find Trusted Outdoor & Landscaping Professionals <br /> Across the
+            Find Trusted {selectedCategory.name} Professionals <br /> Across the
             UK
           </h2>
           <p className="text-[14px] lg:text-[18px] text-primaryTextLight mt-4 lg:mt-10">
@@ -13,6 +26,13 @@ export default function ServiceDetails() {
             Link Network connects homeowners with suitable local professionals,
             making it easy to compare options and manage everything online
           </p>
+
+          <Button
+            className="mt-6 lg:mt-10"
+            onClick={() => router.push("/post-service")}
+          >
+            Post a {selectedCategory.name} Job
+          </Button>
 
           <div>
             <h3 className="text-[22px] lg:text-[24px] font-semibold text-primaryText mt-6 mb-2 lg:mt-12 lg:mb-6">

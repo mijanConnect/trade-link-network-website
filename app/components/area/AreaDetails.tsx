@@ -10,6 +10,15 @@ export default function AreaDetails({ areaId }: { areaId: string }) {
   const selectedLocation = locations.find((loc) => loc.slug === areaId);
   const areas = selectedLocation?.areas || [];
   const router = useRouter();
+  const popularTowns = [
+    "Mansfield",
+    "Chesterfield",
+    "Loughborough",
+    "Kettering",
+    "Corby",
+    "Grantham",
+    "Newark-on-Trent",
+  ];
 
   return (
     <>
@@ -38,6 +47,28 @@ export default function AreaDetails({ areaId }: { areaId: string }) {
                   className="text-[14px] lg:text-[18px] text-primaryText font-bold list-disc list-inside"
                 >
                   {area.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <p className="text-[14px] lg:text-[18px] text-primaryTextLight mt-4 lg:mt-10">
+            We work with homeowners and tradespeople across the{" "}
+            {selectedLocation?.name || "your area"}, including major centres
+            such as Nottingham, Leicester, Derby and Northampton, as well as
+            surrounding towns and rural areas.
+          </p>
+
+          <div className="mt-6">
+            <h4 className="text-[22px] lg:text-[24px] font-semibold text-primaryText mb-2 lg:mb-2">
+              Popular towns we commonly see jobs from include:
+            </h4>
+            <ul className="flex flex-col gap-2">
+              {popularTowns.map((town) => (
+                <li
+                  key={town}
+                  className="text-[14px] lg:text-[18px] text-primaryText font-bold list-disc list-inside"
+                >
+                  {town}
                 </li>
               ))}
             </ul>

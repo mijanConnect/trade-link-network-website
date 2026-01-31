@@ -26,13 +26,37 @@ export default function CreateAccount() {
           Your Email Address
         </h3>
         <p className="text-[16px] text-primaryTextLight mb-4">
-          To get response from tradepeople easily we’ll share this email with
-          them
+          To get response from tradepeople easily we’ll share this email & phone
+          number with them
         </p>
-        <InputField
-          placeholder="example.email@gmail.com"
-          onChange={(val) => console.log("Input changed:", val)}
-        />
+        <div className="space-y-4 lg:space-y-6">
+          <InputField
+            title="Email Address"
+            placeholder="example.email@gmail.com"
+            onChange={(val) => console.log("Input changed:", val)}
+          />
+          <h4 className="block text-[14px] lg:text-[16px] text-primaryText mb-2">
+            Phone number
+          </h4>
+          <PhoneInput
+            international
+            countryCallingCodeEditable={false}
+            countries={["GB"]}
+            defaultCountry="GB"
+            value={phoneValue}
+            onChange={setPhoneValue}
+            placeholder="Enter your phone number"
+            className="phone-input-no-focus"
+            style={{
+              height: 58,
+              border: "1px solid #1f2933",
+              borderRadius: "6px",
+              paddingLeft: "12px",
+              fontSize: "16px",
+              fontFamily: "inherit",
+            }}
+          />
+        </div>
       </div>
       <div>
         <h3 className="block text-[18px] font-semibold text-primaryText mb-1">
@@ -48,6 +72,9 @@ export default function CreateAccount() {
             placeholder="Your full name"
             onChange={(val) => console.log("Input changed:", val)}
           />
+          <h4 className="block text-[14px] lg:text-[16px] text-primaryText mb-2" >
+            Phone number
+          </h4>
           <PhoneInput
             international
             countryCallingCodeEditable={false}

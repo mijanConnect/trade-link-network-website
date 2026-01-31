@@ -82,7 +82,7 @@ export default function Footer() {
                   </Link>
                 </li>
               </ul>
-              <ul className="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-3 text-primary text-[16px] font-medium mt-4 lg:mt-4">
+              <ul className="flex flex-wrap justify-center md:justify-end gap-x-8 gap-y-3 text-primary text-[16px] font-medium mt-3 lg:mt-4">
                 <li>
                   <Link
                     href="/review-policy"

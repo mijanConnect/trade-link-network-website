@@ -10,9 +10,6 @@ import { useRouter } from "next/navigation";
 export default function Steps() {
   const [iconSize, setIconSize] = useState(40);
   const router = useRouter();
-  const selectedLocation = {
-    name: "your area",
-  }; // Placeholder for selected location
 
   useEffect(() => {
     AOS.init({

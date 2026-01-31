@@ -23,7 +23,7 @@ const useUsData = [
   {
     id: 3,
     icon: "Budget",
-    title: "Clear budgets & timelines",
+    title: "Compare up to 3 quotes",
   },
   {
     id: 4,

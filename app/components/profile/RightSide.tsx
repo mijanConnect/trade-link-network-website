@@ -6,8 +6,12 @@ import ProfileImage from "./ProfileImage";
 import InputField from "../ui/InputField";
 import ChangePassword from "./ChangePassword";
 
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+
 export default function RightSide() {
   const [showChangePassword, setShowChangePassword] = useState(false);
+  const [phoneValue, setPhoneValue] = useState<string | undefined>("");
 
   return (
     <>
@@ -27,8 +31,25 @@ export default function RightSide() {
             title="Phone Number"
             type="tel"
             placeholder="Enter phone number"
-            // initialValue={formData.phone}
-            // onChange={(value) => handleChange("phone", value)}
+          />
+
+          <PhoneInput
+            international
+            countryCallingCodeEditable={false}
+            countries={["GB"]}
+            defaultCountry="GB"
+            value={phoneValue}
+            onChange={setPhoneValue}
+            placeholder="Enter your phone number"
+            className="phone-input-no-focus"
+            style={{
+              height: 58,
+              border: "1px solid #1f2933",
+              borderRadius: "6px",
+              paddingLeft: "12px",
+              fontSize: "16px",
+              fontFamily: "inherit",
+            }}
           />
 
           <InputField

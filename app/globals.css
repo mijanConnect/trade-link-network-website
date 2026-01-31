@@ -276,3 +276,16 @@ body {
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out;
 }
+
+/* Remove focus border from phone input */
+.phone-input-no-focus input {
+  outline: none !important;
+  box-shadow: none !important;
+  margin-right: 12px;
+}
+
+.phone-input-no-focus input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #3fae6a !important;
+}

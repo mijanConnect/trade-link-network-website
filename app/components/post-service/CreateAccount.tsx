@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import InputField from "../ui/InputField";
 
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
+
 export default function CreateAccount() {
+  const [phoneValue, setPhoneValue] = useState<string | undefined>("");
+
   return (
     <div className="mt-6 lg:mt-10 space-y-6 lg:space-y-10">
       <div>
@@ -43,10 +48,23 @@ export default function CreateAccount() {
             placeholder="Your full name"
             onChange={(val) => console.log("Input changed:", val)}
           />
-          <InputField
-            title="Phone Number"
-            placeholder="+44 1234 567890"
-            onChange={(val) => console.log("Input changed:", val)}
+          <PhoneInput
+            international
+            countryCallingCodeEditable={false}
+            countries={["GB"]}
+            defaultCountry="GB"
+            value={phoneValue}
+            onChange={setPhoneValue}
+            placeholder="Enter your phone number"
+            className="phone-input-no-focus"
+            style={{
+              height: 58,
+              border: "1px solid #1f2933",
+              borderRadius: "6px",
+              paddingLeft: "12px",
+              fontSize: "16px",
+              fontFamily: "inherit",
+            }}
           />
         </div>
       </div>

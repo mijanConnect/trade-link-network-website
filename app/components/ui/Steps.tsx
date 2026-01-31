@@ -4,12 +4,9 @@ import { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { StepFour4, StepOne1, StepThree3, StepTwo2 } from "../Svg";
-import Button from "./Button";
-import { useRouter } from "next/navigation";
 
 export default function Steps() {
   const [iconSize, setIconSize] = useState(40);
-  const router = useRouter();
 
   useEffect(() => {
     AOS.init({
@@ -34,7 +31,7 @@ export default function Steps() {
 
   return (
     <>
-      <div className="bg-[#E9EBEF] pt-6 md:py-10 lg:pt-[130px]" id="steps">
+      <div className="bg-[#E9EBEF] py-6 md:py-10 lg:py-[130px]" id="steps">
         <div className="container mx-auto px-4 lg:px-0">
           <h1
             className="text-[20px] md:text-[40px] font-semibold text-primaryText mb-4 md:mb-6 lg:mb-20 text-center"
@@ -117,7 +114,7 @@ export default function Steps() {
             </div>
           </div>
         </div>
-
+{/* 
         <div className="flex justify-center mb-4">
           <Button
             className="mt-6 lg:mt-15"
@@ -125,7 +122,7 @@ export default function Steps() {
           >
             Post a Job
           </Button>
-        </div>
+        </div> */}
       </div>
     </>
   );

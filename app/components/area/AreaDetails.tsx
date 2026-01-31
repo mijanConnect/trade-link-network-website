@@ -1,9 +1,15 @@
+"use client";
+
 import PopularServices from "./PopularServices";
 import { locations } from "./Location";
+import Button from "../ui/Button";
+import { useRouter } from "next/navigation";
+import Steps from "../ui/Steps";
 
 export default function AreaDetails({ areaId }: { areaId: string }) {
   const selectedLocation = locations.find((loc) => loc.slug === areaId);
   const areas = selectedLocation?.areas || [];
+  const router = useRouter();
 
   return (
     <>
@@ -22,14 +28,14 @@ export default function AreaDetails({ areaId }: { areaId: string }) {
           </p>
 
           <div className="mt-6">
-            <h4 className="text-[22px] lg:text-[24px] font-semibold text-primaryText mb-2 lg:mb-6">
-              Principal areas in {selectedLocation?.name || "Your Area"} covered
+            <h4 className="text-[22px] lg:text-[24px] font-semibold text-primaryText mb-2 lg:mb-2">
+              Areas included in {selectedLocation?.name || "Your Area"}:
             </h4>
-            <ul className="flex gap-x-6 gap-y-3 flex-wrap">
+            <ul className="flex flex-col gap-2">
               {areas.map((area) => (
                 <li
                   key={area.id}
-                  className="text-[14px] lg:text-[18px] text-primaryTextLight font-bold list-disc list-inside"
+                  className="text-[14px] lg:text-[18px] text-primaryText font-bold list-disc list-inside"
                 >
                   {area.name}
                 </li>
@@ -37,17 +43,35 @@ export default function AreaDetails({ areaId }: { areaId: string }) {
             </ul>
           </div>
 
+          <Button
+            className="mt-6 lg:mt-10"
+            onClick={() => router.push("/post-service")}
+          >
+            Post a Job in {selectedLocation?.name || "your area"}
+          </Button>
+
           <div>
             <h3 className="text-[22px] lg:text-[24px] font-semibold text-primaryText mt-6 mb-2 lg:mt-12 lg:mb-6">
               Services Available in This Region
             </h3>
             <h4 className="text-[18px] lg:text-[20px] font-medium text-primaryText mb-4 lg:mb-6">
-              Popular services requested in Greater London include:
+              Popular services requested in{" "}
+              {selectedLocation?.name || "your area"} include:
             </h4>
             <PopularServices />
           </div>
+
+          <div className="flex justify-center">
+            <Button
+              className="mt-6 lg:mt-10"
+              onClick={() => router.push("/post-service")}
+            >
+              Post a Job in {selectedLocation?.name || "your area"}
+            </Button>
+          </div>
         </div>
       </div>
+      <Steps />
     </>
   );
 }

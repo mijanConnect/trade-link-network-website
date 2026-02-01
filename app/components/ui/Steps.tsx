@@ -112,7 +112,7 @@ export default function Steps() {
                 Step 4
               </p>
               <h2 className="text-[10px] px-4 md:text-[18px] lg:text-[22px] font-semibold mt-1 md:mt-4 text-center leading-4 md:leading-8.5 lg:leading-9.5">
-                Choose the right professional and manage everything online
+                Choose the right professional and get the job done
               </h2>
             </div>
           </div>
